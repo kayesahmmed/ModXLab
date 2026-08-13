@@ -22,5 +22,11 @@
     "label": "FAQ",
     "href": "#faq",
     "order": 3
+  },
+  {
+    "id": "reviews",
+    "label": "Reviews",
+    "href": "#reviews",
+    "order": 4
   }
 ]

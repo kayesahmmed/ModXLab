@@ -291,8 +291,12 @@ export default function FAQSection({ t }: { t: Theme }) {
           {allFaqs.slice(0, 10).map((faq, i) => {
             const isOpen = openId === faq.id;
             return (
-              <div 
+              <motion.div 
                 key={faq.id} 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="rounded-[24px] overflow-hidden transition-all duration-300 relative group"
                 style={{ 
                   background: "rgba(255, 255, 255, 0.12)", 
@@ -346,7 +350,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
         </div>

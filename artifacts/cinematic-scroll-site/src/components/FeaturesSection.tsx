@@ -16,10 +16,10 @@ function FeatureCard({ f, index }: { f: (typeof featuresData)[0]; index: number 
   const [hovered, setHovered] = useState(false);
   return (
     <motion.div
-      initial={{ opacity: 0, y: 35 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50, y: 20 }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.6, delay: (index % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.7, delay: Math.floor(index / 2) * 0.15, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ scale: 1.03, y: -4 }}
       whileTap={{ scale: 0.97 }}
       onMouseEnter={() => setHovered(true)}

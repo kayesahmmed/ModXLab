@@ -40,7 +40,11 @@ function ReviewCard({ r, t, anim, isDark, minGlow }: { r: any; t: Theme; anim?: 
   if (!r) return null;
   const photo = r.photoUrl || r.photo;
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={`${anim || ""} relative overflow-hidden shadow-transition duration-300 h-full flex flex-col justify-between select-none transform-gpu`}
       style={{
         background: "rgba(255, 255, 255, 0.12)",
@@ -77,7 +81,7 @@ function ReviewCard({ r, t, anim, isDark, minGlow }: { r: any; t: Theme; anim?: 
         <span className="font-['Plus_Jakarta_Sans',sans-serif] font-medium text-[9px] sm:text-xs px-2 py-0.5 sm:px-3 sm:py-1.5 rounded-full shrink-0" style={{ background: r.verBg || "rgba(22,207,131,0.15)", color: r.verColor || "#16CF83" }}>✓ Verified</span>
       </div>
       <p className="font-['Plus_Jakarta_Sans',sans-serif] font-medium text-[11px] sm:text-[17px] leading-snug sm:leading-relaxed tracking-wide relative z-10 flex-grow mt-2 sm:mt-3 line-clamp-3 sm:line-clamp-none text-white/70">{r.text}</p>
-    </div>
+    </motion.div>
   );
 }
 

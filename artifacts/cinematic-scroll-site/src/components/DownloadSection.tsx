@@ -90,8 +90,11 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
           return (            <motion.div
               key={dl.id}
               id={`download-${dl.id}`}
-              whileHover={{ y: -3 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, y: 40, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
+              whileHover={{ y: -4, scale: 1.01 }}
+              transition={{ duration: 0.8, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
               className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl border shadow-2xl mb-8 backdrop-blur-2xl"
               style={{
                 background: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.85)",
