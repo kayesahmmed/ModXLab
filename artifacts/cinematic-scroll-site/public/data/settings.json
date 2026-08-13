@@ -1,0 +1,18 @@
+{
+  "headerLogoUrl": "/website-logo.png",
+  "lightLogoUrl": "/website-logo.png",
+  "darkLogoUrl": "/website-logo.png",
+  "headerLogoSize": 40,
+  "heroLogoSize": 40,
+  "heroLogoPaddingTop": 0,
+  "faviconSize": 16,
+  "headerLogoPaddingTop": 0,
+  "headerLogoPaddingLeft": 0,
+  "footerLogoSize": 32,
+  "footerLogoPaddingTop": 0,
+  "footerLogoPaddingLeft": 0,
+  "footerTelegram": "https://t.me/",
+  "footerWhatsapp": "https://wa.me/",
+  "footerYoutube": "https://youtube.com/",
+  "updatedAt": "2026-08-13T09:30:03.799Z"
+}
