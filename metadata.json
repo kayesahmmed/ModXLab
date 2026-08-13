@@ -1,0 +1,6 @@
+{
+  "name": "ModX Lab",
+  "description": "The official website of the ModX Lab YouTube Channel featuring interactive cinematic scroll frame sequences, video tutorial resources, premium apps, and community FAQs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
