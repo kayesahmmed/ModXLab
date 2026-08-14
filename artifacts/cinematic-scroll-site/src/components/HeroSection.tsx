@@ -1045,7 +1045,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className={`flex items-center gap-5 justify-center flex-wrap mt-2 relative ${searchOpen ? "z-[110]" : "z-30"}`}
+            className={`flex items-center gap-5 justify-center mt-2 relative w-full overflow-x-auto scrollbar-none px-4 ${searchOpen ? "z-[110]" : "z-30"}`}
           >
             <motion.button
               whileHover={{ scale: 1.04 }}
@@ -1060,13 +1060,14 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   }
                 }
               }}
-              className="h-14 pl-7 pr-2.5 rounded-2xl font-['Orbitron',sans-serif] font-extrabold text-white text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 hover:bg-white/15 cursor-pointer shadow-[0_10px_35px_rgba(0,0,0,0.5)] active:scale-95 border border-white/20 relative overflow-hidden group flex items-center justify-between gap-4 backdrop-blur-2xl"
+              className="h-14 pl-7 pr-2.5 rounded-2xl font-['Orbitron',sans-serif] font-extrabold text-white text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 hover:scale-[1.02] cursor-pointer shadow-[0_10px_40px_-10px_rgba(39,144,255,0.4)] active:scale-95 border border-[#2790FF]/40 relative overflow-hidden group flex items-center justify-between gap-4 backdrop-blur-2xl"
               style={{
-                background: "rgba(255, 255, 255, 0.08)",
+                background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)",
+                boxShadow: "0 8px 32px 0 rgba(39, 144, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
               }}
             >
               <span className="font-extrabold text-white tracking-wider whitespace-nowrap">CONTACT ME</span>
-              <div className="w-10 h-10 rounded-xl bg-black/60 text-white flex items-center justify-center shrink-0 border border-white/20 group-hover:bg-white/20 transition-all duration-300">
+              <div className="w-10 h-10 rounded-xl bg-black/60 text-white flex items-center justify-center shrink-0 border border-[#2790FF]/40 group-hover:bg-[#2790FF]/40 transition-all duration-300">
                 <svg className="w-5 h-5 text-white transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7V17" />
                 </svg>
@@ -1077,7 +1078,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
               <div
                 className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl ${
-                  searchOpen ? "w-60 sm:w-80 opacity-100 pr-1" : "w-0 opacity-0"
+                  searchOpen ? "w-[260px] sm:w-[320px] opacity-100 pr-1" : "w-0 opacity-0"
                 }`}
               >
                 <div className="relative w-full h-14 flex items-center">

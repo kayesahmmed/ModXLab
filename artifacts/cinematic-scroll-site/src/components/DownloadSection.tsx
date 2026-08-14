@@ -225,11 +225,8 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                 </div>
 
                 {(howToUseSteps.length > 0 || ytLinks.length > 0) && (
-                  <motion.div
+                  <div
                     className="mt-2"
-                    initial={false}
-                    animate={{ backgroundColor: isHowToUseOpen ? (isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.02)") : "transparent" }}
-                    transition={{ duration: 0.3 }}
                     style={{ borderRadius: "20px" }}
                   >
                     <button
@@ -283,7 +280,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                           className="overflow-hidden"
                         >
                           <div
-                            className="mt-3 p-5 sm:p-6 rounded-[24px] flex flex-col gap-4 relative overflow-hidden shadow-2xl transition-all duration-300"
+                            className="mt-3 p-5 sm:p-6 rounded-[24px] flex flex-col gap-4 relative overflow-hidden shadow-2xl transition-colors duration-300"
                             style={{
                               background: isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(255, 255, 255, 0.65)",
                               backdropFilter: "blur(24px)",
@@ -291,13 +288,12 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                               border: "1px solid rgba(255, 255, 255, 0.2)"
                             }}
                           >
-                            <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full filter blur-3xl pointer-events-none" />
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
                               {howToUseSteps.map((step: string, i: number) => {
                                 return (
                                   <div
                                     key={i}
-                                    className="p-4 sm:p-5 rounded-2xl flex flex-col gap-2.5 relative overflow-hidden transition-all duration-300 hover:translate-y-[-2px] hover:border-white/40 shadow-lg"
+                                    className="p-4 sm:p-5 rounded-2xl flex flex-col gap-2.5 relative overflow-hidden transition-colors duration-300 hover:translate-y-[-2px] hover:border-white/40 shadow-lg"
                                     style={{
                                       background: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.8)",
                                       backdropFilter: "blur(16px)",
@@ -322,7 +318,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                             
                             {ytLinks.length > 0 && (
                               <div
-                                className="mt-4 pt-5 border-t rounded-2xl transition-all duration-300"
+                                className="mt-4 pt-5 border-t rounded-2xl transition-colors duration-300"
                                 style={{ borderColor: "rgba(255,255,255,0.2)" }}
                               >
                                 <div className="flex items-center gap-3 mb-3.5">
@@ -380,7 +376,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </motion.div>
+                  </div>
                 )}
               </div>
             </motion.div>
