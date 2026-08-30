@@ -921,7 +921,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
   const filteredResults = searchVal.trim()
     ? availableDownloads.filter(
         (item) =>
-          (item.title || "").toLowerCase().startsWith(searchVal.trim().toLowerCase())
+          (item.title || "").toLowerCase().includes(searchVal.trim().toLowerCase()) || (item.desc || "").toLowerCase().includes(searchVal.trim().toLowerCase())
       )
     : availableDownloads;
 

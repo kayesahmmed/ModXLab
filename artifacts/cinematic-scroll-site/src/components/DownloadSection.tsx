@@ -17,6 +17,7 @@ const getInitialDownloads = () => {
 export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: boolean }) {
   const [downloads, setDownloads] = useState<any[]>(getInitialDownloads);
   const [openHowToUseMap, setOpenHowToUseMap] = useState<Record<string, boolean>>({});
+  const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
 
   useEffect(() => {
     const loadDownloads = async () => {
@@ -202,7 +203,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                           <span className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">App Previews</span>
                           <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none snap-x" style={{ WebkitOverflowScrolling: "touch" }}>
                             {file.previewImages.map((img: string, i: number) => (
-                              <div key={i} className="relative w-[150px] sm:w-[180px] aspect-[9/16] shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/20 snap-center bg-black/20">
+                              <div key={i} className="relative w-[150px] sm:w-[180px] aspect-[9/16] shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/20 snap-center bg-black/20 cursor-pointer" onClick={() => setFullscreenImage(img)}>
                                 <img src={img} alt={`Preview ${i+1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                               </div>
                             ))}
@@ -397,6 +398,28 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
           );
         })}
       </motion.div>
+
+      <AnimatePresence>
+        {fullscreenImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setFullscreenImage(null)}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 cursor-pointer"
+          >
+            <motion.img
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              src={fullscreenImage}
+              alt="Fullscreen App Preview"
+              className="w-full h-full object-contain rounded-xl"
+              style={{ maxHeight: "90vh", maxWidth: "90vw" }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

@@ -22,6 +22,7 @@ export default function ScrollFrameSequence() {
   const frameImagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
   const targetFrameRef = useRef(0);
+  const lastVisibleFrameRef = useRef<number>(-1);
   const animationFrameRef = useRef<number | undefined>(undefined);
   const drawFrameRef = useRef<(() => void) | undefined>(undefined);
   const reducedMotionRef = useRef(false);
@@ -75,13 +76,33 @@ export default function ScrollFrameSequence() {
       let drewFallback = false;
       
       if (!imageToDraw || !imageToDraw.complete) {
-         // try finding previous loaded frame to avoid blank flashes
-         for(let i = frameIndex - 1; i >= 0; i--) {
+         let bestFallback = -1;
+         // Look back up to 12 frames to find a recently loaded frame.
+         // This prevents the "fast-forward playback" effect when scrolling very fast,
+         // by refusing to show frames that are too far behind the user's scroll position.
+         for(let i = frameIndex - 1; i >= Math.max(0, frameIndex - 12); i--) {
             if (frameImagesRef.current[i]?.complete) {
-               imageToDraw = frameImagesRef.current[i];
-               drewFallback = true;
+               bestFallback = i;
                break;
             }
+         }
+         
+         if (bestFallback !== -1 && bestFallback > lastVisibleFrameRef.current) {
+             imageToDraw = frameImagesRef.current[bestFallback];
+             drewFallback = true;
+         } else {
+             // Frame is not loaded and no close fallback found. 
+             // If canvas is still valid, we just do nothing and keep previous visual.
+             if (!needsResizeRedrawRef.current && lastVisibleFrameRef.current !== -1) {
+                lastDrawnFrameRef.current = -1; // Force retry later
+                return;
+             }
+             
+             // If canvas was resized or cleared, we MUST draw something. Fallback to last visible.
+             if (lastVisibleFrameRef.current !== -1 && frameImagesRef.current[lastVisibleFrameRef.current]?.complete) {
+                 imageToDraw = frameImagesRef.current[lastVisibleFrameRef.current];
+                 drewFallback = true;
+             }
          }
       }
 
@@ -113,6 +134,8 @@ export default function ScrollFrameSequence() {
 
         context.imageSmoothingEnabled = true;
         context.drawImage(imageToDraw, x, y, width, height);
+        
+        lastVisibleFrameRef.current = frameImagesRef.current.indexOf(imageToDraw);
 
         if (!drewFallback) {
           lastDrawnFrameRef.current = frameIndex;
