@@ -207,29 +207,46 @@ export default function FAQSection({ t }: { t: Theme }) {
           <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Got questions? We've got answers.</p>
         </div>
 
-        <div className="flex justify-center flex-wrap items-center gap-3.5 mb-6">
-          <button 
-            onClick={() => setIsAllFaqsOpen(true)}
-            className="px-6 py-2.5 rounded-xl font-bold text-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
+        <div className="flex flex-col items-center gap-4 mb-6">
+          <a
+            href="https://t.me/kayesahmmedpro"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 rounded-xl font-extrabold text-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-2.5 cursor-pointer shadow-lg hover:shadow-xl"
             style={{ 
-              background: "rgba(22, 207, 131, 0.12)", 
-              color: "#16CF83", 
-              border: "1px solid rgba(22, 207, 131, 0.3)" 
+              background: "linear-gradient(135deg, #0088cc 0%, #0077b5 100%)", 
+              color: "#ffffff"
             }}
           >
-            <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
             </svg>
-            <span>Show All Questions ({allFaqs.length})</span>
-          </button>
+            <span>Ask Questions in our Telegram Group</span>
+          </a>
 
-          <button 
-            onClick={() => setIsAsking(!isAsking)}
-            className="px-6 py-2.5 rounded-xl font-bold text-sm transition-transform hover:scale-105 active:scale-95 text-[#151022] cursor-pointer"
-            style={{ background: "#16CF83" }}
-          >
-            {isAsking ? "Cancel" : "＋ Ask a Question"}
-          </button>
+          <div className="flex justify-center flex-wrap items-center gap-3.5">
+            <button 
+              onClick={() => setIsAllFaqsOpen(true)}
+              className="px-6 py-2.5 rounded-xl font-bold text-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
+              style={{ 
+                background: "rgba(22, 207, 131, 0.12)", 
+                color: "#16CF83", 
+                border: "1px solid rgba(22, 207, 131, 0.3)" 
+              }}
+            >
+              <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+              <span>Show All Questions ({allFaqs.length})</span>
+            </button>
+            <button 
+              onClick={() => setIsAsking(!isAsking)}
+              className="px-6 py-2.5 rounded-xl font-bold text-sm transition-transform hover:scale-105 active:scale-95 text-[#151022] cursor-pointer"
+              style={{ background: "#16CF83" }}
+            >
+              {isAsking ? "Cancel" : "＋ Ask a Question"}
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>
@@ -238,7 +255,7 @@ export default function FAQSection({ t }: { t: Theme }) {
               initial={{ opacity: 0, height: 0, marginBottom: 0 }}
               animate={{ opacity: 1, height: "auto", marginBottom: 32 }}
               exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
               className="overflow-hidden"
             >
               <form onSubmit={handleAsk} className="p-6 rounded-[24px]" style={{ 
@@ -297,7 +314,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="rounded-[24px] overflow-hidden transition-all duration-300 relative group"
+                className="rounded-[24px] overflow-hidden transition-all duration-150 relative group"
                 style={{ 
                   background: "rgba(255, 255, 255, 0.12)", 
                   backdropFilter: "blur(12px)",
@@ -310,9 +327,9 @@ export default function FAQSection({ t }: { t: Theme }) {
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
                   className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left"
                 >
-                  <span className="font-bold text-base pr-4 transition-colors duration-300" style={{ color: isOpen ? "#16CF83" : "white" }}>{faq.q}</span>
+                  <span className="font-bold text-base pr-4 transition-colors duration-150" style={{ color: isOpen ? "#16CF83" : "white" }}>{faq.q}</span>
                   <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 shrink-0"
+                    className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-150 shrink-0"
                     style={{
                       background: isOpen ? "rgba(22, 207, 131, 0.15)" : "rgba(22, 207, 131, 0.05)",
                       color: isOpen ? "#16CF83" : t.subtext,
@@ -331,7 +348,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.15, ease: "easeOut" }}
                     >
                       <div className="px-6 pb-6 pt-2">
                         <p className="text-sm font-medium leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.7)" }}>{faq.a}</p>
@@ -427,7 +444,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                     return (
                       <div
                         key={faq.id}
-                        className="rounded-2xl overflow-hidden transition-all duration-300 relative border"
+                        className="rounded-2xl overflow-hidden transition-all duration-150 relative border"
                         style={{
                           background: "rgba(255, 255, 255, 0.05)",
                           backdropFilter: "blur(12px)",
@@ -440,11 +457,11 @@ export default function FAQSection({ t }: { t: Theme }) {
                           onClick={() => setOpenId(isOpen ? null : faq.id)}
                           className="w-full px-5 py-4 flex items-center justify-between gap-4 text-left cursor-pointer"
                         >
-                          <span className="font-bold text-sm sm:text-base pr-2 transition-colors duration-300" style={{ color: isOpen ? "#16CF83" : "white" }}>
+                          <span className="font-bold text-sm sm:text-base pr-2 transition-colors duration-150" style={{ color: isOpen ? "#16CF83" : "white" }}>
                             {faq.q}
                           </span>
                           <div
-                            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-300"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-transform duration-150"
                             style={{
                               background: isOpen ? "rgba(22, 207, 131, 0.15)" : "rgba(22, 207, 131, 0.05)",
                               color: isOpen ? "#16CF83" : "rgba(255,255,255,0.7)",
@@ -462,7 +479,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: "auto", opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.3 }}
+                              transition={{ duration: 0.15, ease: "easeOut" }}
                             >
                               <div className="px-5 pb-5 pt-1 border-t border-white/10">
                                 <p className="text-xs sm:text-sm font-medium leading-relaxed text-white/70">

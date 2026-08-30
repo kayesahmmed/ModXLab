@@ -82,7 +82,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
         {displayDownloads.map((dl, idx) => {
           const isHowToUseOpen = openHowToUseMap[dl.id] || false;
           
-          const files = (dl.files && dl.files.length > 0) ? dl.files : [{ title: dl.title, category: dl.category, tags: dl.tags, imageUrl: dl.imageUrl, buttonText: dl.buttonText, downloadLink: dl.downloadLink }];
+          const files = (dl.files && dl.files.length > 0) ? dl.files : [{ title: dl.title, category: dl.category, tags: dl.tags, imageUrl: dl.imageUrl, buttonText: dl.buttonText, downloadLink: dl.downloadLink, previewImages: dl.previewImages }];
           const ytLinks = (dl.youtubeLinks && dl.youtubeLinks.length > 0) ? dl.youtubeLinks : (dl.youtubeLink ? [dl.youtubeLink] : []);
           
           const howToUseSteps = dl.howToUse ? dl.howToUse.split('\n').filter((l: string) => l.trim() !== '') : [];
@@ -196,6 +196,20 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                           </svg>
                           <span className="relative z-10 tracking-wide text-slate-950">{file.buttonText || "Download Free APK"}</span>
                         </motion.a>
+
+                      {file.previewImages && file.previewImages.length > 0 && (
+                        <div className="mt-4 pt-4 border-t w-full flex flex-col gap-3" style={{ borderColor: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.06)" }}>
+                          <span className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">App Previews</span>
+                          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-none snap-x" style={{ WebkitOverflowScrolling: "touch" }}>
+                            {file.previewImages.map((img: string, i: number) => (
+                              <div key={i} className="relative w-[150px] sm:w-[180px] aspect-[9/16] shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/20 snap-center bg-black/20">
+                                <img src={img} alt={`Preview ${i+1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       </div>
                     );
                   })}

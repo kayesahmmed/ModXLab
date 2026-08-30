@@ -468,11 +468,13 @@ export function HeroMockPanel({ isDark }: { isDark: boolean }) {
         
         {/* Left Column: Sidebar & Hub Navigation with Header Logo - Floating Glass Card */}
         <div 
-          className="w-full flex flex-col justify-between gap-4 relative z-10 p-5 rounded-[24px] transition-all duration-700 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)] border border-[rgba(255,255,255,0.1)] h-full"
+          className="w-full flex flex-col justify-between gap-4 relative z-10 p-5 rounded-[24px] backdrop-blur-[12px] transition-all duration-700 border h-full"
           style={{
-            background: "rgba(255, 255, 255, 0.05)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
+            background: "rgba(255, 255, 255, 0.12)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
           }}
         >
           
@@ -595,9 +597,13 @@ export function HeroMockPanel({ isDark }: { isDark: boolean }) {
 
         {/* Right Column: Premium Content Showcase Grid */}
         <div 
-          className="flex-1 flex flex-col justify-between gap-4 relative z-10 p-5 sm:p-6 rounded-[24px] backdrop-blur-[12px] transition-all duration-700 shadow-[0_8px_32px_0_rgba(0,0,0,0.15)] border border-[rgba(255,255,255,0.2)] h-full"
+          className="flex-1 flex flex-col justify-between gap-4 relative z-10 p-5 sm:p-6 rounded-[24px] backdrop-blur-[12px] transition-all duration-700 border h-full"
           style={{
             background: "rgba(255, 255, 255, 0.12)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
           }}
         >
           <div className="flex justify-between items-center mb-1">
@@ -915,8 +921,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
   const filteredResults = searchVal.trim()
     ? availableDownloads.filter(
         (item) =>
-          (item.title || "").toLowerCase().includes(searchVal.toLowerCase()) ||
-          (item.desc || "").toLowerCase().includes(searchVal.toLowerCase())
+          (item.title || "").toLowerCase().startsWith(searchVal.trim().toLowerCase())
       )
     : availableDownloads;
 
@@ -1114,15 +1119,17 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   />
                   {searchVal && (
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setSearchVal("");
                         setShowSuggestions(false);
-                        searchInputRef.current?.blur();
                       }}
-                      className="absolute right-3.5 text-xs p-1 rounded-lg opacity-60 hover:opacity-100 transition-opacity cursor-pointer text-white"
+                      className="absolute right-3.5 w-7 h-7 flex items-center justify-center rounded-full opacity-60 hover:opacity-100 transition-all cursor-pointer text-white hover:bg-white/10"
                       aria-label="Clear search"
                     >
-                      ✕
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
                     </button>
                   )}
                 </div>
@@ -1147,17 +1154,19 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
               </motion.button>
 
               {/* Suggestions / Results Dropdown */}
-              {searchOpen && showSuggestions && (
+              {searchOpen && showSuggestions && searchVal.trim().length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 10, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-3.5 z-[999] backdrop-blur-3xl transition-all duration-300 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_30px_rgba(0,229,209,0.15)] overflow-hidden border border-white/20"
+                  className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-3.5 z-[999] transition-all duration-300 overflow-hidden"
                   style={{
-                    background: "rgba(10, 8, 22, 0.75)",
-                    backdropFilter: "blur(32px)",
-                    WebkitBackdropFilter: "blur(32px)",
+                    background: "rgba(255, 255, 255, 0.12)",
+                    backdropFilter: "blur(16px)",
+                    WebkitBackdropFilter: "blur(16px)",
+                    border: "1px solid rgba(255, 255, 255, 0.2)",
+                    boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)",
                   }}
                 >
                   {filteredResults.length > 0 ? (
