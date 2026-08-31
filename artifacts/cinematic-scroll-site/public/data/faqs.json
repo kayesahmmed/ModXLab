@@ -1,15 +1,5 @@
 [
   {
-    "id": "VjEh5dvC0WZrxKrPbzBN",
-    "isFirestore": true,
-    "a": "Submitted and pending review by admin.",
-    "uid": "GEWiZGgCaxWasmOKvVQL0aFvvfH2",
-    "createdAt": "2026-08-14T01:32:23.573Z",
-    "email": "kayesahmmed00@gmail.com",
-    "q": "hi hello",
-    "imageUrl": null
-  },
-  {
     "q": "Is ModX Lab safe to use?",
     "a": "Yes! Our mod panel includes an advanced anti-ban system that keeps your account safe. We use encrypted injection methods and regular updates to bypass detection.",
     "id": "static-faq-0",

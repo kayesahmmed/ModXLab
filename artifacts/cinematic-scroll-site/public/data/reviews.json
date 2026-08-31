@@ -82,22 +82,5 @@
     "text": "Headshot percentage went straight to 95%! Very clean interface with full dark/light theme support.",
     "id": "static-rev-6",
     "isFirestore": false
-  },
-  {
-    "id": "tdbHDNZKlkLerOMBvGkV",
-    "isFirestore": true,
-    "photo": "https://lh3.googleusercontent.com/a/ACg8ocJF-f4TbjQSGYIDWdN-tyuhfPaK4tcduKBoEjNLRligYLrCzq8=s96-c",
-    "createdAt": "2026-08-01T14:31:44.501Z",
-    "verColor": "#16CF83",
-    "initBg": "rgba(123, 44, 191, 0.15)",
-    "email": "kayesahmmed00@gmail.com",
-    "verBg": "rgba(22, 207, 131, 0.15)",
-    "stars": 5,
-    "photoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJF-f4TbjQSGYIDWdN-tyuhfPaK4tcduKBoEjNLRligYLrCzq8=s96-c",
-    "init": "K",
-    "uid": "GEWiZGgCaxWasmOKvVQL0aFvvfH2",
-    "text": "hi",
-    "initColor": "#7B2CBF",
-    "name": "Kayes Ahmmed"
   }
 ]
