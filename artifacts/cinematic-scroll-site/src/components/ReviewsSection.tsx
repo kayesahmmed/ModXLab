@@ -551,15 +551,13 @@ export default function ReviewsSection({
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.94, opacity: 0, y: 12 }}
                 transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full max-w-6xl rounded-[32px] p-6 sm:p-10 relative overflow-hidden my-auto cursor-default shadow-2xl border"
+                className="w-full max-w-6xl rounded-[32px] p-6 sm:p-10 relative overflow-hidden my-auto cursor-default shadow-2xl z-10"
                 style={{
-                  background: isDark ? "rgba(18, 18, 24, 0.85)" : "rgba(255, 255, 255, 0.85)",
-                  backdropFilter: "blur(24px)",
-                  WebkitBackdropFilter: "blur(24px)",
-                  borderColor: isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.8)",
-                  boxShadow: isDark 
-                    ? "0 30px 60px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255,255,255,0.15)"
-                    : "0 30px 60px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255,255,255,1)",
+                  background: "rgba(255, 255, 255, 0.12)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
                 }}
               >
                 <div
@@ -638,15 +636,13 @@ export default function ReviewsSection({
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full max-w-lg rounded-[32px] p-8 sm:p-10 relative overflow-hidden cursor-default shadow-2xl border my-auto"
+                className="w-full max-w-lg rounded-[32px] p-8 sm:p-10 relative overflow-hidden cursor-default shadow-2xl z-10 my-auto"
                 style={{
-                  background: isDark ? "rgba(18, 18, 24, 0.85)" : "rgba(255, 255, 255, 0.85)",
-                  backdropFilter: "blur(24px)",
-                  WebkitBackdropFilter: "blur(24px)",
-                  borderColor: isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(255, 255, 255, 0.8)",
-                  boxShadow: isDark 
-                    ? "0 30px 60px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255,255,255,0.15)"
-                    : "0 30px 60px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255,255,255,1)",
+                  background: "rgba(255, 255, 255, 0.12)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  border: "1px solid rgba(255, 255, 255, 0.2)",
+                  boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
                 }}
               >
                 {/* Ambient Glows */}
