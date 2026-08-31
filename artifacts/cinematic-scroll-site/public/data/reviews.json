@@ -2,18 +2,18 @@
   {
     "id": "O4bdv1lWMJtkWvJtquY0",
     "isFirestore": true,
-    "verColor": "#16CF83",
-    "createdAt": "2026-08-31T13:51:12.164Z",
-    "initBg": "rgba(123, 44, 191, 0.15)",
-    "verBg": "rgba(22, 207, 131, 0.15)",
-    "stars": 4.5,
-    "name": "ModX",
-    "text": "hi 👋",
-    "email": "modxlabpro@gmail.com",
     "uid": "OZtEXjhhhMfYbzVlZikk4uZXrkR2",
+    "init": "M",
+    "verColor": "#16CF83",
+    "initBg": "rgba(123, 44, 191, 0.15)",
     "initColor": "#7B2CBF",
-    "photoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLYd8D7OtStlnnO2wxKLD8n6Ak19cvRIuVPlsDdiT1CtkGZuRo=s96-c",
-    "init": "M"
+    "email": "modxlabpro@gmail.com",
+    "text": "hi 👋",
+    "name": "ModX",
+    "stars": 4.5,
+    "createdAt": "2026-08-31T13:51:12.164Z",
+    "verBg": "rgba(22, 207, 131, 0.15)",
+    "photoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLYd8D7OtStlnnO2wxKLD8n6Ak19cvRIuVPlsDdiT1CtkGZuRo=s96-c"
   },
   {
     "init": "S",
