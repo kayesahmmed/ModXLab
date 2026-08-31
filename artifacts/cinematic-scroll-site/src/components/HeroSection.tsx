@@ -800,11 +800,14 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
       }
     };
 
+    let initialScrollY = typeof window !== "undefined" ? window.scrollY : 0;
     const handleScroll = () => {
-      setSearchOpen(false);
-      setShowSuggestions(false);
-      setIsInputFocused(false);
-      searchInputRef.current?.blur();
+      if (Math.abs((window.scrollY || 0) - initialScrollY) > 120 && !isInputFocused) {
+        setSearchOpen(false);
+        setShowSuggestions(false);
+        setIsInputFocused(false);
+        searchInputRef.current?.blur();
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -818,7 +821,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
       document.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [searchOpen]);
+  }, [searchOpen, isInputFocused]);
 
   useEffect(() => {
     if (searchOpen) {
@@ -830,87 +833,111 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
     return undefined;
   }, [searchOpen]);
 
+  const processDownloadsData = (rawDocs: any[]) => {
+    if (!Array.isArray(rawDocs)) return [];
+    return rawDocs.flatMap((d: any) => {
+      const docId = d.id || "dl";
+      const categoryLabel = (d.type || d.fileType || (d.category && d.category.length < 15 ? d.category : "App") || "App").trim();
+      if (d.files && Array.isArray(d.files) && d.files.length > 0) {
+        return d.files.map((f: any, fIdx: number) => ({
+          title: f.title || d.title || "ModX Lab Download",
+          desc: f.category || f.tags || d.category || d.tags || "Free Fire Mod Panel · Android",
+          category: f.category || categoryLabel,
+          type: f.category || categoryLabel,
+          tags: `${f.tags || ""} ${d.tags || ""} ${f.category || ""} ${d.category || ""}`,
+          id: `download-${docId}-${fIdx}`,
+          targetId: `download-${docId}`
+        }));
+      }
+      return [{
+        title: d.title || "ModX Lab Download",
+        desc: d.category || d.tags || "Free Fire Mod Panel · Android",
+        category: categoryLabel,
+        type: categoryLabel,
+        tags: `${d.tags || ""} ${d.category || ""}`,
+        id: `download-${docId}`,
+        targetId: `download-${docId}`
+      }];
+    });
+  };
+
   const getInitialDownloadsIndex = () => {
     try {
-      const cached = localStorage.getItem("cached_downloads");
+      const cached = localStorage.getItem("cached_downloads") || localStorage.getItem("cached_json_downloads");
       if (cached) {
         const parsed = JSON.parse(cached);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed.flatMap((d: any) => {
-            const docId = d.id;
-            const categoryLabel = (d.type || d.fileType || (d.category && d.category.length < 15 ? d.category : "App") || "App").trim();
-            if (d.files && Array.isArray(d.files) && d.files.length > 0) {
-              return d.files.map((f: any, fIdx: number) => ({
-                title: f.title || d.title || "ModX Lab Download",
-                desc: f.category || f.tags || d.category || d.tags || "Mod Panel · Android",
-                category: f.category || categoryLabel,
-                type: f.category || categoryLabel,
-                id: `download-${docId}-${fIdx}`,
-                targetId: `download-${docId}`
-              }));
-            }
-            return [{
-              title: d.title || "ModX Lab Download",
-              desc: d.category || d.tags || "Mod Panel · Android",
-              category: categoryLabel,
-              type: categoryLabel,
-              id: `download-${docId}`,
-              targetId: `download-${docId}`
-            }];
-          });
+          return processDownloadsData(parsed);
         }
       }
     } catch (e) {}
-    return [];
+    return [
+      {
+        title: "Kayes",
+        desc: "Free Fire Mod Panel · Android",
+        category: "App",
+        type: "App",
+        tags: "antiban free fire max android panel",
+        id: "download-dl_1788102419937-0",
+        targetId: "download-dl_1788102419937"
+      },
+      {
+        title: "ModX Lab",
+        desc: "Free Fire Mod Panel · Android",
+        category: "App",
+        type: "App",
+        tags: "mod panel antiban apk android",
+        id: "download-default-1",
+        targetId: "download"
+      }
+    ];
   };
 
   const [downloadsIndex, setDownloadsIndex] = useState<any[]>(getInitialDownloadsIndex);
 
   useEffect(() => {
-    const processDownloads = (rawDocs: any[]) => {
-      if (!Array.isArray(rawDocs)) return [];
-      return rawDocs.flatMap((d: any) => {
-        const docId = d.id;
-        const categoryLabel = (d.type || d.fileType || (d.category && d.category.length < 15 ? d.category : "App") || "App").trim();
-        if (d.files && Array.isArray(d.files) && d.files.length > 0) {
-          return d.files.map((f: any, fIdx: number) => ({
-            title: f.title || d.title || "ModX Lab Download",
-            desc: f.category || f.tags || d.category || d.tags || "Free Fire Mod Panel · Android",
-            category: f.category || categoryLabel,
-            type: f.category || categoryLabel,
-            id: `download-${docId}-${fIdx}`,
-            targetId: `download-${docId}`
-          }));
-        }
-        return [{
-          title: d.title || "ModX Lab Download",
-          desc: d.category || d.tags || "Free Fire Mod Panel · Android",
-          category: categoryLabel,
-          type: categoryLabel,
-          id: `download-${docId}`,
-          targetId: `download-${docId}`
-        }];
-      });
-    };
-
     const loadDownloads = async () => {
-      const rawDocs = await dataCache.getData<any[]>("downloads", []);
-      setDownloadsIndex(processDownloads(rawDocs));
+      try {
+        const rawDocs = await dataCache.getData<any[]>("downloads", []);
+        if (Array.isArray(rawDocs) && rawDocs.length > 0) {
+          setDownloadsIndex(processDownloadsData(rawDocs));
+        } else {
+          const res = await fetch(`/data/downloads.json?t=${Date.now()}`).catch(() => null);
+          if (res && res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              setDownloadsIndex(processDownloadsData(data));
+            }
+          }
+        }
+      } catch (e) {}
     };
 
     loadDownloads();
     const unsub = dataCache.subscribe("downloads", (rawDocs) => {
-      setDownloadsIndex(processDownloads(rawDocs));
+      if (Array.isArray(rawDocs) && rawDocs.length > 0) {
+        setDownloadsIndex(processDownloadsData(rawDocs));
+      }
     });
     return () => unsub();
   }, []);
 
   const defaultDownloadItem = [
     {
+      title: "Kayes",
+      desc: "Free Fire Mod Panel · Android",
+      category: "App",
+      type: "App",
+      tags: "antiban free fire max android panel",
+      id: "download-dl_1788102419937-0",
+      targetId: "download-dl_1788102419937"
+    },
+    {
       title: "ModX Lab APK",
       desc: "Mod Panel · Android",
       category: "App",
       type: "App",
+      tags: "mod panel antiban apk",
       id: "download-default-1",
       targetId: "download"
     }
@@ -919,10 +946,14 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
   const availableDownloads = downloadsIndex.length > 0 ? downloadsIndex : defaultDownloadItem;
 
   const filteredResults = searchVal.trim()
-    ? availableDownloads.filter(
-        (item) =>
-          (item.title || "").toLowerCase().includes(searchVal.trim().toLowerCase()) || (item.desc || "").toLowerCase().includes(searchVal.trim().toLowerCase())
-      )
+    ? availableDownloads.filter((item) => {
+        const q = searchVal.trim().toLowerCase();
+        const t = (item.title || "").toLowerCase();
+        const d = (item.desc || "").toLowerCase();
+        const c = (item.category || item.type || "").toLowerCase();
+        const tg = (item.tags || "").toLowerCase();
+        return t.includes(q) || d.includes(q) || c.includes(q) || tg.includes(q);
+      })
     : availableDownloads;
 
   const handleSearchAction = () => {
@@ -1050,7 +1081,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className={`flex items-center gap-5 justify-center mt-2 relative w-full overflow-x-auto scrollbar-none px-4 ${searchOpen ? "z-[110]" : "z-30"}`}
+            className={`flex items-center gap-5 justify-center mt-2 relative w-full px-4 ${searchOpen ? "z-[110]" : "z-30"}`}
           >
             <motion.button
               whileHover={{ scale: 1.04 }}
@@ -1160,26 +1191,22 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-3.5 z-[999] transition-all duration-300 overflow-hidden"
+                  className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-2 z-[9999] transition-all duration-300 overflow-hidden"
                   style={{
-                    background: "rgba(255, 255, 255, 0.12)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
-                    border: "1px solid rgba(255, 255, 255, 0.2)",
-                    boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)",
+                    background: "rgba(255, 255, 255, 0.15)",
+                    backdropFilter: "blur(20px)",
+                    WebkitBackdropFilter: "blur(20px)",
+                    border: "1px solid rgba(255, 255, 255, 0.25)",
+                    boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)",
+                    color: "white"
                   }}
                 >
                   {filteredResults.length > 0 ? (
-                    <div className="flex flex-col gap-2 max-h-72 overflow-y-auto scrollbar-thin pr-1">
+                    <div className="flex flex-col divide-y divide-white/10 max-h-72 overflow-y-auto scrollbar-thin">
                       {filteredResults.map((item, index) => (
                         <button
                           key={index}
-                          className="w-full text-left p-3 rounded-xl transition-all duration-200 flex items-center justify-between gap-3 cursor-pointer group border"
-                          style={{
-                            background: "rgba(255,255,255,0.05)",
-                            borderColor: "rgba(255,255,255,0.1)",
-                            color: "white"
-                          }}
+                          className="w-full text-left px-3.5 py-3 rounded-xl transition-all duration-150 flex items-center justify-between gap-3 cursor-pointer group hover:bg-white/15 active:bg-white/20 text-white"
                           onMouseDown={(e) => e.preventDefault()}
                           onClick={() => {
                             searchInputRef.current?.blur();
@@ -1200,38 +1227,30 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                             setIsInputFocused(false);
                             setSearchVal("");
                           }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.background = "rgba(22,207,131,0.2)";
-                            e.currentTarget.style.borderColor = "rgba(22,207,131,0.4)";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-                            e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
-                          }}
                         >
                           <div className="flex items-center gap-3 min-w-0 flex-1">
-                            <div className="w-9 h-9 rounded-xl bg-[#16CF83]/20 flex items-center justify-center shrink-0 text-[#16CF83]">
-                              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
+                            <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center shrink-0 text-white group-hover:bg-[#16CF83] group-hover:text-slate-950 transition-colors">
+                              <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                               </svg>
                             </div>
-                            <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                              <span className="font-bold text-sm truncate group-hover:text-[#16CF83] transition-colors text-white">
+                            <div className="flex flex-col min-w-0 flex-1">
+                              <span className="font-bold text-sm truncate group-hover:text-white transition-colors text-white">
                                 {item.title}
                               </span>
-                              <span className="text-xs font-medium truncate opacity-75 text-white/70">
+                              <span className="text-xs font-normal truncate text-white/80">
                                 {item.desc}
                               </span>
                             </div>
                           </div>
-                          <span className="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md bg-[#16CF83]/20 text-[#16CF83] border border-[#16CF83]/30 shrink-0">
+                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-white/15 text-white border border-white/25 shrink-0 group-hover:border-white/40">
                             {item.category || item.type || "App"}
                           </span>
                         </button>
                       ))}
                     </div>
                   ) : (
-                    <div className="p-4 text-center flex items-center justify-center gap-2 text-xs font-semibold" style={{ color: t.subtext }}>
+                    <div className="p-4 text-center flex items-center justify-center gap-2 text-xs font-semibold text-white/90">
                       <span>🔍</span>
                       <span>No items match "{searchVal}"</span>
                     </div>

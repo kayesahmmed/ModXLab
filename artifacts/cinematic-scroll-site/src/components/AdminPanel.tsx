@@ -341,7 +341,7 @@ export default function AdminPanel({
 
   const handleAddDlFile = () => setDlFiles([...dlFiles, { title: "", category: "", tags: "", imageUrl: "", buttonText: "Download Free APK", downloadLink: "" }]);
   const handleRemoveDlFile = (idx: number) => setDlFiles(dlFiles.filter((_, i) => i !== idx));
-  const updateDlFile = (idx: number, field: string, val: string) => {
+  const updateDlFile = (idx: number, field: string, val: any) => {
     const newFiles = [...dlFiles];
     newFiles[idx][field] = val;
     setDlFiles(newFiles);
