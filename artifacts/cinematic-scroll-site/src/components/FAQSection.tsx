@@ -35,7 +35,16 @@ export default function FAQSection({ t }: { t: Theme }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+  const [telegramLink, setTelegramLink] = useState("https://t.me/kayesahmmedpro");
   const pendingOpenIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    dataCache.getData<any>("settings", {}).then((data) => {
+      if (data?.faqTelegram) {
+        setTelegramLink(data.faqTelegram);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     let unsubFirestore: any = null;
@@ -209,7 +218,7 @@ export default function FAQSection({ t }: { t: Theme }) {
 
         <div className="flex flex-col items-center gap-4 mb-6">
           <a
-            href="https://t.me/kayesahmmedpro"
+            href={telegramLink}
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 rounded-xl font-extrabold text-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-2.5 cursor-pointer shadow-lg hover:shadow-xl"

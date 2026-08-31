@@ -91,7 +91,6 @@ export default function AdminPanel({
 
   // Settings State
   const [lightLogoBase64, setLightLogoBase64] = useState("");
-  const [darkLogoBase64, setDarkLogoBase64] = useState("");
   const [headerLogoSize, setHeaderLogoSize] = useState<number | string>(40);
   const [heroLogoSize, setHeroLogoSize] = useState<number | string>(40);
   const [heroLogoPaddingTop, setHeroLogoPaddingTop] = useState<number | string>(0);
@@ -111,6 +110,7 @@ export default function AdminPanel({
     }
   };
   const [footerTelegram, setFooterTelegram] = useState("https://t.me/");
+  const [faqTelegram, setFaqTelegram] = useState("https://t.me/kayesahmmedpro");
   const [footerWhatsapp, setFooterWhatsapp] = useState("https://wa.me/");
   const [footerYoutube, setFooterYoutube] = useState("https://youtube.com/");
 
@@ -120,7 +120,6 @@ export default function AdminPanel({
         if (data) {
           if (data.headerLogoUrl) setLightLogoBase64(data.headerLogoUrl);
           if (data.lightLogoUrl) setLightLogoBase64(data.lightLogoUrl);
-          if (data.darkLogoUrl) setDarkLogoBase64(data.darkLogoUrl);
           if (data.headerLogoSize !== undefined) setHeaderLogoSize(data.headerLogoSize);
           if (data.heroLogoSize !== undefined) setHeroLogoSize(data.heroLogoSize);
           if (data.heroLogoPaddingTop !== undefined) setHeroLogoPaddingTop(data.heroLogoPaddingTop);
@@ -131,6 +130,7 @@ export default function AdminPanel({
           if (data.footerLogoPaddingTop !== undefined) setFooterLogoPaddingTop(data.footerLogoPaddingTop);
           if (data.footerLogoPaddingLeft !== undefined) setFooterLogoPaddingLeft(data.footerLogoPaddingLeft);
           if (data.footerTelegram) setFooterTelegram(data.footerTelegram);
+          if (data.faqTelegram) setFaqTelegram(data.faqTelegram);
           if (data.footerWhatsapp) setFooterWhatsapp(data.footerWhatsapp);
           if (data.footerYoutube) setFooterYoutube(data.footerYoutube);
         }
@@ -153,21 +153,6 @@ export default function AdminPanel({
     }
   };
 
-  const handleDarkLogoSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    try {
-      setIsProcessing(true);
-      const base64 = await resizeImage(file, 200, 200);
-      setDarkLogoBase64(base64);
-    } catch (err) {
-      console.error(err);
-      showToast("Error processing logo", "error");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
 
   const handleSaveLogo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -175,7 +160,7 @@ export default function AdminPanel({
     try {
       const existingSettings = await dataCache.getData<any>("settings", {});
       const finalLogo = lightLogoBase64 || existingSettings?.headerLogoUrl || existingSettings?.lightLogoUrl || "/website-logo.png";
-      const finalDarkLogo = darkLogoBase64 || existingSettings?.darkLogoUrl || finalLogo;
+      const finalDarkLogo = finalLogo;
 
       const parseNum = (val: any, fallback: number) => (val !== "" && val !== undefined && !isNaN(Number(val)) ? Number(val) : fallback);
 
@@ -216,6 +201,7 @@ export default function AdminPanel({
       const newSettings = {
         ...existingSettings,
         footerTelegram,
+        faqTelegram,
         footerWhatsapp,
         footerYoutube,
         updatedAt: new Date().toISOString()
@@ -1319,7 +1305,7 @@ export default function AdminPanel({
 
                     const existingSettings = await dataCache.getData<any>("settings", {});
                     const finalHeaderLogo = lightLogoBase64 || existingSettings?.headerLogoUrl || existingSettings?.lightLogoUrl || "/website-logo.png";
-                    const finalDarkLogo = darkLogoBase64 || existingSettings?.darkLogoUrl || finalHeaderLogo;
+                    const finalDarkLogo = finalHeaderLogo;
 
                     const parseNum = (val: any, fallback: number) => (val !== "" && val !== undefined && !isNaN(Number(val)) ? Number(val) : fallback);
 
@@ -1337,6 +1323,7 @@ export default function AdminPanel({
                       footerLogoPaddingTop: parseNum(footerLogoPaddingTop, existingSettings?.footerLogoPaddingTop ?? 0),
                       footerLogoPaddingLeft: parseNum(footerLogoPaddingLeft, existingSettings?.footerLogoPaddingLeft ?? 0),
                       footerTelegram: footerTelegram || existingSettings?.footerTelegram || "https://t.me/kayesahmmedpro",
+                      faqTelegram: faqTelegram || existingSettings?.faqTelegram || "https://t.me/kayesahmmedpro",
                       footerWhatsapp: footerWhatsapp || existingSettings?.footerWhatsapp || "https://wa.me/",
                       footerYoutube: footerYoutube || existingSettings?.footerYoutube || "https://youtube.com/@kayesahmmed-xs3hk?si=yTTcq8MXuImfhgUI",
                       updatedAt: new Date().toISOString()
@@ -1978,20 +1965,11 @@ export default function AdminPanel({
                   <div className="flex flex-col gap-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="flex flex-col gap-1.5 p-4 rounded-xl border" style={{ borderColor: t.cardBorder, background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)' }}>
-                        <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: t.subtext }}>Light Theme Logo</label>
+                        <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: t.subtext }}>Theme Logo</label>
                         <input type="file" accept="image/*" onChange={handleLightLogoSelect} className="w-full px-4 py-2.5 rounded-xl text-sm outline-none file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:bg-[#A855F7]/20 file:text-[#A855F7] cursor-pointer" style={{ background: t.inputBg, border: `1px solid ${t.cardBorder}`, color: t.text }} />
                         {lightLogoBase64 && (
-                          <div className="mt-2 p-2 rounded-lg bg-gray-100 inline-flex items-center justify-center border self-start min-h-[60px] min-w-[60px]">
-                            <img src={lightLogoBase64} alt="Light Logo Preview" className="h-12 object-contain text-black text-xs" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex flex-col gap-1.5 p-4 rounded-xl border" style={{ borderColor: t.cardBorder, background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)' }}>
-                        <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: t.subtext }}>Dark Theme Logo</label>
-                        <input type="file" accept="image/*" onChange={handleDarkLogoSelect} className="w-full px-4 py-2.5 rounded-xl text-sm outline-none file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:bg-[#A855F7]/20 file:text-[#A855F7] cursor-pointer" style={{ background: t.inputBg, border: `1px solid ${t.cardBorder}`, color: t.text }} />
-                        {darkLogoBase64 && (
-                          <div className="mt-2 p-2 rounded-lg bg-zinc-900 inline-flex items-center justify-center border border-zinc-800 self-start min-h-[60px] min-w-[60px]">
-                            <img src={darkLogoBase64} alt="Dark Logo Preview" className="h-12 object-contain text-white text-xs" />
+                          <div className="mt-2 p-2 rounded-lg bg-gray-100 inline-flex items-center justify-center border self-start min-h-[60px] min-w-[60px] dark:bg-zinc-800">
+                            <img src={lightLogoBase64} alt="Theme Logo Preview" className="h-12 object-contain" />
                           </div>
                         )}
                       </div>
@@ -2064,8 +2042,13 @@ export default function AdminPanel({
                   
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: t.subtext }}>Telegram Link</label>
+                      <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: t.subtext }}>Footer Telegram Link</label>
                       <input type="text" value={footerTelegram} onChange={e => setFooterTelegram(e.target.value)} placeholder="https://t.me/..." className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: t.inputBg, border: `1px solid ${t.cardBorder}`, color: t.text }} />
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: t.subtext }}>FAQ Telegram Group Link</label>
+                      <input type="text" value={faqTelegram} onChange={e => setFaqTelegram(e.target.value)} placeholder="https://t.me/..." className="w-full px-4 py-3 rounded-xl text-sm outline-none" style={{ background: t.inputBg, border: `1px solid ${t.cardBorder}`, color: t.text }} />
                     </div>
                     
                     <div className="flex flex-col gap-1.5">
