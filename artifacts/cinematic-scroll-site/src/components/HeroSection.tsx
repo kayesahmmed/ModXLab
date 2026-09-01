@@ -1194,9 +1194,9 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-2 z-[9999] transition-all duration-300"
                   style={{
-                    background: "rgba(255, 255, 255, 0.18)",
-                    backdropFilter: "blur(24px)",
-                    WebkitBackdropFilter: "blur(24px)",
+                    background: "rgba(15, 23, 42, 0.95)",
+                    backdropFilter: "blur(40px)",
+                    WebkitBackdropFilter: "blur(40px)",
                     border: "1px solid rgba(255, 255, 255, 0.25)",
                     boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3)",
                     color: "white",
