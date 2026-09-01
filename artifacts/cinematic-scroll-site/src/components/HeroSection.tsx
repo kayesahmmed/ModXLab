@@ -845,6 +845,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
           category: f.category || categoryLabel,
           type: f.category || categoryLabel,
           tags: `${f.tags || ""} ${d.tags || ""} ${f.category || ""} ${d.category || ""}`,
+          imageUrl: f.imageUrl || d.imageUrl || "",
           id: `download-${docId}-${fIdx}`,
           targetId: `download-${docId}`
         }));
@@ -855,6 +856,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
         category: categoryLabel,
         type: categoryLabel,
         tags: `${d.tags || ""} ${d.category || ""}`,
+        imageUrl: d.imageUrl || "",
         id: `download-${docId}`,
         targetId: `download-${docId}`
       }];
@@ -1114,8 +1116,16 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
               <div
                 className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl ${
-                  searchOpen ? "w-[260px] sm:w-[320px] pr-1" : "w-0"
+                  searchOpen ? "w-[260px] sm:w-[320px] opacity-100" : "w-0 opacity-0"
                 }`}
+                style={{
+                  background: "rgba(255, 255, 255, 0.18)",
+                  backdropFilter: "blur(16px)",
+                  WebkitBackdropFilter: "blur(16px)",
+                  border: searchOpen ? "1px solid rgba(255, 255, 255, 0.2)" : "none",
+                  boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)",
+                  transform: "translateZ(0)"
+                }}
               >
                 <div className="relative w-full h-14 flex items-center">
                   <input
@@ -1137,16 +1147,10 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                       if (e.key === "Enter") handleSearchAction();
                     }}
                     placeholder="Search features or cheats..."
-                    className="w-full h-14 rounded-2xl pl-5 pr-10 text-[16px] outline-none transition-all duration-300 font-['Plus_Jakarta_Sans',sans-serif]"
+                    className="w-[260px] sm:w-[320px] h-14 bg-transparent text-[16px] outline-none pl-5 pr-10 font-['Plus_Jakarta_Sans',sans-serif] text-white"
                     style={{
-                      fontSize: "16px",
-                      background: "rgba(255, 255, 255, 0.18)",
-                      backdropFilter: "blur(16px)",
-                      WebkitBackdropFilter: "blur(16px)",
-                      border: "1px solid rgba(255, 255, 255, 0.2)",
-                      color: "white",
-                      boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)",
-                      willChange: "transform, opacity"
+                      WebkitAppearance: "none",
+                      appearance: "none",
                     }}
                   />
                   {searchVal && (
@@ -1231,11 +1235,15 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                           }}
                         >
                           <div className="flex items-center gap-3 min-w-0 flex-1">
-                            <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center shrink-0 text-white group-hover:bg-[#16CF83] group-hover:text-slate-950 transition-colors">
-                              <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                              </svg>
-                            </div>
+                            {item.imageUrl ? (
+                              <img src={item.imageUrl} className="w-8 h-8 rounded-lg object-cover shadow-sm shrink-0" alt="Icon" />
+                            ) : (
+                              <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center shrink-0 text-white group-hover:bg-[#16CF83] group-hover:text-slate-950 transition-colors">
+                                <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                              </div>
+                            )}
                             <div className="flex flex-col min-w-0 flex-1">
                               <span className="font-bold text-sm truncate group-hover:text-white transition-colors text-white">
                                 {item.title}
