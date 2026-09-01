@@ -19,6 +19,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
   const [openHowToUseMap, setOpenHowToUseMap] = useState<Record<string, boolean>>({});
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [slideDirection, setSlideDirection] = useState(1);
 
   useEffect(() => {
     const loadDownloads = async () => {
@@ -90,12 +91,13 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
           <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Download</h2>
           <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
         </div>
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="popLayout" initial={false} custom={slideDirection}>
           <motion.div 
             key={`page-${currentPage}`} 
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
-            exit={{ opacity: 0, y: -20, filter: "blur(8px)", transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
+            custom={slideDirection}
+            initial={(direction) => ({ opacity: 0, x: direction > 0 ? 100 : -100, filter: "blur(4px)" })}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] } }}
+            exit={(direction) => ({ opacity: 0, x: direction > 0 ? -100 : 100, filter: "blur(4px)", transition: { duration: 0.4, ease: [0.32, 0.72, 0, 1] } })}
             className="w-full flex flex-col gap-6"
           >
             {displayDownloads.map((dl, idx) => {
@@ -424,6 +426,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
           <div className="flex items-center justify-center gap-3 mt-10 relative z-20">
             <button
               onClick={() => {
+                setSlideDirection(-1);
                 setCurrentPage(p => Math.max(1, p - 1));
               }}
               disabled={currentPage === 1}
@@ -439,6 +442,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                 <button
                   key={p}
                   onClick={() => {
+                    setSlideDirection(p > currentPage ? 1 : -1);
                     setCurrentPage(p);
                   }}
                   className={`w-10 h-10 rounded-full font-bold text-sm transition-all border shadow-lg backdrop-blur-md cursor-pointer ${currentPage === p ? "bg-[#2790FF] text-white border-[#2790FF]" : "bg-white/5 text-white border-white/20 hover:bg-white/15"}`}
@@ -450,6 +454,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
 
             <button
               onClick={() => {
+                setSlideDirection(1);
                 setCurrentPage(p => Math.min(totalPages, p + 1));
               }}
               disabled={currentPage === totalPages}

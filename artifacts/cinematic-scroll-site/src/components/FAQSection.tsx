@@ -111,16 +111,15 @@ export default function FAQSection({ t }: { t: Theme }) {
     }
     if (!newQuestion.trim() || isSubmitting) return;
 
-    // Client-side 10-minute rate limit check per user (max 2 submissions per 10 minutes)
+    // Client-side 10-minute rate limit check globally (max 4 submissions per 10 minutes)
     const now = Date.now();
     const TEN_MINS = 10 * 60 * 1000;
-    const userKey = auth.currentUser?.uid || auth.currentUser?.email || "anon_user";
-    const storageKey = `user_submissions_log_${userKey}`;
+    const storageKey = `user_global_submissions_log`;
     const submissionLog: number[] = JSON.parse(localStorage.getItem(storageKey) || "[]")
       .filter((t: number) => now - t < TEN_MINS);
 
-    if (submissionLog.length >= 2) {
-      const msg = "⚠️ Rate limit reached: You can submit a maximum of 2 items (reviews or questions) every 10 minutes. Please try again later.";
+    if (submissionLog.length >= 4) {
+      const msg = "You have reached the maximum limit of 4 submissions. Please try again after 10 minutes or write your question in our Telegram group.";
       setErrorMsg(msg);
       alert(msg);
       return;
@@ -152,7 +151,7 @@ export default function FAQSection({ t }: { t: Theme }) {
         newQuestionObj = data.item;
       } else if (res.status === 429) {
         const errData = await res.json().catch(() => ({}));
-        const msg = errData.error || "⚠️ Rate limit reached: You can submit a maximum of 2 items (reviews or questions) every 10 minutes. Please try again later.";
+        const msg = errData.error || "You have reached the maximum limit of 4 submissions. Please try again after 10 minutes or write your question in our Telegram group.";
         setErrorMsg(msg);
         alert(msg);
         setIsSubmitting(false);

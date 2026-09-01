@@ -315,16 +315,15 @@ export default function ReviewsSection({
     const finalName = reviewName.trim() || currentUser.displayName || "Anonymous";
     if (!finalName || !reviewText.trim() || isSubmitting) return;
 
-    // Client-side 10-minute rate limit check per user (max 2 submissions per 10 minutes)
+    // Client-side 10-minute rate limit check globally (max 4 submissions per 10 minutes)
     const now = Date.now();
     const TEN_MINS = 10 * 60 * 1000;
-    const userKey = currentUser?.uid || currentUser?.email || "anon_user";
-    const storageKey = `user_submissions_log_${userKey}`;
+    const storageKey = `user_global_submissions_log`;
     const submissionLog: number[] = JSON.parse(localStorage.getItem(storageKey) || "[]")
       .filter((t: number) => now - t < TEN_MINS);
 
-    if (submissionLog.length >= 2) {
-      alert("⚠️ Rate limit reached: You can submit a maximum of 2 items (reviews or questions) every 10 minutes. Please try again later.");
+    if (submissionLog.length >= 4) {
+      alert("You have reached the maximum limit of 4 submissions. Please try again after 10 minutes or write your review in our Telegram group.");
       return;
     }
 
