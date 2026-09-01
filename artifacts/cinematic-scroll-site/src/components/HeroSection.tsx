@@ -1052,7 +1052,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
 
       <div className={`relative w-full max-w-6xl mx-auto px-4 sm:px-8 lg:px-14 flex flex-col items-center gap-14 ${searchOpen ? "z-[250]" : "z-10"}`}>
         <motion.div
-          style={{ y: yText, opacity: opacityText, willChange: "transform, opacity" }}
+          style={{ y: yText, opacity: opacityText, z: searchOpen ? 100 : 0, willChange: "transform, opacity" }}
           className={`flex flex-col gap-8 text-center max-w-4xl items-center sm:px-12 relative ${searchOpen ? "z-[300]" : "z-10"}`}
         >
                     <motion.h1
@@ -1191,13 +1191,13 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-2 z-[9999] transition-all duration-300 overflow-hidden"
+                  className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-2 z-[9999] transition-all duration-300"
                   style={{
-                    background: "rgba(255, 255, 255, 0.15)",
-                    backdropFilter: "blur(20px)",
-                    WebkitBackdropFilter: "blur(20px)",
+                    background: "rgba(255, 255, 255, 0.2)",
+                    backdropFilter: "blur(24px)",
+                    WebkitBackdropFilter: "blur(24px)",
                     border: "1px solid rgba(255, 255, 255, 0.25)",
-                    boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)",
+                    boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3)",
                     color: "white"
                   }}
                 >

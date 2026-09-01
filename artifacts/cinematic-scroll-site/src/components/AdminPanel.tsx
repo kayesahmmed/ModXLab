@@ -80,7 +80,7 @@ export default function AdminPanel({
 
   // Manage Admin Emails & Credentials Modal
   const [isManagingAdmins, setIsManagingAdmins] = useState(false);
-  const [adminEmailsList, setAdminEmailsList] = useState<string[]>([]);
+  const [adminEmailsList, setAdminEmailsList] = useState<{id: string, email: string}[]>([]);
   const [newAllowedEmail, setNewAllowedEmail] = useState("");
 
   // Change Password state
@@ -431,10 +431,22 @@ export default function AdminPanel({
   const fetchAllowedAdminEmails = async () => {
     try {
       const snap = await getDocs(collection(db, "admin_emails"));
-      const list = snap.docs.map(d => d.data().email);
+      const list = snap.docs.map(d => ({ id: d.id, email: d.data().email }));
       setAdminEmailsList(list);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleDeleteAdminEmail = async (id: string, email: string) => {
+    if (!window.confirm(`Are you sure you want to revoke access for ${email}?`)) return;
+    try {
+      await deleteDoc(doc(db, "admin_emails", id));
+      showToast(`Revoked access for ${email}`);
+      fetchAllowedAdminEmails();
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to remove admin email", "error");
     }
   };
 
@@ -1469,10 +1481,19 @@ export default function AdminPanel({
                 <div className="flex flex-col gap-2">
                   <span className="text-xs font-bold text-white/70">Extra Authorized Gmails:</span>
                   <div className="flex flex-wrap gap-2">
-                    {adminEmailsList.map((email, idx) => (
-                      <span key={idx} className="px-3 py-1 rounded-lg bg-[#7B2CBF]/20 border border-[#7B2CBF]/40 text-xs text-[#9D86FF] font-semibold">
-                        ✉️ {email}
-                      </span>
+                    {adminEmailsList.map((item) => (
+                      <div key={item.id} className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#7B2CBF]/20 border border-[#7B2CBF]/40 text-xs text-[#9D86FF] font-semibold group transition-all hover:border-red-500/50">
+                        <span>✉️ {item.email}</span>
+                        <button 
+                          onClick={() => handleDeleteAdminEmail(item.id, item.email)}
+                          className="w-5 h-5 flex items-center justify-center rounded-full hover:bg-red-500/20 text-red-400 hover:text-red-500 transition-colors ml-1 cursor-pointer opacity-70 hover:opacity-100"
+                          title="Remove access"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
                     ))}
                   </div>
                 </div>

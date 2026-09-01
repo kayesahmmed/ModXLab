@@ -18,6 +18,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
   const [downloads, setDownloads] = useState<any[]>(getInitialDownloads);
   const [openHowToUseMap, setOpenHowToUseMap] = useState<Record<string, boolean>>({});
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const loadDownloads = async () => {
@@ -64,7 +65,16 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
     youtubeLinks: ["https://www.youtube.com/watch?v=C4LMW4iIVgA"]
   };
 
-  const displayDownloads = downloads.length > 0 ? downloads : [defaultDownload];
+  const rawDownloads = downloads.length > 0 ? downloads : [defaultDownload];
+  const itemsPerPage = 4;
+  const totalItems = rawDownloads.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
+  const maxStartIndex = Math.max(0, totalItems - itemsPerPage);
+  const rawStartIndex = (currentPage - 1) * itemsPerPage;
+  const startIndex = Math.min(rawStartIndex, maxStartIndex);
+  
+  const displayDownloads = rawDownloads.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <section id="download" className="relative py-16 sm:py-20 px-4 sm:px-8 lg:px-14 max-w-7xl mx-auto">
@@ -80,23 +90,34 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
           <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Download</h2>
           <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
         </div>
-        {displayDownloads.map((dl, idx) => {
-          const isHowToUseOpen = openHowToUseMap[dl.id] || false;
-          
-          const files = (dl.files && dl.files.length > 0) ? dl.files : [{ title: dl.title, category: dl.category, tags: dl.tags, imageUrl: dl.imageUrl, buttonText: dl.buttonText, downloadLink: dl.downloadLink, previewImages: dl.previewImages }];
-          const ytLinks = (dl.youtubeLinks && dl.youtubeLinks.length > 0) ? dl.youtubeLinks : (dl.youtubeLink ? [dl.youtubeLink] : []);
-          
-          const howToUseSteps = dl.howToUse ? dl.howToUse.split('\n').filter((l: string) => l.trim() !== '') : [];
-          const downloadFiles = files.filter((f: any) => f.downloadLink && f.downloadLink.trim() !== "");
-          return (            <motion.div
-              key={dl.id}
-              id={`download-${dl.id}`}
-              initial={{ opacity: 0, y: 40, scale: 0.98 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.1 }}
-              whileHover={{ y: -4, scale: 1.01 }}
-              transition={{ duration: 0.8, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl border shadow-2xl mb-8 backdrop-blur-2xl"
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={`page-${currentPage}`} 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full flex flex-col gap-6"
+          >
+            {displayDownloads.map((dl, idx) => {
+              const isHowToUseOpen = openHowToUseMap[dl.id] || false;
+              
+              const files = (dl.files && dl.files.length > 0) ? dl.files : [{ title: dl.title, category: dl.category, tags: dl.tags, imageUrl: dl.imageUrl, buttonText: dl.buttonText, downloadLink: dl.downloadLink, previewImages: dl.previewImages }];
+              const ytLinks = (dl.youtubeLinks && dl.youtubeLinks.length > 0) ? dl.youtubeLinks : (dl.youtubeLink ? [dl.youtubeLink] : []);
+              
+              const howToUseSteps = dl.howToUse ? dl.howToUse.split('\n').filter((l: string) => l.trim() !== '') : [];
+              const downloadFiles = files.filter((f: any) => f.downloadLink && f.downloadLink.trim() !== "");
+              return (
+                <motion.div
+                  layout
+                  key={dl.id}
+                  id={`download-${dl.id}`}
+                  initial={{ opacity: 0, y: 40, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -40, scale: 0.98 }}
+                  whileHover={{ y: -4, scale: 1.01 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl border shadow-2xl mb-8 backdrop-blur-2xl"
               style={{
                 background: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.85)",
                 borderColor: "rgba(255, 255, 255, 0.2)",
@@ -397,6 +418,53 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
             </motion.div>
           );
         })}
+          </motion.div>
+        </AnimatePresence>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-3 mt-10 relative z-20">
+            <button
+              onClick={() => {
+                setCurrentPage(p => Math.max(1, p - 1));
+                document.getElementById('download')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              disabled={currentPage === 1}
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed border border-white/20 text-white shadow-lg backdrop-blur-md cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <div className="flex items-center gap-2">
+              {Array.from({length: totalPages}, (_, i) => i + 1).map(p => (
+                <button
+                  key={p}
+                  onClick={() => {
+                    setCurrentPage(p);
+                    document.getElementById('download')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className={`w-10 h-10 rounded-full font-bold text-sm transition-all border shadow-lg backdrop-blur-md cursor-pointer ${currentPage === p ? "bg-[#2790FF] text-white border-[#2790FF]" : "bg-white/5 text-white border-white/20 hover:bg-white/15"}`}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                setCurrentPage(p => Math.min(totalPages, p + 1));
+                document.getElementById('download')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              disabled={currentPage === totalPages}
+              className="w-10 h-10 rounded-full flex items-center justify-center transition-all bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed border border-white/20 text-white shadow-lg backdrop-blur-md cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        )}
       </motion.div>
 
       <AnimatePresence>
