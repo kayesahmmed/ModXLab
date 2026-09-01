@@ -1114,7 +1114,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
               <div
                 className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl ${
-                  searchOpen ? "w-[260px] sm:w-[320px] opacity-100 pr-1" : "w-0 opacity-0"
+                  searchOpen ? "w-[260px] sm:w-[320px] pr-1" : "w-0"
                 }`}
               >
                 <div className="relative w-full h-14 flex items-center">
@@ -1140,12 +1140,13 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                     className="w-full h-14 rounded-2xl pl-5 pr-10 text-[16px] outline-none transition-all duration-300 font-['Plus_Jakarta_Sans',sans-serif]"
                     style={{
                       fontSize: "16px",
-                      background: "rgba(255, 255, 255, 0.12)",
+                      background: "rgba(255, 255, 255, 0.18)",
                       backdropFilter: "blur(16px)",
                       WebkitBackdropFilter: "blur(16px)",
                       border: "1px solid rgba(255, 255, 255, 0.2)",
                       color: "white",
                       boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)",
+                      willChange: "transform, opacity"
                     }}
                   />
                   {searchVal && (
@@ -1193,12 +1194,13 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-2 z-[9999] transition-all duration-300"
                   style={{
-                    background: "rgba(255, 255, 255, 0.2)",
+                    background: "rgba(255, 255, 255, 0.18)",
                     backdropFilter: "blur(24px)",
                     WebkitBackdropFilter: "blur(24px)",
                     border: "1px solid rgba(255, 255, 255, 0.25)",
                     boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3)",
-                    color: "white"
+                    color: "white",
+                    willChange: "transform, opacity"
                   }}
                 >
                   {filteredResults.length > 0 ? (
