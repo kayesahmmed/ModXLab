@@ -91,13 +91,12 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
           <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Download</h2>
           <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
         </div>
-        <AnimatePresence mode="popLayout" initial={false} custom={slideDirection}>
+        <AnimatePresence mode="wait">
           <motion.div 
             key={`page-${currentPage}`} 
-            custom={slideDirection}
-            initial={(direction) => ({ opacity: 0, x: direction > 0 ? 100 : -100, filter: "blur(4px)" })}
-            animate={{ opacity: 1, x: 0, filter: "blur(0px)", transition: { duration: 0.5, ease: [0.32, 0.72, 0, 1] } }}
-            exit={(direction) => ({ opacity: 0, x: direction > 0 ? -100 : 100, filter: "blur(4px)", transition: { duration: 0.4, ease: [0.32, 0.72, 0, 1] } })}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } }}
+            exit={{ opacity: 0, y: -15, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
             className="w-full flex flex-col gap-6"
           >
             {displayDownloads.map((dl, idx) => {
@@ -475,12 +474,25 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setFullscreenImage(null)}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-4 cursor-pointer"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 p-4 cursor-zoom-out backdrop-blur-sm"
           >
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setFullscreenImage(null);
+              }}
+              className="absolute top-6 right-6 sm:top-10 sm:right-10 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/25 text-white backdrop-blur-md border border-white/20 transition-all z-10"
+              aria-label="Close fullscreen"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
             <motion.img
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
+              initial={{ scale: 0.95, y: 10 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 10 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
               src={fullscreenImage}
               alt="Fullscreen App Preview"
               className="w-full h-full object-contain rounded-xl"

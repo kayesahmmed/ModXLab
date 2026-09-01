@@ -1115,19 +1115,18 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             {/* Ultra-Premium Glassmorphic Search Bar */}
             <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
               <div
-                className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl ${
-                  searchOpen ? "w-[260px] sm:w-[320px] opacity-100" : "w-0 opacity-0"
+                className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl border ${
+                  searchOpen ? "w-[260px] sm:w-[320px] opacity-100 border-white/20" : "w-0 opacity-0 border-transparent"
                 }`}
                 style={{
                   background: "rgba(255, 255, 255, 0.18)",
                   backdropFilter: "blur(16px)",
                   WebkitBackdropFilter: "blur(16px)",
-                  border: searchOpen ? "1px solid rgba(255, 255, 255, 0.2)" : "none",
                   boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)",
                   transform: "translateZ(0)"
                 }}
               >
-                <div className="relative w-full h-14 flex items-center">
+                <div className="relative w-full h-full flex items-center">
                   <input
                     ref={searchInputRef}
                     value={searchVal}
@@ -1147,7 +1146,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                       if (e.key === "Enter") handleSearchAction();
                     }}
                     placeholder="Search features or cheats..."
-                    className="w-[260px] sm:w-[320px] h-14 bg-transparent text-[16px] outline-none pl-5 pr-10 font-['Plus_Jakarta_Sans',sans-serif] text-white"
+                    className="w-full h-full bg-transparent text-[16px] outline-none pl-5 pr-10 font-['Plus_Jakarta_Sans',sans-serif] text-white"
                     style={{
                       WebkitAppearance: "none",
                       appearance: "none",
