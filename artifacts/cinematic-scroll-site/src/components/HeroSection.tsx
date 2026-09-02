@@ -1113,9 +1113,9 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             </motion.button>
 
             {/* Ultra-Premium Glassmorphic Search Bar */}
-            <div ref={searchContainerRef} className={`flex items-center justify-end h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
+            <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
               <div
-                className={`absolute right-[64px] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl border ${
+                className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl border ${
                   searchOpen ? "w-[260px] sm:w-[320px] opacity-100 border-white/20 pointer-events-auto" : "w-0 opacity-0 border-transparent pointer-events-none"
                 }`}
                 style={{

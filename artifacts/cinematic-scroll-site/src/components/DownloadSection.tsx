@@ -91,14 +91,17 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
           <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Download</h2>
           <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
         </div>
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={`page-${currentPage}`} 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } }}
-            exit={{ opacity: 0, y: -15, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
-            className="w-full flex flex-col gap-6"
-          >
+        
+        <div className="relative w-full grid" style={{ gridTemplateAreas: "'stack'" }}>
+          <AnimatePresence>
+            <motion.div 
+              key={`page-${currentPage}`} 
+              initial={{ opacity: 0, scale: 0.98, filter: "blur(4px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)", zIndex: 10, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } }}
+              exit={{ opacity: 0, scale: 0.98, filter: "blur(4px)", zIndex: 0, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } }}
+              className="w-full flex flex-col gap-6"
+              style={{ gridArea: "stack" }}
+            >
             {displayDownloads.map((dl, idx) => {
               const isHowToUseOpen = openHowToUseMap[dl.id] || false;
               
@@ -418,6 +421,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
         })}
           </motion.div>
         </AnimatePresence>
+        </div>
 
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-3 mt-10 relative z-20">
