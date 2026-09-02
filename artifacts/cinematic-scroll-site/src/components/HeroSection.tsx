@@ -1113,10 +1113,10 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             </motion.button>
 
             {/* Ultra-Premium Glassmorphic Search Bar */}
-            <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
+            <div ref={searchContainerRef} className={`flex items-center justify-end h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
               <div
-                className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl border ${
-                  searchOpen ? "w-[260px] sm:w-[320px] opacity-100 border-white/20" : "w-0 opacity-0 border-transparent"
+                className={`absolute right-[64px] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl border ${
+                  searchOpen ? "w-[260px] sm:w-[320px] opacity-100 border-white/20 pointer-events-auto" : "w-0 opacity-0 border-transparent pointer-events-none"
                 }`}
                 style={{
                   background: "rgba(255, 255, 255, 0.18)",
@@ -1146,10 +1146,16 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                       if (e.key === "Enter") handleSearchAction();
                     }}
                     placeholder="Search features or cheats..."
-                    className="w-full h-full bg-transparent text-[16px] outline-none pl-5 pr-10 font-['Plus_Jakarta_Sans',sans-serif] text-white"
+                    type="text"
+                    autoComplete="off"
+                    spellCheck="false"
+                    className="w-full h-full bg-transparent text-[16px] outline-none border-none shadow-none pl-5 pr-10 font-['Plus_Jakarta_Sans',sans-serif] text-white"
                     style={{
                       WebkitAppearance: "none",
                       appearance: "none",
+                      background: "transparent",
+                      border: "none",
+                      boxShadow: "none"
                     }}
                   />
                   <button

@@ -109,14 +109,12 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
               const downloadFiles = files.filter((f: any) => f.downloadLink && f.downloadLink.trim() !== "");
               return (
                 <motion.div
-                  layout
                   key={dl.id}
                   id={`download-${dl.id}`}
-                  initial={{ opacity: 0, y: 40, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -40, scale: 0.98 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
                   whileHover={{ y: -4, scale: 1.01 }}
-                  transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
                   className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl border shadow-2xl mb-8 backdrop-blur-2xl"
               style={{
                 background: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.85)",
