@@ -80,7 +80,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
   return (
     <section id="download" className="relative py-16 sm:py-20 px-4 sm:px-8 lg:px-14 max-w-7xl mx-auto">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0.3, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
@@ -92,15 +92,15 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
           <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
         </div>
         
-        <div className="relative w-full grid" style={{ gridTemplateAreas: "'stack'" }}>
-          <AnimatePresence>
+        <div className="relative w-full">
+          
             <motion.div 
-              key={`page-${currentPage}`} 
-              initial={{ opacity: 0, scale: 0.98, filter: "blur(4px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)", zIndex: 10, transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] } }}
-              exit={{ opacity: 0, scale: 0.98, filter: "blur(4px)", zIndex: 0, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } }}
+               
+              
+              
+              
               className="w-full flex flex-col gap-6"
-              style={{ gridArea: "stack" }}
+              
             >
             {displayDownloads.map((dl, idx) => {
               const isHowToUseOpen = openHowToUseMap[dl.id] || false;
@@ -112,12 +112,12 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
               const downloadFiles = files.filter((f: any) => f.downloadLink && f.downloadLink.trim() !== "");
               return (
                 <motion.div
-                  key={dl.id}
+                  key={`${currentPage}-${dl.id}`}
                   id={`download-${dl.id}`}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0.3, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   whileHover={{ y: -4, scale: 1.01 }}
-                  transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.25, delay: idx * 0.04, ease: "easeOut" }}
                   className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl border shadow-2xl mb-8 backdrop-blur-2xl"
               style={{
                 background: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.85)",
@@ -307,7 +307,8 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                         </motion.div>
                       </div>
                     </button>
-                    <AnimatePresence>
+                    
+                      <AnimatePresence>
                       {isHowToUseOpen && (
                         <motion.div
                           initial={{ opacity: 0, height: 0 }}
@@ -420,7 +421,6 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
           );
         })}
           </motion.div>
-        </AnimatePresence>
         </div>
 
         {totalPages > 1 && (
@@ -469,7 +469,8 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
         )}
       </motion.div>
 
-      <AnimatePresence>
+      
+        <AnimatePresence>
         {fullscreenImage && (
           <motion.div
             initial={{ opacity: 0 }}
