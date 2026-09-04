@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import gsap from "gsap";
 import svgPaths from "../imports/Desktop/svg-rb00s3u9xu";
 import { Theme } from "../types";
@@ -1193,13 +1193,13 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
               </motion.button>
 
               {/* Suggestions / Results Dropdown */}
-              {searchOpen && showSuggestions && searchVal.trim().length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-2 z-[9999] transition-all duration-300"
+                {searchOpen && showSuggestions && searchVal.trim().length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-2 z-[9999]"
                   style={{
                     background: "rgba(15, 23, 42, 0.95)",
                     backdropFilter: "blur(40px)",
@@ -1270,6 +1270,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   )}
                 </motion.div>
               )}
+              
             </div>
           </motion.div>
         </motion.div>
