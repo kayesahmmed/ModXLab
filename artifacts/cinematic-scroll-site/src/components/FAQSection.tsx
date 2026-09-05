@@ -266,17 +266,19 @@ export default function FAQSection({ t }: { t: Theme }) {
               transition={{ duration: 0.15, ease: "easeOut" }}
               className="overflow-hidden"
             >
-              <form onSubmit={handleAsk} className="p-6 rounded-[24px] overflow-hidden" style={{ 
-                background: "rgba(255, 255, 255, 0.12)", 
-                backdropFilter: "blur(12px)", 
-                WebkitBackdropFilter: "blur(12px)",
-                WebkitTransform: "translate3d(0, 0, 0)",
-                transform: "translate3d(0, 0, 0)",
-                WebkitBackfaceVisibility: "hidden",
-                backfaceVisibility: "hidden",
-                border: `1px solid rgba(255, 255, 255, 0.2)`,
-                boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
-              }}>
+              <form onSubmit={handleAsk} className="relative rounded-[24px]">
+                <div className="absolute inset-0 rounded-[24px] pointer-events-none z-0" style={{ 
+                  background: "rgba(255, 255, 255, 0.12)", 
+                  backdropFilter: "blur(12px)", 
+                  WebkitBackdropFilter: "blur(12px)",
+                  WebkitTransform: "translate3d(0, 0, 0)",
+                  transform: "translate3d(0, 0, 0)",
+                  WebkitBackfaceVisibility: "hidden",
+                  backfaceVisibility: "hidden",
+                  border: `1px solid rgba(255, 255, 255, 0.2)`,
+                  boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
+                }} />
+                <div className="relative z-10 p-6 rounded-[24px] overflow-hidden w-full h-full">
                 <p className="font-bold text-lg mb-3 text-white">Have a new question?</p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="flex-1 flex flex-col sm:flex-row gap-3">
@@ -311,6 +313,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                   </button>
                 </div>
                 {errorMsg && <div className="mt-2 text-red-500 text-sm font-semibold">{errorMsg}</div>}
+                </div>
               </form>
             </motion.div>
           )}
@@ -326,8 +329,9 @@ export default function FAQSection({ t }: { t: Theme }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="rounded-[24px] overflow-hidden transition-all duration-150 relative group"
-                style={{ 
+                className="rounded-[24px] relative group"
+              >
+                <div className="absolute inset-0 rounded-[24px] pointer-events-none z-0 transition-all duration-150" style={{ 
                   background: "rgba(255, 255, 255, 0.12)", 
                   backdropFilter: "blur(12px)",
                   WebkitBackdropFilter: "blur(12px)",
@@ -337,8 +341,8 @@ export default function FAQSection({ t }: { t: Theme }) {
                   backfaceVisibility: "hidden",
                   border: isOpen ? `1px solid rgba(22, 207, 131, 0.4)` : `1px solid rgba(255, 255, 255, 0.2)`,
                   boxShadow: isOpen ? `0 8px 32px 0 rgba(22, 207, 131, 0.25)` : "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
-                }}
-              >
+                }} />
+                <div className="relative z-10 w-full rounded-[24px] overflow-hidden">
                 <button
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
                   className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left"
@@ -383,6 +387,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                     </motion.div>
                   )}
                 </AnimatePresence>
+                </div>
               </motion.div>
             );
           })}
@@ -403,8 +408,9 @@ export default function FAQSection({ t }: { t: Theme }) {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0, y: 20 }}
               transition={{ duration: 0.2 }}
-              className="w-full max-w-3xl max-h-[85vh] rounded-3xl p-6 sm:p-8 flex flex-col gap-5 border shadow-2xl overflow-hidden relative"
-              style={{
+              className="w-full max-w-3xl max-h-[85vh] rounded-3xl relative shadow-2xl"
+            >
+              <div className="absolute inset-0 rounded-3xl pointer-events-none z-0" style={{
                 background: "rgba(30, 30, 40, 0.6)",
                 backdropFilter: "blur(24px)",
                 WebkitBackdropFilter: "blur(24px)",
@@ -414,8 +420,8 @@ export default function FAQSection({ t }: { t: Theme }) {
                 backfaceVisibility: "hidden",
                 border: "1px solid rgba(255, 255, 255, 0.15)",
                 boxShadow: "0 20px 50px -10px rgba(0, 0, 0, 0.85)"
-              }}
-            >
+              }} />
+              <div className="relative z-10 p-6 sm:p-8 flex flex-col gap-5 rounded-3xl overflow-hidden w-full max-h-full">
               {/* Modal Header */}
               <div className="flex items-center justify-between pb-4 border-b border-white/20">
                 <div>
@@ -464,8 +470,9 @@ export default function FAQSection({ t }: { t: Theme }) {
                     return (
                       <div
                         key={faq.id}
-                        className="rounded-2xl overflow-hidden transition-all duration-150 relative border"
-                        style={{
+                        className="rounded-2xl relative transition-all duration-150"
+                      >
+                        <div className="absolute inset-0 rounded-2xl pointer-events-none z-0 transition-all duration-150" style={{
                           background: "rgba(255, 255, 255, 0.05)",
                           backdropFilter: "blur(12px)",
                           WebkitBackdropFilter: "blur(12px)",
@@ -473,10 +480,10 @@ export default function FAQSection({ t }: { t: Theme }) {
                           transform: "translate3d(0, 0, 0)",
                           WebkitBackfaceVisibility: "hidden",
                           backfaceVisibility: "hidden",
-                          borderColor: isOpen ? "rgba(22, 207, 131, 0.4)" : "rgba(255, 255, 255, 0.1)",
+                          border: isOpen ? "1px solid rgba(22, 207, 131, 0.4)" : "1px solid rgba(255, 255, 255, 0.1)",
                           boxShadow: isOpen ? "0 4px 20px -5px rgba(22, 207, 131, 0.25)" : "none"
-                        }}
-                      >
+                        }} />
+                        <div className="relative z-10 rounded-2xl overflow-hidden w-full">
                         <button
                           onClick={() => setOpenId(isOpen ? null : faq.id)}
                           className="w-full px-5 py-4 flex items-center justify-between gap-4 text-left cursor-pointer"
@@ -524,9 +531,11 @@ export default function FAQSection({ t }: { t: Theme }) {
                             </motion.div>
                           )}
                         </AnimatePresence>
+                        </div>
                       </div>
                     );
                   })}
+              </div>
               </div>
             </motion.div>
           </motion.div>

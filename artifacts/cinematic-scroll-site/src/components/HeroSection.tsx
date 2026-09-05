@@ -1119,14 +1119,16 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                 </svg>
               </div>
             </motion.button>
+          </motion.div>
 
             {/* Ultra-Premium Glassmorphic Search Bar */}
             <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
               <div
-                className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center overflow-hidden rounded-2xl border ${
-                  searchOpen ? "w-[260px] sm:w-[320px] opacity-100 border-white/20 pointer-events-auto" : "w-0 opacity-0 border-transparent pointer-events-none"
+                className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center rounded-2xl relative ${
+                  searchOpen ? "w-[260px] sm:w-[320px] opacity-100 pointer-events-auto" : "w-0 opacity-0 pointer-events-none"
                 }`}
-                style={{
+              >
+                <div className={`absolute inset-0 rounded-2xl pointer-events-none z-0 transition-all duration-350 border ${searchOpen ? "border-white/20" : "border-transparent"}`} style={{
                   background: "rgba(255, 255, 255, 0.18)",
                   backdropFilter: "blur(16px)",
                   WebkitBackdropFilter: "blur(16px)",
@@ -1134,10 +1136,9 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   transform: "translate3d(0, 0, 0)",
                   WebkitBackfaceVisibility: "hidden",
                   backfaceVisibility: "hidden",
-                  boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)",
-                                  }}
-              >
-                <div className="relative w-full h-full flex items-center">
+                  boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)"
+                }} />
+                <div className="relative w-full h-full flex items-center z-10 overflow-hidden rounded-2xl">
                   <input
                     ref={searchInputRef}
                     value={searchVal}
@@ -1213,7 +1214,8 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                     exit={{ opacity: 0, y: -5, scale: 0.98 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                     className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl z-[9999]"
-                    style={{
+                  >
+                    <div className="absolute inset-0 rounded-2xl pointer-events-none z-0" style={{
                       background: "rgba(15, 23, 42, 0.95)",
                       backdropFilter: "blur(40px)",
                       WebkitBackdropFilter: "blur(40px)",
@@ -1223,9 +1225,8 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                       backfaceVisibility: "hidden",
                       border: "1px solid rgba(255, 255, 255, 0.25)",
                       boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3)",
-                      color: "white"
-                    }}
-                  >
+                    }} />
+                    <div className="relative z-10 w-full h-full text-white">
                   {filteredResults.length > 0 ? (
                     <div className="flex flex-col divide-y divide-white/10 max-h-72 overflow-y-auto scrollbar-thin">
                       {filteredResults.map((item, index) => (
@@ -1285,12 +1286,12 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                       <span>No items match "{searchVal}"</span>
                     </div>
                   )}
+                  </div>
                 </motion.div>
               )}
               </AnimatePresence>
             </div>
           </motion.div>
-        </motion.div>
 
         {/* Hero Mock Panel - Placed cleanly underneath with GPU acceleration */}
         <motion.div
