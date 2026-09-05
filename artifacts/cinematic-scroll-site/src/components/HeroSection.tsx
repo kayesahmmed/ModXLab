@@ -130,7 +130,7 @@ export function AnimatedRingChart({ isDark = true }: { isDark?: boolean }) {
         className={`absolute inset-0 rounded-full bg-gradient-to-tr from-[#00E5D1]/40 via-[#16CF83]/30 to-[#7D52FD]/40 filter blur-lg transition-all duration-500 pointer-events-none ${
           isPulse ? "opacity-100 scale-110" : "opacity-25 scale-95"
         }`}
-        style={{ willChange: "transform, opacity"}}
+        style={{ }}
       />
 
       {/* SVG is NOT rotated globally so central text remains completely horizontal */}
@@ -1055,14 +1055,14 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
     <section ref={heroSectionRef} id="hero" className="relative pt-28 md:pt-36 pb-20 overflow-hidden" style={{ background: "transparent", minHeight: "auto" }}>
       {/* Dynamic Floating Ambient Glow Orbs */}
       <motion.div
-        style={{ y: yGlow, scale: scaleGlow, willChange: "transform" }}
+        style={{ y: yGlow, scale: scaleGlow,  }}
         className="absolute inset-0 pointer-events-none z-0 overflow-hidden"
       >
       </motion.div>
 
       <div className={`relative w-full max-w-6xl mx-auto px-4 sm:px-8 lg:px-14 flex flex-col items-center gap-14 ${searchOpen ? "z-[250]" : "z-10"}`}>
         <motion.div
-          style={{ y: yText, opacity: opacityText, z: searchOpen ? 100 : 0, willChange: "transform, opacity"}}
+          style={{ y: yText, opacity: opacityText, z: searchOpen ? 100 : 0, }}
           className={`flex flex-col gap-8 text-center max-w-4xl items-center sm:px-12 relative ${searchOpen ? "z-[300]" : "z-10"}`}
         >
                     <motion.h1
@@ -1212,21 +1212,26 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -5, scale: 0.98 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-2 z-[9999]"
-                  style={{
-                    background: "rgba(15, 23, 42, 0.95)",
-                    backdropFilter: "blur(40px)",
-                    WebkitBackdropFilter: "blur(40px)",
-                  WebkitTransform: "translate3d(0, 0, 0)",
-                  transform: "translate3d(0, 0, 0)",
-                  WebkitBackfaceVisibility: "hidden",
-                  backfaceVisibility: "hidden",
-                    border: "1px solid rgba(255, 255, 255, 0.25)",
-                    boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3)",
-                    color: "white",
-                    willChange: "transform, opacity",
-                  }}
-                >
+                    className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl z-[9999]"
+                    style={{
+                      border: "1px solid rgba(255, 255, 255, 0.25)",
+                      boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3)",
+                      color: "white"
+                    }}
+                  >
+                    <div 
+                      className="absolute inset-0 rounded-2xl pointer-events-none" 
+                      style={{
+                        background: "rgba(15, 23, 42, 0.95)",
+                        backdropFilter: "blur(40px)",
+                        WebkitBackdropFilter: "blur(40px)",
+                        WebkitTransform: "translate3d(0,0,0)",
+                        transform: "translate3d(0,0,0)",
+                        backfaceVisibility: "hidden",
+                        WebkitBackfaceVisibility: "hidden"
+                      }} 
+                    />
+                    <div className="relative w-full h-full p-2 z-10">
                   {filteredResults.length > 0 ? (
                     <div className="flex flex-col divide-y divide-white/10 max-h-72 overflow-y-auto scrollbar-thin">
                       {filteredResults.map((item, index) => (
@@ -1286,7 +1291,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                       <span>No items match "{searchVal}"</span>
                     </div>
                   )}
-              
+                  </div>
                 </motion.div>
               )}
               </AnimatePresence>
@@ -1298,7 +1303,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
         <motion.div
           initial={{ opacity: 0, scale: 0.96, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          style={{ y: yPanel, scale: scalePanel, opacity: opacityPanel, rotateX: rotateXPanel, transformPerspective: 1200, z: 0, willChange: "transform, opacity"}}
+          style={{ y: yPanel, scale: scalePanel, opacity: opacityPanel, rotateX: rotateXPanel, transformPerspective: 1200, z: 0, }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="w-full max-w-[960px] z-10 relative mt-16 sm:mt-24 lg:mt-28"
         >
