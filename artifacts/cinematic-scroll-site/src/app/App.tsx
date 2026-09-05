@@ -322,7 +322,7 @@ export default function App() {
         smoothWheel: true,
         wheelMultiplier: 1,
         touchMultiplier: 2,
-        syncTouch: true,
+        syncTouch: false,
         autoResize: true,
       }}
     >
