@@ -1119,7 +1119,6 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                 </svg>
               </div>
             </motion.button>
-          </motion.div>
 
             {/* Ultra-Premium Glassmorphic Search Bar */}
             <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
@@ -1292,6 +1291,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
               </AnimatePresence>
             </div>
           </motion.div>
+        </motion.div>
 
         {/* Hero Mock Panel - Placed cleanly underneath with GPU acceleration */}
         <motion.div
