@@ -269,7 +269,11 @@ export default function FAQSection({ t }: { t: Theme }) {
               <form onSubmit={handleAsk} className="p-6 rounded-[24px]" style={{ 
                 background: "rgba(255, 255, 255, 0.12)", 
                 backdropFilter: "blur(12px)", 
-                WebkitBackdropFilter: "blur(12px)", 
+                WebkitBackdropFilter: "blur(12px)",
+                  WebkitTransform: "translate3d(0, 0, 0)",
+                  transform: "translate3d(0, 0, 0)",
+                  WebkitBackfaceVisibility: "hidden",
+                  backfaceVisibility: "hidden", 
                 border: `1px solid rgba(255, 255, 255, 0.2)`,
                 boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
               }}>
@@ -327,6 +331,10 @@ export default function FAQSection({ t }: { t: Theme }) {
                   background: "rgba(255, 255, 255, 0.12)", 
                   backdropFilter: "blur(12px)",
                   WebkitBackdropFilter: "blur(12px)",
+                  WebkitTransform: "translate3d(0, 0, 0)",
+                  transform: "translate3d(0, 0, 0)",
+                  WebkitBackfaceVisibility: "hidden",
+                  backfaceVisibility: "hidden",
                   border: isOpen ? `1px solid rgba(22, 207, 131, 0.4)` : `1px solid rgba(255, 255, 255, 0.2)`,
                   boxShadow: isOpen ? `0 8px 32px 0 rgba(22, 207, 131, 0.25)` : "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
                 }}
@@ -400,6 +408,10 @@ export default function FAQSection({ t }: { t: Theme }) {
                 background: "rgba(30, 30, 40, 0.6)",
                 backdropFilter: "blur(24px)",
                 WebkitBackdropFilter: "blur(24px)",
+                  WebkitTransform: "translate3d(0, 0, 0)",
+                  transform: "translate3d(0, 0, 0)",
+                  WebkitBackfaceVisibility: "hidden",
+                  backfaceVisibility: "hidden",
                 border: "1px solid rgba(255, 255, 255, 0.15)",
                 boxShadow: "0 20px 50px -10px rgba(0, 0, 0, 0.85)"
               }}
@@ -457,6 +469,10 @@ export default function FAQSection({ t }: { t: Theme }) {
                           background: "rgba(255, 255, 255, 0.05)",
                           backdropFilter: "blur(12px)",
                           WebkitBackdropFilter: "blur(12px)",
+                  WebkitTransform: "translate3d(0, 0, 0)",
+                  transform: "translate3d(0, 0, 0)",
+                  WebkitBackfaceVisibility: "hidden",
+                  backfaceVisibility: "hidden",
                           borderColor: isOpen ? "rgba(22, 207, 131, 0.4)" : "rgba(255, 255, 255, 0.1)",
                           boxShadow: isOpen ? "0 4px 20px -5px rgba(22, 207, 131, 0.25)" : "none"
                         }}
