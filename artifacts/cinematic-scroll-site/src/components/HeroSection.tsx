@@ -473,10 +473,6 @@ export function HeroMockPanel({ isDark }: { isDark: boolean }) {
             background: "rgba(255, 255, 255, 0.12)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
-                  WebkitTransform: "translate3d(0, 0, 0)",
-                  transform: "translate3d(0, 0, 0)",
-                  WebkitBackfaceVisibility: "hidden",
-                  backfaceVisibility: "hidden",
             border: "1px solid rgba(255, 255, 255, 0.2)",
             boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
           }}
@@ -606,10 +602,6 @@ export function HeroMockPanel({ isDark }: { isDark: boolean }) {
             background: "rgba(255, 255, 255, 0.12)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
-                  WebkitTransform: "translate3d(0, 0, 0)",
-                  transform: "translate3d(0, 0, 0)",
-                  WebkitBackfaceVisibility: "hidden",
-                  backfaceVisibility: "hidden",
             border: "1px solid rgba(255, 255, 255, 0.2)",
             boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
           }}
@@ -1131,10 +1123,6 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   background: "rgba(255, 255, 255, 0.18)",
                   backdropFilter: "blur(16px)",
                   WebkitBackdropFilter: "blur(16px)",
-                  WebkitTransform: "translate3d(0, 0, 0)",
-                  transform: "translate3d(0, 0, 0)",
-                  WebkitBackfaceVisibility: "hidden",
-                  backfaceVisibility: "hidden",
                   boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)"
                 }} />
                 <div className="relative w-full h-full flex items-center z-10 overflow-hidden rounded-2xl">
@@ -1218,10 +1206,6 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                       background: "rgba(15, 23, 42, 0.95)",
                       backdropFilter: "blur(40px)",
                       WebkitBackdropFilter: "blur(40px)",
-                      WebkitTransform: "translate3d(0, 0, 0)",
-                      transform: "translate3d(0, 0, 0)",
-                      WebkitBackfaceVisibility: "hidden",
-                      backfaceVisibility: "hidden",
                       border: "1px solid rgba(255, 255, 255, 0.25)",
                       boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3)",
                     }} />
