@@ -1214,24 +1214,18 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                     className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl z-[9999]"
                     style={{
+                      background: "rgba(15, 23, 42, 0.95)",
+                      backdropFilter: "blur(40px)",
+                      WebkitBackdropFilter: "blur(40px)",
+                      WebkitTransform: "translate3d(0, 0, 0)",
+                      transform: "translate3d(0, 0, 0)",
+                      WebkitBackfaceVisibility: "hidden",
+                      backfaceVisibility: "hidden",
                       border: "1px solid rgba(255, 255, 255, 0.25)",
                       boxShadow: "0 12px 40px 0 rgba(0, 0, 0, 0.3)",
                       color: "white"
                     }}
                   >
-                    <div 
-                      className="absolute inset-0 rounded-2xl pointer-events-none" 
-                      style={{
-                        background: "rgba(15, 23, 42, 0.95)",
-                        backdropFilter: "blur(40px)",
-                        WebkitBackdropFilter: "blur(40px)",
-                        WebkitTransform: "translate3d(0,0,0)",
-                        transform: "translate3d(0,0,0)",
-                        backfaceVisibility: "hidden",
-                        WebkitBackfaceVisibility: "hidden"
-                      }} 
-                    />
-                    <div className="relative w-full h-full p-2 z-10">
                   {filteredResults.length > 0 ? (
                     <div className="flex flex-col divide-y divide-white/10 max-h-72 overflow-y-auto scrollbar-thin">
                       {filteredResults.map((item, index) => (
@@ -1291,7 +1285,6 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                       <span>No items match "{searchVal}"</span>
                     </div>
                   )}
-                  </div>
                 </motion.div>
               )}
               </AnimatePresence>
