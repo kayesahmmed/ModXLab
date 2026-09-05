@@ -1119,12 +1119,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   searchOpen ? "w-[260px] sm:w-[320px] opacity-100 pointer-events-auto" : "w-0 opacity-0 pointer-events-none"
                 }`}
               >
-                <div className={`absolute inset-0 rounded-2xl pointer-events-none z-0 transition-all duration-350 border ${searchOpen ? "border-white/20" : "border-transparent"}`} style={{
-                  background: "rgba(255, 255, 255, 0.18)",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
-                  boxShadow: "0 8px 32px 0 rgba(0,0,0,0.15)"
-                }} />
+                <div className={`absolute inset-0 rounded-2xl pointer-events-none z-0 transition-all duration-350 bg-white/20 backdrop-blur-xl shadow-2xl ${searchOpen ? "border border-white/20" : "border border-transparent"}`} />
                 <div className="relative w-full h-full flex items-center z-10 overflow-hidden rounded-2xl">
                   <input
                     ref={searchInputRef}
@@ -1211,7 +1206,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                     }} />
                     <div className="relative z-10 w-full h-full text-white">
                   {filteredResults.length > 0 ? (
-                    <div className="flex flex-col divide-y divide-white/10 max-h-72 overflow-y-auto scrollbar-thin">
+                    <div className="flex flex-col divide-y divide-white/10 max-h-72 overflow-y-auto scrollbar-thin overscroll-contain" data-lenis-prevent="true">
                       {filteredResults.map((item, index) => (
                         <button
                           key={index}

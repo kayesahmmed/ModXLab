@@ -543,7 +543,7 @@ export default function ReviewsSection({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={(e) => { if (e.target === e.currentTarget) setIsAllReviewsOpen(false); }}
-              className={`fixed inset-0 z-[999] overflow-y-auto backdrop-blur-2xl p-4 sm:p-8 flex flex-col items-center justify-center cursor-pointer ${isDark ? "bg-black/40" : "bg-white/40"}`}
+              data-lenis-prevent="true" className={`fixed inset-0 z-[999] overflow-y-auto backdrop-blur-2xl p-4 sm:p-8 flex flex-col items-center justify-center cursor-pointer ${isDark ? "bg-black/40" : "bg-white/40"}`}
             >
               <motion.div
                 initial={{ scale: 0.94, opacity: 0, y: 12 }}
@@ -592,7 +592,7 @@ export default function ReviewsSection({
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 max-h-[70vh] overflow-y-auto pr-2 scrollbar-thin">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 max-h-[70vh] overflow-y-auto pr-2 scrollbar-thin overscroll-contain" data-lenis-prevent="true">
                   {allReviews.map((r, i) => (
                     <ReviewCard key={r.id || i} r={r} t={t} isDark={isDark} minGlow={true} />
                   ))}
@@ -628,7 +628,7 @@ export default function ReviewsSection({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
               onClick={(e) => { if (e.target === e.currentTarget) handleCloseModal(); }}
-              className={`fixed inset-0 z-[999] overflow-y-auto backdrop-blur-2xl p-4 sm:p-8 flex flex-col items-center justify-center cursor-pointer ${isDark ? "bg-black/40" : "bg-white/40"}`}
+              data-lenis-prevent="true" className={`fixed inset-0 z-[999] overflow-y-auto backdrop-blur-2xl p-4 sm:p-8 flex flex-col items-center justify-center cursor-pointer ${isDark ? "bg-black/40" : "bg-white/40"}`}
             >
               <motion.div
                 initial={{ scale: 0.9, opacity: 0, y: 20 }}
