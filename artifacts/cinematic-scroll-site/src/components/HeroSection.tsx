@@ -1193,12 +1193,14 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
               </motion.button>
 
               {/* Suggestions / Results Dropdown */}
+              <AnimatePresence>
                 {searchOpen && showSuggestions && searchVal.trim().length > 0 && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                    key="search-dropdown"
+                    initial={{ opacity: 0, y: -10, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    exit={{ opacity: 0, y: -5, scale: 0.98 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                     className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl p-2 z-[9999]"
                   style={{
                     background: "rgba(15, 23, 42, 0.95)",
@@ -1247,6 +1249,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                                 </svg>
                               </div>
                             )}
+              
                             <div className="flex flex-col min-w-0 flex-1">
                               <span className="font-bold text-sm truncate group-hover:text-white transition-colors text-white">
                                 {item.title}
@@ -1268,9 +1271,10 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                       <span>No items match "{searchVal}"</span>
                     </div>
                   )}
+              
                 </motion.div>
               )}
-              
+              </AnimatePresence>
             </div>
           </motion.div>
         </motion.div>
