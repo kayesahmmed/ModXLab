@@ -160,11 +160,11 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                         key={fIdx} 
                         className="flex flex-col justify-between gap-4 p-5 sm:p-6 rounded-[18px] transition-all duration-300 overflow-hidden group" 
                         style={{ 
-                          background: "rgba(255, 255, 255, 0.05)",
-                          backdropFilter: "blur(20px)",
-                          WebkitBackdropFilter: "blur(20px)",
-                          border: "1px solid rgba(255, 255, 255, 0.15)",
-                          boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.25)"
+                          background: "rgba(255, 255, 255, 0.12)",
+                          backdropFilter: "blur(12px)",
+                          WebkitBackdropFilter: "blur(12px)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
                         }}
                       >
                         <div className="flex flex-col gap-3">
@@ -295,9 +295,9 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                         <motion.div 
                           animate={{
                             rotate: isHowToUseOpen ? 180 : 0,
-                            backgroundColor: isHowToUseOpen ? "#ffffff" : "rgba(255,255,255,0.15)",
-                            color: isHowToUseOpen ? "#0f0c20" : "#ffffff",
-                            boxShadow: isHowToUseOpen ? "0 0 15px rgba(255,255,255,0.4)" : "0 0 0px transparent"
+                            backgroundColor: "rgba(255,255,255,0.15)",
+                            color: "#ffffff",
+                            boxShadow: "0 0 0px transparent"
                           }}
                           transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                           className="w-9 h-9 rounded-xl flex items-center justify-center group-hover:scale-105"
@@ -321,11 +321,11 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                           <div
                             className="mt-3 p-5 sm:p-6 rounded-[24px] flex flex-col gap-4 relative overflow-hidden transition-all duration-300"
                             style={{
-                              background: "rgba(255, 255, 255, 0.05)",
-                              backdropFilter: "blur(24px)",
-                              WebkitBackdropFilter: "blur(24px)",
-                              border: "1px solid rgba(255, 255, 255, 0.15)",
-                              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.25)"
+                              background: "rgba(255, 255, 255, 0.12)",
+                              backdropFilter: "blur(12px)",
+                              WebkitBackdropFilter: "blur(12px)",
+                              border: "1px solid rgba(255, 255, 255, 0.2)",
+                              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
                             }}
                           >
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
