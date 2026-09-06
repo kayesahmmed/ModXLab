@@ -28,6 +28,8 @@ export default function ScrollFrameSequence() {
   const reducedMotionRef = useRef(false);
   const lastDrawnFrameRef = useRef(-1);
   const needsResizeRedrawRef = useRef(true);
+  const initialWindowHeightRef = useRef(window.innerHeight);
+  const initialWindowWidthRef = useRef(window.innerWidth);
 
   useEffect(() => {
     let isMounted = true;
@@ -42,6 +44,12 @@ export default function ScrollFrameSequence() {
 
     const resizeCanvas = () => {
       const viewportWidth = window.innerWidth;
+      // Only update cached height if width changed (e.g. orientation change), 
+      // preventing virtual keyboard from messing up the scroll range on mobile
+      if (Math.abs(viewportWidth - initialWindowWidthRef.current) > 10) {
+        initialWindowHeightRef.current = window.innerHeight;
+        initialWindowWidthRef.current = viewportWidth;
+      }
       const viewportHeight = window.innerHeight;
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(viewportWidth * pixelRatio);
@@ -158,7 +166,7 @@ export default function ScrollFrameSequence() {
 
     const updateTargetFrame = () => {
       const docHeight = document.documentElement.scrollHeight;
-      const windowHeight = window.innerHeight;
+      const windowHeight = initialWindowHeightRef.current; // Use stable height
       const scrollRange = Math.max(docHeight - windowHeight, 1);
       
       // Map exactly to the scroll
@@ -192,11 +200,7 @@ export default function ScrollFrameSequence() {
     window.addEventListener("scroll", updateTargetFrame, { passive: true });
     mediaQuery.addEventListener("change", handleMotionPreferenceChange);
     
-    const resizeObserver = new ResizeObserver(() => {
-      updateTargetFrame();
-    });
-    resizeObserver.observe(document.documentElement);
-    resizeObserver.observe(document.body);
+
 
     const loadAllFrames = async () => {
       const loadFrame = (index: number) => {

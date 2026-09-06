@@ -160,12 +160,11 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                         key={fIdx} 
                         className="flex flex-col justify-between gap-4 p-5 sm:p-6 rounded-[18px] transition-all duration-300 overflow-hidden group" 
                         style={{ 
-                          background: "rgba(255, 255, 255, 0.12)",
-                          backdropFilter: "blur(12px)",
-                          WebkitBackdropFilter: "blur(12px)",
-                          border: "1px solid rgba(255, 255, 255, 0.2)",
-                          boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
-                          transform: "translateZ(0)"
+                          background: "rgba(255, 255, 255, 0.05)",
+                          backdropFilter: "blur(20px)",
+                          WebkitBackdropFilter: "blur(20px)",
+                          border: "1px solid rgba(255, 255, 255, 0.15)",
+                          boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.25)"
                         }}
                       >
                         <div className="flex flex-col gap-3">
@@ -322,12 +321,11 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                           <div
                             className="mt-3 p-5 sm:p-6 rounded-[24px] flex flex-col gap-4 relative overflow-hidden transition-all duration-300"
                             style={{
-                              background: "rgba(255, 255, 255, 0.12)",
-                              backdropFilter: "blur(12px)",
-                              WebkitBackdropFilter: "blur(12px)",
-                              border: "1px solid rgba(255, 255, 255, 0.2)",
-                              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
-                              transform: "translateZ(0)"
+                              background: "rgba(255, 255, 255, 0.05)",
+                              backdropFilter: "blur(24px)",
+                              WebkitBackdropFilter: "blur(24px)",
+                              border: "1px solid rgba(255, 255, 255, 0.15)",
+                              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.25)"
                             }}
                           >
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
@@ -337,12 +335,11 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                                     key={i}
                                     className="p-4 sm:p-5 rounded-[18px] flex flex-col gap-2.5 relative overflow-hidden transition-all duration-300 hover:translate-y-[-2px]"
                                     style={{
-                                      background: "rgba(255, 255, 255, 0.12)",
+                                      background: "rgba(255, 255, 255, 0.03)",
                                       backdropFilter: "blur(12px)",
                                       WebkitBackdropFilter: "blur(12px)",
-                                      border: "1px solid rgba(255, 255, 255, 0.2)",
-                                      boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
-                                      transform: "translateZ(0)"
+                                      border: "1px solid rgba(255, 255, 255, 0.1)",
+                                      boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
                                     }}
                                   >
                                     <div className="flex items-center justify-between gap-2">

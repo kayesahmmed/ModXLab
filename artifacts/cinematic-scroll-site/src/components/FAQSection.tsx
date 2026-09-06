@@ -321,15 +321,11 @@ export default function FAQSection({ t }: { t: Theme }) {
                 transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="rounded-[24px] relative group overflow-hidden transition-all duration-300"
                 style={{ 
-                  willChange: 'transform, opacity', 
-                  WebkitBackfaceVisibility: 'hidden', 
-                  backfaceVisibility: 'hidden',
-                  background: "rgba(255, 255, 255, 0.12)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                  border: isOpen ? "1px solid rgba(22, 207, 131, 0.4)" : "1px solid rgba(255, 255, 255, 0.2)",
-                  boxShadow: isOpen ? "0 8px 32px 0 rgba(22, 207, 131, 0.25)" : "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
-                  transform: "translateZ(0)"
+                  background: "rgba(255, 255, 255, 0.05)",
+                  backdropFilter: "blur(16px)",
+                  WebkitBackdropFilter: "blur(16px)",
+                  border: isOpen ? "1px solid rgba(22, 207, 131, 0.4)" : "1px solid rgba(255, 255, 255, 0.15)",
+                  boxShadow: isOpen ? "0 8px 32px 0 rgba(22, 207, 131, 0.25)" : "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
                 }}
               >
                 <div className="relative z-10 w-full h-full">
@@ -452,15 +448,11 @@ export default function FAQSection({ t }: { t: Theme }) {
                         key={faq.id}
                         className="rounded-[18px] relative transition-all duration-300 overflow-hidden"
                         style={{ 
-                          willChange: 'transform, opacity', 
-                          WebkitBackfaceVisibility: 'hidden', 
-                          backfaceVisibility: 'hidden',
-                          background: "rgba(255, 255, 255, 0.12)",
-                          backdropFilter: "blur(12px)",
-                          WebkitBackdropFilter: "blur(12px)",
-                          border: isOpen ? "1px solid rgba(22, 207, 131, 0.4)" : "1px solid rgba(255, 255, 255, 0.2)",
-                          boxShadow: isOpen ? "0 4px 20px -5px rgba(22, 207, 131, 0.25)" : "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
-                          transform: "translateZ(0)"
+                          background: "rgba(255, 255, 255, 0.05)",
+                          backdropFilter: "blur(16px)",
+                          WebkitBackdropFilter: "blur(16px)",
+                          border: isOpen ? "1px solid rgba(22, 207, 131, 0.4)" : "1px solid rgba(255, 255, 255, 0.15)",
+                          boxShadow: isOpen ? "0 4px 20px -5px rgba(22, 207, 131, 0.25)" : "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
                         }}
                       >
                         <div className="relative z-10 w-full h-full">
