@@ -50,12 +50,15 @@ export default function ScrollFrameSequence() {
         initialWindowHeightRef.current = window.innerHeight;
         initialWindowWidthRef.current = viewportWidth;
       }
-      const viewportHeight = window.innerHeight;
+      
+      const stableWidth = initialWindowWidthRef.current;
+      const stableHeight = initialWindowHeightRef.current;
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.round(viewportWidth * pixelRatio);
-      canvas.height = Math.round(viewportHeight * pixelRatio);
-      canvas.style.width = "100vw";
-      canvas.style.height = "100vh";
+      
+      canvas.width = Math.round(stableWidth * pixelRatio);
+      canvas.height = Math.round(stableHeight * pixelRatio);
+      canvas.style.width = `${stableWidth}px`;
+      canvas.style.height = `${stableHeight}px`;
       canvas.style.left = "0px";
       canvas.style.top = "0px";
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
@@ -65,8 +68,8 @@ export default function ScrollFrameSequence() {
     };
 
     const drawSingleFrame = () => {
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
+      const viewportWidth = initialWindowWidthRef.current;
+      const viewportHeight = initialWindowHeightRef.current;
 
       const frameIndex = clamp(
         Math.round(currentFrameRef.current),
