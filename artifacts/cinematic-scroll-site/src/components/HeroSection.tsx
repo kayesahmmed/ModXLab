@@ -468,14 +468,7 @@ export function HeroMockPanel({ isDark }: { isDark: boolean }) {
         
         {/* Left Column: Sidebar & Hub Navigation with Header Logo - Floating Glass Card */}
         <div 
-          className="w-full flex flex-col justify-between gap-4 relative z-10 p-5 rounded-[24px] backdrop-blur-[12px] transition-all duration-700 border h-full"
-          style={{
-            background: "rgba(255, 255, 255, 0.12)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
-          }}
+          className="w-full flex flex-col justify-between gap-4 relative z-10 p-5 rounded-[24px] backdrop-blur-xl transition-all duration-700 border border-white/20 h-full bg-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.15)]"
         >
           
           {/* Header Logo inside the box */}
@@ -597,14 +590,7 @@ export function HeroMockPanel({ isDark }: { isDark: boolean }) {
 
         {/* Right Column: Premium Content Showcase Grid */}
         <div 
-          className="flex-1 flex flex-col justify-between gap-4 relative z-10 p-5 sm:p-6 rounded-[24px] backdrop-blur-[12px] transition-all duration-700 border h-full"
-          style={{
-            background: "rgba(255, 255, 255, 0.12)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
-          }}
+          className="flex-1 flex flex-col justify-between gap-4 relative z-10 p-5 sm:p-6 rounded-[24px] backdrop-blur-xl transition-all duration-700 border border-white/20 h-full bg-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.15)]"
         >
           <div className="flex justify-between items-center mb-1">
             <div>
@@ -1098,28 +1084,32 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                   }
                 }
               }}
-              className="h-14 pl-7 pr-2.5 rounded-2xl font-['Orbitron',sans-serif] font-extrabold text-white text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 hover:scale-[1.02] cursor-pointer shadow-[0_10px_40px_-10px_rgba(39,144,255,0.4)] active:scale-95 border border-[#2790FF]/40 relative overflow-hidden group flex items-center justify-between gap-4 backdrop-blur-2xl"
+              className="h-14 pl-7 pr-2.5 rounded-2xl font-['Orbitron',sans-serif] font-extrabold text-slate-900 text-xs sm:text-sm tracking-widest uppercase transition-all duration-300 hover:scale-[1.02] cursor-pointer shadow-[0_10px_40px_-10px_rgba(0,229,209,0.4)] active:scale-95 border border-[#00E5D1]/60 relative overflow-hidden group flex items-center justify-between gap-4 backdrop-blur-2xl"
               style={{
-                background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)",
-                boxShadow: "0 8px 32px 0 rgba(39, 144, 255, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+                background: "linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(224, 247, 250, 0.95) 50%, rgba(0, 229, 209, 0.8) 100%)",
+                boxShadow: "0 8px 32px 0 rgba(0, 229, 209, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.5)",
               }}
             >
-              <span className="font-extrabold text-white tracking-wider whitespace-nowrap">CONTACT ME</span>
-              <div className="w-10 h-10 rounded-xl bg-black/60 text-white flex items-center justify-center shrink-0 border border-[#2790FF]/40 group-hover:bg-[#2790FF]/40 transition-all duration-300">
-                <svg className="w-5 h-5 text-white transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+              <span className="font-extrabold text-slate-900 tracking-wider whitespace-nowrap">CONTACT ME</span>
+              <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center shrink-0 border border-slate-700 group-hover:bg-[#00E5D1] group-hover:border-[#00E5D1] group-hover:text-slate-900 transition-all duration-300 shadow-md">
+                <svg className="w-5 h-5 text-current transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7V17" />
                 </svg>
               </div>
             </motion.button>
 
             {/* Ultra-Premium Glassmorphic Search Bar */}
-            <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`}>
+            <div ref={searchContainerRef} className={`flex items-center gap-2 h-14 relative ${searchOpen ? "z-[120]" : "z-50"}`} style={{ willChange: 'transform, opacity', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}>
               <div
                 className={`transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] h-14 flex items-center rounded-2xl relative ${
                   searchOpen ? "w-[260px] sm:w-[320px] opacity-100 pointer-events-auto" : "w-0 opacity-0 pointer-events-none"
                 }`}
+                style={{ willChange: 'transform, opacity', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
               >
-                <div className={`absolute inset-0 rounded-2xl pointer-events-none z-0 transition-all duration-350 bg-white/20 backdrop-blur-xl shadow-2xl ${searchOpen ? "border border-white/20" : "border border-transparent"}`} />
+                <div 
+                  className={`absolute inset-0 rounded-2xl pointer-events-none z-0 transition-all duration-350 shadow-[0_8px_32px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] ${searchOpen ? "border border-[#2790FF]/40" : "border border-transparent"}`} 
+                  style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}
+                />
                 <div className="relative w-full h-full flex items-center z-10 overflow-hidden rounded-2xl">
                   <input
                     ref={searchInputRef}
@@ -1143,7 +1133,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                     type="text"
                     autoComplete="off"
                     spellCheck="false"
-                    className="w-full h-full bg-transparent text-[16px] outline-none border-none shadow-none pl-5 pr-10 font-['Plus_Jakarta_Sans',sans-serif] text-white"
+                    className="w-full h-full bg-transparent text-[16px] outline-none border-none shadow-none pl-5 pr-10 font-['Plus_Jakarta_Sans',sans-serif] text-white placeholder-white/50"
                     style={{
                       WebkitAppearance: "none",
                       appearance: "none",
@@ -1172,7 +1162,8 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.94 }}
                 onClick={handleSearchAction}
-                className={`shrink-0 w-14 h-14 flex items-center justify-center rounded-2xl backdrop-blur-xl transition-all duration-300 cursor-pointer relative border border-white/20 shadow-lg text-white ${searchOpen ? 'bg-white/20' : 'bg-white/10'}`}
+                className={`shrink-0 w-14 h-14 flex items-center justify-center rounded-2xl transition-all duration-300 cursor-pointer relative border shadow-[0_8px_32px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] text-white group ${searchOpen ? 'border-[#2790FF]/50 bg-[#2790FF]/30' : 'border-[#2790FF]/30 hover:border-[#2790FF]/50 hover:bg-[#2790FF]/20'}`}
+                style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}
                 title="Search ModX Lab"
                 aria-label="Search"
               >
@@ -1192,14 +1183,14 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                     className="absolute top-[68px] right-0 w-80 sm:w-96 md:w-[420px] rounded-2xl z-[9999]"
                   >
-                    <div className="absolute inset-0 rounded-2xl pointer-events-none z-0 bg-[#0F172A]/90 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)]" />
+                    <div className="absolute inset-0 rounded-2xl pointer-events-none z-0 bg-slate-900/95 backdrop-blur-3xl border border-[#2790FF]/30 shadow-[0_24px_60px_-10px_rgba(39,144,255,0.25)] ring-1 ring-white/10" />
                     <div className="relative z-10 w-full h-full text-white">
                   {filteredResults.length > 0 ? (
-                    <div className="flex flex-col divide-y divide-white/10 max-h-72 overflow-y-auto scrollbar-thin overscroll-contain" data-lenis-prevent="true">
+                    <div className="flex flex-col gap-1 p-2 max-h-[340px] overflow-y-auto scrollbar-thin overscroll-contain" data-lenis-prevent="true">
                       {filteredResults.map((item, index) => (
                         <button
                           key={index}
-                          className="w-full text-left px-3.5 py-3 rounded-xl transition-all duration-150 flex items-center justify-between gap-3 cursor-pointer group hover:bg-white/15 active:bg-white/20 text-white"
+                          className="w-full text-left p-3 rounded-xl transition-all duration-300 flex items-center justify-between gap-3 cursor-pointer group hover:bg-[#2790FF]/10 active:scale-[0.98] text-white border border-transparent hover:border-[#2790FF]/30 relative overflow-hidden"
                           onMouseDown={(e) => e.preventDefault()}
                           onClick={() => {
                             searchInputRef.current?.blur();

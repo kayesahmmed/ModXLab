@@ -87,7 +87,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
         className="flex flex-col gap-6 w-full"
         style={{ willChange: "transform, opacity", z: 0 }}
       >
-        <div className="text-center mb-6 px-4 sm:px-8 lg:px-14 relative z-10 w-full max-w-7xl mx-auto">
+        <div className="text-center mb-10 px-4 sm:px-8 lg:px-14 relative z-10 w-full max-w-7xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Download</h2>
           <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
         </div>
@@ -135,7 +135,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                 
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b pb-4" style={{ borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.06)" }}>
                   <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider bg-white/10 text-white border border-white/25 shadow-sm backdrop-blur-md">
+                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white backdrop-blur-md shadow-[0_8px_32px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40" style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}>
                       <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
@@ -144,7 +144,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                   </div>
 
                   {dl.boxDate && (
-                    <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold tracking-wide" style={{ background: "rgba(255,255,255,0.12)", color: "#ffffff", border: "1px solid rgba(255,255,255,0.25)" }}>
+                    <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold tracking-wide text-white shadow-[0_8px_32px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40 backdrop-blur-md" style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}>
                       <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
                       <span>{dl.boxDate}</span>
                     </div>
@@ -177,7 +177,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                             )}
                             <div className="flex-1 min-w-0">
                               <h3 className="font-['Plus_Jakarta_Sans',sans-serif] font-black text-lg sm:text-xl tracking-tight" style={{ color: t.text }}>{file.title || "Download File"}</h3>
-                              <p className="text-xs sm:text-sm font-bold mt-0.5 text-white/80">{file.category || "APK / Mod"}</p>
+                              <div className="inline-flex items-center px-2.5 py-1 mt-1.5 rounded-lg text-[11px] sm:text-xs font-extrabold tracking-wide text-white w-fit shadow-[0_4px_16px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40 backdrop-blur-md" style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}>{file.category || "APK / Mod"}</div>
                             </div>
                           </div>
 
@@ -186,11 +186,9 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                               {tagsArray.map((tag: string, index: number) => (
                                 <span
                                   key={index}
-                                  className="px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all"
+                                  className="px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all text-white shadow-[0_4px_16px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40 backdrop-blur-md"
                                   style={{
-                                    background: "rgba(255,255,255,0.12)",
-                                    color: "#ffffff",
-                                    border: "1px solid rgba(255,255,255,0.2)"
+                                    background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)"
                                   }}
                                 >
                                   {tag}
