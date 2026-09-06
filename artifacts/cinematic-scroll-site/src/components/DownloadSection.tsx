@@ -87,7 +87,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
         className="flex flex-col gap-6 w-full"
         style={{ willChange: "transform, opacity", z: 0 }}
       >
-        <div className="text-center mb-10 px-4 sm:px-8 lg:px-14 relative z-10 w-full max-w-7xl mx-auto">
+        <div className="text-center mb-16 px-4 sm:px-8 lg:px-14 relative z-10 w-full max-w-7xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Download</h2>
           <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
         </div>
@@ -158,10 +158,14 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                     return (
                       <div 
                         key={fIdx} 
-                        className="flex flex-col justify-between gap-4 p-5 sm:p-6 rounded-2xl border transition-all duration-300 hover:border-white/40 shadow-xl backdrop-blur-xl" 
+                        className="flex flex-col justify-between gap-4 p-5 sm:p-6 rounded-[18px] transition-all duration-300 overflow-hidden group" 
                         style={{ 
-                          background: isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(248, 250, 252, 0.85)", 
-                          borderColor: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)" 
+                          background: "rgba(255, 255, 255, 0.12)",
+                          backdropFilter: "blur(12px)",
+                          WebkitBackdropFilter: "blur(12px)",
+                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+                          transform: "translateZ(0)"
                         }}
                       >
                         <div className="flex flex-col gap-3">
@@ -316,12 +320,14 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                           className="overflow-hidden"
                         >
                           <div
-                            className="mt-3 p-5 sm:p-6 rounded-[24px] flex flex-col gap-4 relative overflow-hidden shadow-2xl transition-colors duration-300"
+                            className="mt-3 p-5 sm:p-6 rounded-[24px] flex flex-col gap-4 relative overflow-hidden transition-all duration-300"
                             style={{
-                              background: isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(255, 255, 255, 0.65)",
-                              backdropFilter: "blur(24px)",
-                              WebkitBackdropFilter: "blur(24px)",
-                              border: "1px solid rgba(255, 255, 255, 0.2)"
+                              background: "rgba(255, 255, 255, 0.12)",
+                              backdropFilter: "blur(12px)",
+                              WebkitBackdropFilter: "blur(12px)",
+                              border: "1px solid rgba(255, 255, 255, 0.2)",
+                              boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+                              transform: "translateZ(0)"
                             }}
                           >
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
@@ -329,12 +335,14 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                                 return (
                                   <div
                                     key={i}
-                                    className="p-4 sm:p-5 rounded-2xl flex flex-col gap-2.5 relative overflow-hidden transition-colors duration-300 hover:translate-y-[-2px] hover:border-white/40 shadow-lg"
+                                    className="p-4 sm:p-5 rounded-[18px] flex flex-col gap-2.5 relative overflow-hidden transition-all duration-300 hover:translate-y-[-2px]"
                                     style={{
-                                      background: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.8)",
-                                      backdropFilter: "blur(16px)",
-                                      WebkitBackdropFilter: "blur(16px)",
-                                      border: "1px solid rgba(255, 255, 255, 0.25)"
+                                      background: "rgba(255, 255, 255, 0.12)",
+                                      backdropFilter: "blur(12px)",
+                                      WebkitBackdropFilter: "blur(12px)",
+                                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                                      boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+                                      transform: "translateZ(0)"
                                     }}
                                   >
                                     <div className="flex items-center justify-between gap-2">

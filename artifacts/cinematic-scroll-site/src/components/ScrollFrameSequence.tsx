@@ -157,18 +157,12 @@ export default function ScrollFrameSequence() {
     drawFrameRef.current = drawFrame;
 
     const updateTargetFrame = () => {
-      const docHeight = Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight
-      );
-      const scrollRange = Math.max(docHeight - window.innerHeight, 1);
+      const docHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      const scrollRange = Math.max(docHeight - windowHeight, 1);
       
-      // Calculate scroll progress with a 99% modifier so the last frame is reached 
-      // just before hitting the exact bottom pixel, fixing mobile address bar issues.
-      const scrollProgress = clamp(window.scrollY / (scrollRange * 0.99), 0, 1);
+      // Map exactly to the scroll
+      const scrollProgress = clamp(window.scrollY / scrollRange, 0, 1);
       
       targetFrameRef.current = reducedMotionRef.current
         ? 0
@@ -197,6 +191,12 @@ export default function ScrollFrameSequence() {
     window.addEventListener("resize", resizeCanvas, { passive: true });
     window.addEventListener("scroll", updateTargetFrame, { passive: true });
     mediaQuery.addEventListener("change", handleMotionPreferenceChange);
+    
+    const resizeObserver = new ResizeObserver(() => {
+      updateTargetFrame();
+    });
+    resizeObserver.observe(document.documentElement);
+    resizeObserver.observe(document.body);
 
     const loadAllFrames = async () => {
       const loadFrame = (index: number) => {

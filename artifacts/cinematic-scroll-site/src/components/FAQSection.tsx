@@ -215,7 +215,7 @@ export default function FAQSection({ t }: { t: Theme }) {
           <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Got questions? We've got answers.</p>
         </div>
 
-        <div className="flex flex-col items-center gap-4 mb-10">
+        <div className="flex flex-col items-center gap-4 mb-16">
           <a
             href={telegramLink}
             target="_blank"
@@ -319,11 +319,20 @@ export default function FAQSection({ t }: { t: Theme }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="rounded-[24px] relative group"
-                style={{ willChange: 'transform, opacity', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
+                className="rounded-[24px] relative group overflow-hidden transition-all duration-300"
+                style={{ 
+                  willChange: 'transform, opacity', 
+                  WebkitBackfaceVisibility: 'hidden', 
+                  backfaceVisibility: 'hidden',
+                  background: "rgba(255, 255, 255, 0.12)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
+                  border: isOpen ? "1px solid rgba(22, 207, 131, 0.4)" : "1px solid rgba(255, 255, 255, 0.2)",
+                  boxShadow: isOpen ? "0 8px 32px 0 rgba(22, 207, 131, 0.25)" : "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+                  transform: "translateZ(0)"
+                }}
               >
-                <div className={`absolute inset-0 rounded-[24px] pointer-events-none z-0 transition-all duration-150 bg-white/10 backdrop-blur-md ${isOpen ? 'border border-[#16CF83]/40 shadow-[0_8px_32px_0_rgba(22,207,131,0.25)]' : 'border border-white/20 shadow-xl'}`} />
-                <div className="relative z-10 w-full rounded-[24px] overflow-hidden">
+                <div className="relative z-10 w-full h-full">
                 <button
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
                   className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left"
@@ -441,11 +450,20 @@ export default function FAQSection({ t }: { t: Theme }) {
                     return (
                       <div
                         key={faq.id}
-                        className="rounded-2xl relative transition-all duration-150"
-                        style={{ willChange: 'transform, opacity', WebkitBackfaceVisibility: 'hidden', backfaceVisibility: 'hidden' }}
+                        className="rounded-[18px] relative transition-all duration-300 overflow-hidden"
+                        style={{ 
+                          willChange: 'transform, opacity', 
+                          WebkitBackfaceVisibility: 'hidden', 
+                          backfaceVisibility: 'hidden',
+                          background: "rgba(255, 255, 255, 0.12)",
+                          backdropFilter: "blur(12px)",
+                          WebkitBackdropFilter: "blur(12px)",
+                          border: isOpen ? "1px solid rgba(22, 207, 131, 0.4)" : "1px solid rgba(255, 255, 255, 0.2)",
+                          boxShadow: isOpen ? "0 4px 20px -5px rgba(22, 207, 131, 0.25)" : "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+                          transform: "translateZ(0)"
+                        }}
                       >
-                        <div className={`absolute inset-0 rounded-2xl pointer-events-none z-0 transition-all duration-150 bg-white/5 backdrop-blur-md ${isOpen ? 'border border-[#16CF83]/40 shadow-[0_4px_20px_-5px_rgba(22,207,131,0.25)]' : 'border border-white/10'}`} />
-                        <div className="relative z-10 rounded-2xl overflow-hidden w-full">
+                        <div className="relative z-10 w-full h-full">
                         <button
                           onClick={() => setOpenId(isOpen ? null : faq.id)}
                           className="w-full px-5 py-4 flex items-center justify-between gap-4 text-left cursor-pointer"

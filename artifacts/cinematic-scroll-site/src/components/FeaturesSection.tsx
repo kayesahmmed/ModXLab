@@ -69,7 +69,7 @@ function FeatureCard({ f, index }: { f: (typeof featuresData)[0]; index: number 
 export default function FeaturesSection() {
   return (
     <section id="features" className="relative py-16 sm:py-20 px-3 sm:px-8 lg:px-14 max-w-7xl mx-auto">
-      <div className="text-center mb-10 relative z-10">
+      <div className="text-center mb-16 relative z-10">
         <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight text-white">Premium Features</h2>
         <p className="text-sm font-semibold max-w-xl mx-auto text-white/70">Everything you need to dominate the game.</p>
       </div>
