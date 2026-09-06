@@ -322,7 +322,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                 className="rounded-[24px] relative group overflow-hidden"
               >
                 <div 
-                  className="absolute inset-0 z-0 transition-all duration-300 pointer-events-none"
+                  className="absolute inset-0 z-0 transition-all duration-300 pointer-events-none rounded-[24px]"
                   style={{
                     background: "rgba(255, 255, 255, 0.05)",
                     backdropFilter: "blur(16px)",
@@ -452,7 +452,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                         className="rounded-[18px] relative overflow-hidden"
                       >
                         <div 
-                          className="absolute inset-0 z-0 transition-all duration-300 pointer-events-none"
+                          className="absolute inset-0 z-0 transition-all duration-300 pointer-events-none rounded-[18px]"
                           style={{
                             background: "rgba(255, 255, 255, 0.05)",
                             backdropFilter: "blur(16px)",
