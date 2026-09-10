@@ -85,7 +85,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="flex flex-col gap-6 w-full"
-        style={{ willChange: "transform, opacity", z: 0 }}
+        style={{ z: 0 }}
       >
         <div className="text-center mb-16 px-4 sm:px-8 lg:px-14 relative z-10 w-full max-w-7xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Download</h2>
@@ -116,7 +116,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                   id={`download-${dl.id}`}
                   initial={{ opacity: 0.3, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  whileHover={{ y: -4, scale: 1.01 }}
+                  
                   transition={{ duration: 0.25, delay: idx * 0.04, ease: "easeOut" }}
                   className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl mb-8"
               style={{
