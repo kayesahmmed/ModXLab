@@ -9,6 +9,8 @@ import { MarqueeBanner } from "../components/MarqueeSection";
 import Footer, { ScrollToTop, Divider } from "../components/FooterSection";
 import { darkTheme, lightTheme, Theme } from "../types";
 import ScrollFrameSequence from "../components/ScrollFrameSequence";
+import Preloader from "../components/Preloader";
+
 
 const AdminPanel = lazy(() => import("../components/AdminPanel"));
 const ParticlesBackground = lazy(() => import("../components/ParticlesBackground"));

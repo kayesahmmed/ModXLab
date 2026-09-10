@@ -10,14 +10,14 @@ function frameUrl(index: number) {
     base = window.location.pathname.includes("/Web") ? "/Web/" : "/";
   }
   const cleanBase = base.endsWith("/") ? base : `${base}/`;
-  return `${cleanBase}scroll-frames/ezgif-frame-${String(index + 1).padStart(3, "0")}.jpg`;
+  return `${cleanBase}scroll-frames/ezgif-frame-${String(index + 1).padStart(3, "0")}.webp`;
 }
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-export default function ScrollFrameSequence() {
+export default function ScrollFrameSequence({ onProgress }: { onProgress?: (progress: number) => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameImagesRef = useRef<HTMLImageElement[]>([]);
   const currentFrameRef = useRef(0);
@@ -30,6 +30,9 @@ export default function ScrollFrameSequence() {
   const needsResizeRedrawRef = useRef(true);
   const initialWindowHeightRef = useRef(window.innerHeight);
   const initialWindowWidthRef = useRef(window.innerWidth);
+  const cachedScrollMaxRef = useRef<number>(-1);
+  const anchorScrollYRef = useRef<number>(0);
+  const anchorProgressRef = useRef<number>(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -169,15 +172,37 @@ export default function ScrollFrameSequence() {
 
     const updateTargetFrame = () => {
       const docHeight = document.documentElement.scrollHeight;
-      const windowHeight = initialWindowHeightRef.current; // Use stable height
-      const scrollRange = Math.max(docHeight - windowHeight, 1);
+      const windowHeight = initialWindowHeightRef.current;
+      const currentScrollMax = Math.max(docHeight - windowHeight, 1);
       
-      // Map exactly to the scroll
-      const scrollProgress = clamp(window.scrollY / scrollRange, 0, 1);
+      // If height changed (e.g. accordion open), set anchor to prevent jumping
+      if (Math.abs(currentScrollMax - cachedScrollMaxRef.current) > 2) {
+        anchorScrollYRef.current = window.scrollY;
+        anchorProgressRef.current = (targetFrameRef.current || 0) / (FRAME_COUNT - 1);
+        cachedScrollMaxRef.current = currentScrollMax;
+      }
+
+      const scrollY = window.scrollY;
+      let progress = 0;
+
+      if (anchorScrollYRef.current <= 0 || currentScrollMax <= 0) {
+          progress = clamp(scrollY / currentScrollMax, 0, 1);
+      } else if (scrollY >= anchorScrollYRef.current) {
+          const remainingScroll = currentScrollMax - anchorScrollYRef.current;
+          if (remainingScroll <= 0) {
+              progress = 1;
+          } else {
+              progress = anchorProgressRef.current + ((scrollY - anchorScrollYRef.current) / remainingScroll) * (1 - anchorProgressRef.current);
+          }
+      } else {
+          progress = anchorProgressRef.current * (scrollY / anchorScrollYRef.current);
+      }
       
+      progress = clamp(progress, 0, 1);
+
       targetFrameRef.current = reducedMotionRef.current
         ? 0
-        : scrollProgress * (FRAME_COUNT - 1);
+        : progress * (FRAME_COUNT - 1);
     };
 
     const animate = () => {
@@ -206,6 +231,7 @@ export default function ScrollFrameSequence() {
 
 
     const loadAllFrames = async () => {
+      let loadedCount = 0;
       const loadFrame = (index: number) => {
         return new Promise<void>((resolve) => {
           if (!isMounted) return resolve();
@@ -216,10 +242,14 @@ export default function ScrollFrameSequence() {
             if (Math.round(currentFrameRef.current) === index || lastDrawnFrameRef.current === -1) {
               drawFrame();
             }
+            loadedCount++;
+            if (onProgress) onProgress(Math.floor((loadedCount / FRAME_COUNT) * 100));
             resolve();
           };
           image.onerror = () => {
             console.warn(`Failed to load frame ${index}`);
+            loadedCount++;
+            if (onProgress) onProgress(Math.floor((loadedCount / FRAME_COUNT) * 100));
             resolve();
           };
           image.src = frameUrl(index);
@@ -247,6 +277,7 @@ export default function ScrollFrameSequence() {
 
     return () => {
       isMounted = false;
+      resizeObserver.disconnect();
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("scroll", updateTargetFrame);
       mediaQuery.removeEventListener("change", handleMotionPreferenceChange);
