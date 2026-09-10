@@ -85,7 +85,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
         viewport={{ once: true, amount: 0.1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="flex flex-col gap-6 w-full"
-        style={{ z: 0 }}
+        style={{  }}
       >
         <div className="text-center mb-16 px-4 sm:px-8 lg:px-14 relative z-10 w-full max-w-7xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Download</h2>
@@ -120,10 +120,10 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                   transition={{ duration: 0.25, delay: idx * 0.04, ease: "easeOut" }}
                   className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl mb-8"
               style={{
-                background: "rgba(255, 255, 255, 0.12)",
+                background: "rgba(255, 255, 255, 0.03)",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
                 boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
               }}
             >
@@ -160,10 +160,10 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                         key={fIdx} 
                         className="flex flex-col justify-between gap-4 p-5 sm:p-6 rounded-[18px] transition-all duration-300 overflow-hidden group" 
                         style={{ 
-                          background: "rgba(255, 255, 255, 0.12)",
+                          background: "rgba(255, 255, 255, 0.08)",
                           backdropFilter: "blur(12px)",
                           WebkitBackdropFilter: "blur(12px)",
-                          border: "1px solid rgba(255, 255, 255, 0.2)",
+                          border: "1px solid rgba(255, 255, 255, 0.15)",
                           boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
                         }}
                       >
@@ -323,7 +323,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                           <div
                             className="mt-3 p-5 sm:p-6 rounded-[24px] flex flex-col gap-4 relative overflow-hidden transition-all duration-300"
                             style={{
-                              background: "rgba(255, 255, 255, 0.12)",
+                              background: "rgba(255, 255, 255, 0.08)",
                               backdropFilter: "blur(12px)",
                               WebkitBackdropFilter: "blur(12px)",
                               border: "1px solid rgba(255, 255, 255, 0.2)",
