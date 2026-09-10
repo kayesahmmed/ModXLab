@@ -1,15 +1,15 @@
 import re
 
 file_path = "./artifacts/cinematic-scroll-site/src/components/FAQSection.tsx"
-
 with open(file_path, "r") as f:
     content = f.read()
 
-# Replace the mb-6 with mb-14
-old_buttons = """        <div className="flex flex-col items-center gap-4 mb-6">"""
-new_buttons = """        <div className="flex flex-col items-center gap-4 mb-14">"""
-content = content.replace(old_buttons, new_buttons)
+# 1. Restore the blur timing (amount: 0.2)
+content = content.replace('viewport={{ once: true, amount: 0.1 }}', 'viewport={{ once: true, amount: 0.2 }}')
+
+# 2. Increase the default white stroke visibility for FAQ boxes
+content = content.replace('"1px solid rgba(255, 255, 255, 0.15)"', '"1px solid rgba(255, 255, 255, 0.3)"')
 
 with open(file_path, "w") as f:
     f.write(content)
-
+print("Updated FAQSection")
