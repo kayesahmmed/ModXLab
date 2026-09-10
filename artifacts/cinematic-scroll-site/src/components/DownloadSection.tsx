@@ -118,13 +118,13 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                   animate={{ opacity: 1, y: 0 }}
                   whileHover={{ y: -4, scale: 1.01 }}
                   transition={{ duration: 0.25, delay: idx * 0.04, ease: "easeOut" }}
-                  className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl border shadow-2xl mb-8 backdrop-blur-2xl"
+                  className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl mb-8"
               style={{
-                background: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(255, 255, 255, 0.85)",
-                borderColor: "rgba(255, 255, 255, 0.2)",
-                boxShadow: isDark
-                  ? "0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 30px rgba(255, 255, 255, 0.05)"
-                  : "0 20px 50px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)"
+                background: "rgba(255, 255, 255, 0.12)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "1px solid rgba(255, 255, 255, 0.2)",
+                boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
               }}
             >
               {/* Radial glow background accents */}
@@ -271,8 +271,10 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                       onClick={() => toggleHowToUse(dl.id)}
                       className="w-full flex items-center justify-between p-4 sm:p-5 rounded-2xl transition-all hover:bg-white/10 group cursor-pointer border shadow-md duration-300 backdrop-blur-xl"
                       style={{
-                        borderColor: isHowToUseOpen ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.18)",
-                        background: isHowToUseOpen ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.03)"
+                        borderColor: "rgba(255,255,255,0.18)",
+                        background: "rgba(255,255,255,0.05)",
+                        backdropFilter: "blur(12px)",
+                        WebkitBackdropFilter: "blur(12px)",
                       }}
                     >
                       <div className="flex items-center gap-4 text-left">
