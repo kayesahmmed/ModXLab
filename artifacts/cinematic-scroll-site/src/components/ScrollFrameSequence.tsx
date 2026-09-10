@@ -277,7 +277,7 @@ export default function ScrollFrameSequence({ onProgress }: { onProgress?: (prog
 
     return () => {
       isMounted = false;
-      resizeObserver.disconnect();
+
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("scroll", updateTargetFrame);
       mediaQuery.removeEventListener("change", handleMotionPreferenceChange);
