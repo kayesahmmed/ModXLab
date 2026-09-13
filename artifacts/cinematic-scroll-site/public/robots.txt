@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mod-x-lab.vercel.app/sitemap.xml
+Sitemap: https://modxlabpro.vercel.app/sitemap.xml
