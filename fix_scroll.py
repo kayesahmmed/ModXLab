@@ -1,86 +1,22 @@
 import re
 
-file_path = "./artifacts/cinematic-scroll-site/src/components/ScrollFrameSequence.tsx"
-
+file_path = "./artifacts/cinematic-scroll-site/src/components/DownloadSection.tsx"
 with open(file_path, "r") as f:
     content = f.read()
 
-old_update = """    const updateTargetFrame = () => {
-      const docHeight = Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight
-      );
-      const scrollRange = Math.max(docHeight - window.innerHeight, 1);
-      
-      // Calculate scroll progress with a 99% modifier so the last frame is reached 
-      // just before hitting the exact bottom pixel, fixing mobile address bar issues.
-      const scrollProgress = clamp(window.scrollY / (scrollRange * 0.99), 0, 1);
-      
-      targetFrameRef.current = reducedMotionRef.current
-        ? 0
-        : scrollProgress * (FRAME_COUNT - 1);
-    };"""
+# Replace the horizontal scroll container and images
+old_preview = """<div className="flex gap-4 w-full overflow-x-auto pb-4 flex-nowrap scrollbar-hide snap-x snap-mandatory" style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-x" }}>
+                            {file.previewImages.map((img: string, i: number) => (
+                              <div key={i} className="relative w-[150px] sm:w-[180px] aspect-[9/16] shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/20 snap-center bg-black/20 cursor-pointer" onClick={() => setFullscreenGallery({images: file.previewImages, index: i})}>
+                                <img src={img} alt={`Preview ${i+1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 pointer-events-none" />"""
 
-new_update = """    const updateTargetFrame = () => {
-      const docHeight = document.documentElement.scrollHeight;
-      const windowHeight = window.innerHeight;
-      const scrollRange = Math.max(docHeight - windowHeight, 1);
-      
-      // Map exactly to the scroll
-      const scrollProgress = clamp(window.scrollY / scrollRange, 0, 1);
-      
-      targetFrameRef.current = reducedMotionRef.current
-        ? 0
-        : scrollProgress * (FRAME_COUNT - 1);
-    };"""
-content = content.replace(old_update, new_update)
+new_preview = """<div className="flex gap-4 w-full overflow-x-auto pb-4 flex-nowrap scrollbar-hide snap-x snap-mandatory" style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }}>
+                            {file.previewImages.map((img: string, i: number) => (
+                              <div key={i} className="relative w-[150px] sm:w-[180px] aspect-[9/16] shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/20 snap-center bg-black/20 cursor-pointer" onClick={() => setFullscreenGallery({images: file.previewImages, index: i})}>
+                                <img src={img} alt={`Preview ${i+1}`} draggable={false} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 select-none" style={{ WebkitUserDrag: "none" }} />"""
 
-old_events = """    window.addEventListener("resize", resizeCanvas, { passive: true });
-    window.addEventListener("scroll", updateTargetFrame, { passive: true });
-    mediaQuery.addEventListener("change", handleMotionPreferenceChange);"""
-
-new_events = """    window.addEventListener("resize", resizeCanvas, { passive: true });
-    window.addEventListener("scroll", updateTargetFrame, { passive: true });
-    mediaQuery.addEventListener("change", handleMotionPreferenceChange);
-    
-    const resizeObserver = new ResizeObserver(() => {
-      updateTargetFrame();
-    });
-    resizeObserver.observe(document.documentElement);
-    resizeObserver.observe(document.body);"""
-content = content.replace(old_events, new_events)
-
-old_cleanup = """      animationFrameRef.current = window.requestAnimationFrame(animate);
-
-    return () => {
-      isMounted = false;
-      window.removeEventListener("resize", resizeCanvas);
-      window.removeEventListener("scroll", updateTargetFrame);
-      mediaQuery.removeEventListener("change", handleMotionPreferenceChange);
-      if (animationFrameRef.current !== undefined) {
-        window.cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);"""
-
-new_cleanup = """      animationFrameRef.current = window.requestAnimationFrame(animate);
-
-    return () => {
-      isMounted = false;
-      resizeObserver.disconnect();
-      window.removeEventListener("resize", resizeCanvas);
-      window.removeEventListener("scroll", updateTargetFrame);
-      mediaQuery.removeEventListener("change", handleMotionPreferenceChange);
-      if (animationFrameRef.current !== undefined) {
-        window.cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);"""
-content = content.replace(old_cleanup, new_cleanup)
+content = content.replace(old_preview, new_preview)
 
 with open(file_path, "w") as f:
     f.write(content)
-
+print("Updated scroll section")

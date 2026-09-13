@@ -244,10 +244,10 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                       {file.previewImages && file.previewImages.length > 0 && (
                         <div className="mt-4 pt-4 border-t w-full flex flex-col gap-3" style={{ borderColor: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.06)" }}>
                           <span className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">App Previews</span>
-                          <div className="flex gap-4 w-full overflow-x-auto pb-4 flex-nowrap scrollbar-hide snap-x snap-mandatory" style={{ WebkitOverflowScrolling: "touch", touchAction: "pan-x" }}>
+                          <div className="flex gap-4 w-full overflow-x-auto pb-4 flex-nowrap scrollbar-hide snap-x snap-mandatory" style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }} onTouchMove={(e) => e.stopPropagation()}>
                             {file.previewImages.map((img: string, i: number) => (
                               <div key={i} className="relative w-[150px] sm:w-[180px] aspect-[9/16] shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/20 snap-center bg-black/20 cursor-pointer" onClick={() => setFullscreenGallery({images: file.previewImages, index: i})}>
-                                <img src={img} alt={`Preview ${i+1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 pointer-events-none" />
+                                <img src={img} alt={`Preview ${i+1}`} draggable={false} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 select-none" style={{ WebkitUserDrag: "none" }} />
                               </div>
                             ))}
                           </div>
