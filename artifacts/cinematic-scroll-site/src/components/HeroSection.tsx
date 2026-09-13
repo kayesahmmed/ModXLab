@@ -411,7 +411,11 @@ function getInitialHeroLogo() {
   return { logoUrl: "/website-logo.png", heroLogoSize: 40, heroLogoPaddingTop: 0 };
 }
 
-export function HeroMockPanel({ isDark }: { isDark: boolean }) {
+export function HeroMockPanel({ 
+  isDark, yPanel, scalePanel, opacityPanel, rotateXPanel 
+}: { 
+  isDark: boolean; yPanel?: any; scalePanel?: any; opacityPanel?: any; rotateXPanel?: any; 
+}) {
   const initialHeroLogo = getInitialHeroLogo();
   const [logoUrl, setLogoUrl] = useState<string>(initialHeroLogo.logoUrl);
   const [heroLogoSize, setHeroLogoSize] = useState<number>(initialHeroLogo.heroLogoSize);
@@ -464,11 +468,16 @@ export function HeroMockPanel({ isDark }: { isDark: boolean }) {
 
   return (
     <div className="relative w-full rounded-3xl">
-      <div className="w-full rounded-[32px] p-2 sm:p-3 relative grid grid-cols-1 md:grid-cols-[256px_1fr] items-stretch gap-4 z-10 transition-all duration-700 bg-transparent">
+      <div className="w-full rounded-[32px] p-2 sm:p-3 relative grid grid-cols-1 md:grid-cols-[256px_1fr] items-stretch gap-4 z-10 transition-all duration-700 ">
         
         {/* Left Column: Sidebar & Hub Navigation with Header Logo - Floating Glass Card */}
-        <div 
-          className="w-full flex flex-col justify-between gap-4 relative z-10 p-5 rounded-[24px] backdrop-blur-xl transition-all duration-700 border border-white/20 h-full bg-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.15)]"
+        <motion.div 
+          className="w-full flex flex-col justify-between gap-4 relative z-10 p-5 rounded-[24px] h-full overflow-hidden"
+          style={{ 
+            background: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255, 255, 255, 0.2)", boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+            y: yPanel, scale: scalePanel, opacity: opacityPanel, rotateX: rotateXPanel, transformPerspective: 1200, z: 0,
+            transformOrigin: "center center"
+          }}
         >
           
           {/* Header Logo inside the box */}
@@ -586,11 +595,16 @@ export function HeroMockPanel({ isDark }: { isDark: boolean }) {
               </svg>
             </a>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Column: Premium Content Showcase Grid */}
-        <div 
-          className="flex-1 flex flex-col justify-between gap-4 relative z-10 p-5 sm:p-6 rounded-[24px] backdrop-blur-xl transition-all duration-700 border border-white/20 h-full bg-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.15)]"
+        <motion.div 
+          className="flex-1 flex flex-col justify-between gap-4 relative z-10 p-5 sm:p-6 rounded-[24px] h-full overflow-hidden"
+          style={{ 
+            background: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255, 255, 255, 0.2)", boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+            y: yPanel, scale: scalePanel, opacity: opacityPanel, rotateX: rotateXPanel, transformPerspective: 1200, z: 0,
+            transformOrigin: "center center"
+          }}
         >
           <div className="flex justify-between items-center mb-1">
             <div>
@@ -732,7 +746,7 @@ export function HeroMockPanel({ isDark }: { isDark: boolean }) {
             <ModernPieChart isDark={isDark} />
           </div>
 
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -1133,7 +1147,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                     type="text"
                     autoComplete="off"
                     spellCheck="false"
-                    className="w-full h-full bg-transparent text-[16px] outline-none border-none shadow-none pl-5 pr-10 font-['Plus_Jakarta_Sans',sans-serif] text-white placeholder-white/50"
+                    className="w-full h-full  text-[16px] outline-none border-none shadow-none pl-5 pr-10 font-['Plus_Jakarta_Sans',sans-serif] text-white placeholder-white/50"
                     style={{
                       WebkitAppearance: "none",
                       appearance: "none",
@@ -1260,11 +1274,16 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
         <motion.div
           initial={{ opacity: 0, scale: 0.96, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          style={{ y: yPanel, scale: scalePanel, opacity: opacityPanel, rotateX: rotateXPanel, transformPerspective: 1200, z: 0, }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="w-full max-w-[960px] z-10 relative mt-16 sm:mt-24 lg:mt-28"
         >
-          <HeroMockPanel isDark={isDark} />
+          <HeroMockPanel 
+            isDark={isDark} 
+            yPanel={yPanel} 
+            scalePanel={scalePanel} 
+            opacityPanel={opacityPanel} 
+            rotateXPanel={rotateXPanel} 
+          />
         </motion.div>
       </div>
     </section>
