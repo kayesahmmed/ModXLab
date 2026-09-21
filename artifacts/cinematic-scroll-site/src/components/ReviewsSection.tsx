@@ -10,13 +10,13 @@ import { dataCache } from "../lib/dataCache";
 
 function StarRow({ n, t }: { n: number; t: Theme }) {
   return (
-    <div className="flex gap-1 relative">
+    <div className="flex gap-1.5 relative items-center">
       {[1, 2, 3, 4, 5].map((i) => {
         const isFull = i <= n;
         const isHalf = !isFull && (i - 0.5 <= n);
         const bgFill = t.cardBorder || "rgba(255,255,255,0.2)";
         return (
-          <svg key={i} className="w-4 h-4" fill="none" viewBox="0 0 22.8254 19.8992">
+          <svg key={i} className="w-4.5 h-4.5 sm:w-5 sm:h-5" fill="none" viewBox="0 0 22.8254 19.8992">
             {isFull ? (
               <path d={svgPaths.p10f17200} fill="#FFB319" />
             ) : isHalf ? (
@@ -49,38 +49,38 @@ function ReviewCard({ r, t, anim, isDark, minGlow }: { r: any; t: Theme; anim?: 
       style={{
         background: "rgba(255, 255, 255, 0.12)",
         backdropFilter: "blur(12px)",
-        borderRadius: "18px",
-        padding: "16px 16px",
+        borderRadius: "20px",
+        padding: "20px 20px",
         border: "1px solid rgba(255, 255, 255, 0.2)",
         boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
         minWidth: 0,
-        minHeight: "180px",
+        minHeight: "190px",
         WebkitBackdropFilter: "blur(12px)",
       }}
     >
       <div className={`absolute -bottom-10 left-1/2 -translate-x-1/2 w-[80%] h-16 rounded-full transition-colors duration-500 pointer-events-none ${minGlow ? 'blur-[50px] opacity-[0.02]' : (isDark ? 'blur-[35px] opacity-[0.05]' : 'blur-[35px] opacity-[0.15]')}`} style={{ background: r.initColor || "#7B2CBF" }} />
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, position: "relative", zIndex: 10 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, position: "relative", zIndex: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           {photo ? (
             <img
               src={photo}
               alt={r.name || "User Avatar"}
               referrerPolicy="no-referrer"
-              className="w-8 h-8 sm:w-[52px] sm:h-[52px] rounded-xl sm:rounded-2xl object-cover shrink-0 border border-white/20 shadow-md pointer-events-none"
+              className="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl object-cover shrink-0 border border-white/20 shadow-md pointer-events-none"
             />
           ) : (
-            <div style={{ width: 32, height: 32, borderRadius: 10, background: r.initBg || "rgba(123,44,191,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <span className="font-['Plus_Jakarta_Sans',sans-serif] font-bold text-xs sm:text-xl leading-none" style={{ color: r.initColor || "#7B2CBF" }}>{r.init || r.name?.charAt(0) || "U"}</span>
+            <div style={{ width: 44, height: 44, borderRadius: 14, background: r.initBg || "rgba(123,44,191,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+              <span className="font-['Plus_Jakarta_Sans',sans-serif] font-black text-base sm:text-xl leading-none" style={{ color: r.initColor || "#7B2CBF" }}>{r.init || r.name?.charAt(0) || "U"}</span>
             </div>
           )}
           <div className="min-w-0">
-            <p className="font-['Plus_Jakarta_Sans',sans-serif] font-bold text-xs sm:text-base tracking-wide truncate text-white">{r.name}</p>
+            <p className="font-['Plus_Jakarta_Sans',sans-serif] font-black text-base sm:text-lg lg:text-xl tracking-wide truncate text-white mb-1">{r.name}</p>
             <StarRow n={r.stars} t={t} />
           </div>
         </div>
-        <span className="font-['Plus_Jakarta_Sans',sans-serif] font-medium text-[9px] sm:text-xs px-2 py-0.5 sm:px-3 sm:py-1.5 rounded-full shrink-0" style={{ background: r.verBg || "rgba(22,207,131,0.15)", color: r.verColor || "#16CF83" }}>✓ Verified</span>
+        <span className="font-['Plus_Jakarta_Sans',sans-serif] font-bold text-xs sm:text-sm px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full shrink-0" style={{ background: r.verBg || "rgba(22,207,131,0.15)", color: r.verColor || "#16CF83" }}>✓ Verified</span>
       </div>
-      <p className="font-['Plus_Jakarta_Sans',sans-serif] font-medium text-[11px] sm:text-[17px] leading-snug sm:leading-relaxed tracking-wide relative z-10 flex-grow mt-2 sm:mt-3 line-clamp-3 sm:line-clamp-none text-white/70">{r.text}</p>
+      <p className="font-['Plus_Jakarta_Sans',sans-serif] font-medium text-sm sm:text-base lg:text-lg leading-relaxed tracking-wide relative z-10 flex-grow mt-3 sm:mt-4 text-white/85">{r.text}</p>
     </motion.div>
   );
 }
@@ -416,13 +416,13 @@ export default function ReviewsSection({
 
       <div className="relative z-10 flex flex-col items-center justify-center mb-10">
         <div className="text-center mb-6">
-          <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>User Reviews</h2>
-          <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Read genuine feedback from our users.</p>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 tracking-tight" style={{ color: t.text }}>User Reviews</h2>
+          <p className="text-base sm:text-lg md:text-xl font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Read genuine feedback from our users.</p>
         </div>
         <div className="flex justify-center flex-wrap items-center gap-3.5 mb-6">
           <button 
             onClick={() => setIsAllReviewsOpen(true)}
-            className="px-6 py-2.5 rounded-xl font-bold text-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
+            className="px-6 py-3 rounded-2xl font-bold text-base transition-transform hover:scale-105 active:scale-95 flex items-center gap-2.5 cursor-pointer"
             style={{ 
               background: isDark ? "rgba(168, 85, 247, 0.22)" : "rgba(123, 44, 191, 0.12)", 
               color: isDark ? "#f3e8ff" : "#7B2CBF", 
@@ -430,7 +430,7 @@ export default function ReviewsSection({
               boxShadow: isDark ? "0 4px 14px rgba(123, 44, 191, 0.3)" : "none"
             }}
           >
-            <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
             </svg>
             <span>Show All Reviews ({total})</span>
@@ -445,7 +445,7 @@ export default function ReviewsSection({
               }
               setIsModalOpen(true);
             }}
-            className="px-6 py-2.5 rounded-xl font-bold text-sm transition-transform hover:scale-105 active:scale-95 text-white cursor-pointer"
+            className="px-6 py-3 rounded-2xl font-bold text-base transition-transform hover:scale-105 active:scale-95 text-white cursor-pointer"
             style={{ 
               background: "linear-gradient(135deg, #7B2CBF 0%, #a855f7 100%)",
               boxShadow: "0 4px 15px rgba(123,44,191,0.35), inset 0 1px 1px rgba(255,255,255,0.2)"
@@ -569,10 +569,10 @@ export default function ReviewsSection({
 
                 <div className="flex items-center justify-between gap-4 mb-8 relative z-10 border-b pb-6" style={{ borderColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)" }}>
                   <div>
-                    <h3 className="text-2xl sm:text-3xl font-extrabold font-['Plus_Jakarta_Sans',sans-serif] tracking-tight mb-2" style={{ color: isDark ? "#ffffff" : "#151022" }}>
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black font-['Plus_Jakarta_Sans',sans-serif] tracking-tight mb-2" style={{ color: isDark ? "#ffffff" : "#151022" }}>
                       ALL USER REVIEWS ({total})
                     </h3>
-                    <p className="text-sm font-['Plus_Jakarta_Sans',sans-serif] font-medium" style={{ color: isDark ? "#a7a5b3" : "#5d5975" }}>
+                    <p className="text-base sm:text-lg font-['Plus_Jakarta_Sans',sans-serif] font-medium" style={{ color: isDark ? "#a7a5b3" : "#5d5975" }}>
                       Read genuine feedback from ModX Lab users.
                     </p>
                   </div>
@@ -601,7 +601,7 @@ export default function ReviewsSection({
                 <div className="mt-8 pt-6 border-t flex justify-end relative z-10" style={{ borderColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.08)" }}>
                   <button
                     onClick={() => setIsAllReviewsOpen(false)}
-                    className="px-8 py-3 rounded-xl font-extrabold text-white font-['Plus_Jakarta_Sans',sans-serif] text-sm transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                    className="px-8 py-3.5 rounded-2xl font-black text-white font-['Plus_Jakarta_Sans',sans-serif] text-base transition-transform hover:scale-105 active:scale-95 cursor-pointer"
                     style={{ 
                       background: "linear-gradient(135deg, #7B2CBF 0%, #a855f7 100%)",
                       boxShadow: "0 4px 15px rgba(123,44,191,0.35), inset 0 1px 1px rgba(255,255,255,0.2)"
@@ -759,10 +759,10 @@ export default function ReviewsSection({
                   /* Ultra-Premium Write Review Form */
                   <div className="relative z-10 flex flex-col gap-6">
                     <div className="text-center pb-2 relative z-10">
-                      <h3 className="text-2xl sm:text-3xl font-extrabold font-['Plus_Jakarta_Sans',sans-serif] mb-2 tracking-tight" style={{ color: isDark ? "#ffffff" : "#151022" }}>
+                      <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black font-['Plus_Jakarta_Sans',sans-serif] mb-2 tracking-tight" style={{ color: isDark ? "#ffffff" : "#151022" }}>
                         Rate your experience
                       </h3>
-                      <p className="text-sm font-['Plus_Jakarta_Sans',sans-serif] font-medium" style={{ color: isDark ? "#a7a5b3" : "#5d5975" }}>
+                      <p className="text-base sm:text-lg font-['Plus_Jakarta_Sans',sans-serif] font-medium" style={{ color: isDark ? "#a7a5b3" : "#5d5975" }}>
                         Your feedback helps us improve and serve you better.
                       </p>
                     </div>
@@ -771,33 +771,33 @@ export default function ReviewsSection({
                       <div className="flex items-center justify-between p-4 rounded-2xl border backdrop-blur-md transition-all duration-300" style={{ background: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)", borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)" }}>
                         <div className="flex items-center gap-3.5 min-w-0">
                           {currentUser.photoURL ? (
-                            <img loading="lazy" src={currentUser.photoURL} alt={currentUser.displayName || "User"} referrerPolicy="no-referrer" className="w-11 h-11 rounded-full object-cover shrink-0 shadow-sm border" style={{ borderColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }} />
+                            <img loading="lazy" src={currentUser.photoURL} alt={currentUser.displayName || "User"} referrerPolicy="no-referrer" className="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm border" style={{ borderColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)" }} />
                           ) : (
-                            <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#7B2CBF] to-[#00E5D1] text-white flex items-center justify-center font-bold shrink-0 shadow-sm">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#7B2CBF] to-[#00E5D1] text-white flex items-center justify-center font-black text-lg shrink-0 shadow-sm">
                               {(currentUser.displayName || "U").charAt(0).toUpperCase()}
                             </div>
                           )}
                           <div className="min-w-0 truncate">
                             <div className="flex items-center gap-2 mb-0.5">
-                              <p className="text-sm font-bold truncate" style={{ color: isDark ? "#ffffff" : "#151022" }}>{currentUser.displayName || "Google User"}</p>
-                              <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#16CF83]/10 text-[#16CF83] border border-[#16CF83]/20">Google Verified</span>
+                              <p className="text-base font-black truncate" style={{ color: isDark ? "#ffffff" : "#151022" }}>{currentUser.displayName || "Google User"}</p>
+                              <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-[#16CF83]/10 text-[#16CF83] border border-[#16CF83]/20">Google Verified</span>
                             </div>
-                            <p className="text-xs truncate font-medium" style={{ color: isDark ? "#8b8998" : "#767389" }}>{currentUser.email}</p>
+                            <p className="text-sm truncate font-medium" style={{ color: isDark ? "#8b8998" : "#767389" }}>{currentUser.email}</p>
                           </div>
                         </div>
                       </div>
                     ) : (
                       <div className="p-4 rounded-2xl border flex items-center justify-between gap-3 backdrop-blur-md" style={{ background: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)", borderColor: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.06)" }}>
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)" }}>
-                            <span className="text-lg">🔒</span>
+                          <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)" }}>
+                            <span className="text-xl">🔒</span>
                           </div>
-                          <p className="text-sm font-semibold" style={{ color: isDark ? "#d0cfd3" : "#4a4760" }}>Sign in to verify your review</p>
+                          <p className="text-base font-bold" style={{ color: isDark ? "#d0cfd3" : "#4a4760" }}>Sign in to verify your review</p>
                         </div>
                         <button
                           type="button"
                           onClick={onRequestSignIn}
-                          className="px-5 py-2.5 rounded-xl font-bold text-sm text-white shrink-0 hover:scale-105 active:scale-95 transition-all cursor-pointer shadow-md"
+                          className="px-6 py-2.5 rounded-xl font-black text-base text-white shrink-0 hover:scale-105 active:scale-95 transition-all cursor-pointer shadow-md"
                           style={{ background: "linear-gradient(135deg, #7B2CBF 0%, #a855f7 100%)", boxShadow: "0 4px 15px rgba(123,44,191,0.3)" }}
                         >
                           Sign In
@@ -857,7 +857,7 @@ export default function ReviewsSection({
                         value={reviewText}
                         onChange={(e) => setReviewText(e.target.value)}
                         placeholder="Share your experience... (features, performance, ease of use)"
-                        className="w-full px-5 py-4 rounded-2xl outline-none resize-none transition-all duration-300 min-h-[140px] font-medium font-['Plus_Jakarta_Sans',sans-serif] text-sm shadow-inner"
+                        className="w-full px-5 py-4 rounded-2xl outline-none resize-none transition-all duration-300 min-h-[140px] font-medium font-['Plus_Jakarta_Sans',sans-serif] text-base shadow-inner"
                         style={{
                           background: isDark ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.8)",
                           border: `1px solid ${isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)"}`,
@@ -881,7 +881,7 @@ export default function ReviewsSection({
                       <button
                         type="button"
                         onClick={handleCloseModal}
-                        className="flex-1 py-4 rounded-2xl font-bold font-['Plus_Jakarta_Sans',sans-serif] text-sm transition-all hover:bg-opacity-80 active:scale-95 cursor-pointer border"
+                        className="flex-1 py-4 rounded-2xl font-black font-['Plus_Jakarta_Sans',sans-serif] text-base transition-all hover:bg-opacity-80 active:scale-95 cursor-pointer border"
                         style={{
                           background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)",
                           borderColor: isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)",
@@ -894,7 +894,7 @@ export default function ReviewsSection({
                         type="button"
                         onClick={handleSubmitReview}
                         disabled={isSubmitting || !reviewText.trim()}
-                        className="flex-[2] py-4 rounded-2xl font-extrabold text-white font-['Plus_Jakarta_Sans',sans-serif] text-sm transition-all hover:scale-[1.02] active:scale-95 cursor-pointer disabled:opacity-50 disabled:hover:scale-100 shadow-xl flex items-center justify-center gap-2"
+                        className="flex-[2] py-4 rounded-2xl font-black text-white font-['Plus_Jakarta_Sans',sans-serif] text-base transition-all hover:scale-[1.02] active:scale-95 cursor-pointer disabled:opacity-50 disabled:hover:scale-100 shadow-xl flex items-center justify-center gap-2"
                         style={{
                           background: "linear-gradient(135deg, #7B2CBF 0%, #00E5D1 100%)",
                           boxShadow: "0 10px 25px -5px rgba(123,44,191,0.5), inset 0 1px 1px rgba(255,255,255,0.3)",

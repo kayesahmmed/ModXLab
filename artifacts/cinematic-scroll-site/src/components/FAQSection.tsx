@@ -211,8 +211,8 @@ export default function FAQSection({ t }: { t: Theme }) {
     <section id="faq" className="mt-16 sm:mt-24 px-4 sm:px-8 lg:px-14">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Frequently Asked Questions</h2>
-          <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Got questions? We've got answers.</p>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 tracking-tight" style={{ color: t.text }}>Frequently Asked Questions</h2>
+          <p className="text-base sm:text-lg md:text-xl font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Got questions? We've got answers.</p>
         </div>
 
         <div className="flex flex-col items-center gap-4 mb-16">
@@ -220,13 +220,13 @@ export default function FAQSection({ t }: { t: Theme }) {
             href={telegramLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 rounded-xl font-extrabold text-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-2.5 cursor-pointer shadow-lg hover:shadow-xl"
+            className="px-7 py-3.5 rounded-2xl font-black text-base sm:text-lg transition-transform hover:scale-105 active:scale-95 flex items-center gap-3 cursor-pointer shadow-lg hover:shadow-xl"
             style={{ 
               background: "linear-gradient(135deg, #0088cc 0%, #0077b5 100%)", 
               color: "#ffffff"
             }}
           >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
               <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
             </svg>
             <span>Ask Questions in our Telegram Group</span>
@@ -235,21 +235,21 @@ export default function FAQSection({ t }: { t: Theme }) {
           <div className="flex justify-center flex-wrap items-center gap-3.5">
             <button 
               onClick={() => setIsAllFaqsOpen(true)}
-              className="px-6 py-2.5 rounded-xl font-bold text-sm transition-transform hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3 rounded-2xl font-bold text-base transition-transform hover:scale-105 active:scale-95 flex items-center gap-2.5 cursor-pointer"
               style={{ 
                 background: "rgba(22, 207, 131, 0.12)", 
                 color: "#16CF83", 
                 border: "1px solid rgba(22, 207, 131, 0.3)" 
               }}
             >
-              <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
               <span>Show All Questions ({allFaqs.length})</span>
             </button>
             <button 
               onClick={() => setIsAsking(!isAsking)}
-              className="px-6 py-2.5 rounded-xl font-bold text-sm transition-transform hover:scale-105 active:scale-95 text-[#151022] cursor-pointer"
+              className="px-6 py-3 rounded-2xl font-bold text-base transition-transform hover:scale-105 active:scale-95 text-[#151022] cursor-pointer"
               style={{ background: "#16CF83" }}
             >
               {isAsking ? "Cancel" : "＋ Ask a Question"}
@@ -269,7 +269,7 @@ export default function FAQSection({ t }: { t: Theme }) {
               <form onSubmit={handleAsk} className="relative rounded-[24px]">
                 <div className="absolute inset-0 rounded-[24px] pointer-events-none z-0 bg-white/10 backdrop-blur-md border border-white/20 shadow-xl" />
                 <div className="relative z-10 p-6 rounded-[24px] overflow-hidden w-full h-full">
-                <p className="font-bold text-lg mb-3 text-white">Have a new question?</p>
+                <p className="font-black text-xl mb-3 text-white">Have a new question?</p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <div className="flex-1 flex flex-col sm:flex-row gap-3">
                     <input
@@ -277,7 +277,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                       value={newQuestion}
                       onChange={(e) => setNewQuestion(e.target.value)}
                       placeholder="Type your question here..."
-                      className="flex-1 px-5 py-3 rounded-[16px] outline-none"
+                      className="flex-1 px-5 py-3.5 rounded-[16px] text-base outline-none"
                       style={{ background: "rgba(255, 255, 255, 0.05)", border: `1px solid rgba(255, 255, 255, 0.1)`, color: "white" }}
                       required
                     />
@@ -289,14 +289,14 @@ export default function FAQSection({ t }: { t: Theme }) {
                           setImageFile(e.target.files[0]);
                         }
                       }}
-                      className="flex-1 sm:max-w-[200px] px-3 py-3 rounded-[16px] outline-none text-sm cursor-pointer file:mr-3 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#16CF83]/10 file:text-[#16CF83] hover:file:bg-[#16CF83]/20"
+                      className="flex-1 sm:max-w-[200px] px-3 py-3 rounded-[16px] outline-none text-sm cursor-pointer file:mr-3 file:py-1.5 file:px-3.5 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#16CF83]/10 file:text-[#16CF83] hover:file:bg-[#16CF83]/20"
                       style={{ background: "rgba(255, 255, 255, 0.05)", border: `1px solid rgba(255, 255, 255, 0.1)`, color: "white" }}
                     />
                   </div>
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-6 py-3 rounded-xl font-bold text-[#151022] transition-transform hover:scale-105 cursor-pointer disabled:opacity-50"
+                    className="px-7 py-3.5 rounded-xl font-black text-base text-[#151022] transition-transform hover:scale-105 cursor-pointer disabled:opacity-50"
                     style={{ background: "#16CF83" }}
                   >
                     {isSubmitting ? "Submitting..." : "Submit"}
@@ -309,7 +309,7 @@ export default function FAQSection({ t }: { t: Theme }) {
           )}
         </AnimatePresence>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3.5">
           {allFaqs.slice(0, 10).map((faq, i) => {
             const isOpen = openId === faq.id;
             return (
@@ -334,11 +334,11 @@ export default function FAQSection({ t }: { t: Theme }) {
                 <div className="relative z-10 w-full h-full">
                 <button
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
-                  className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left"
+                  className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left cursor-pointer"
                 >
-                  <span className="font-bold text-base pr-4 transition-colors duration-150" style={{ color: isOpen ? "#16CF83" : "white" }}>{faq.q}</span>
+                  <span className="font-extrabold text-lg sm:text-xl pr-4 transition-colors duration-150 leading-snug" style={{ color: isOpen ? "#16CF83" : "white" }}>{faq.q}</span>
                   <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-150 shrink-0"
+                    className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-150 shrink-0"
                     style={{
                       background: isOpen ? "rgba(22, 207, 131, 0.15)" : "rgba(22, 207, 131, 0.05)",
                       color: isOpen ? "#16CF83" : t.subtext,
@@ -360,7 +360,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                       transition={{ duration: 0.15, ease: "easeOut" }}
                     >
                       <div className="px-6 pb-6 pt-2">
-                        <p className="text-sm font-medium leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.7)" }}>{faq.a}</p>
+                        <p className="text-base sm:text-lg font-medium leading-relaxed" style={{ color: "rgba(255, 255, 255, 0.85)" }}>{faq.a}</p>
                         {faq.imageUrl && (
                           <div className="mt-4 flex justify-start">
                             <img 
@@ -404,10 +404,10 @@ export default function FAQSection({ t }: { t: Theme }) {
               {/* Modal Header */}
               <div className="flex items-center justify-between pb-4 border-b border-white/20">
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-black text-white">
+                  <h3 className="text-2xl sm:text-3xl font-black text-white">
                     All Questions & Answers ({allFaqs.length})
                   </h3>
-                  <p className="text-xs font-semibold mt-1 text-white/70">
+                  <p className="text-sm sm:text-base font-semibold mt-1 text-white/80">
                     Browse all asked questions and community answers.
                   </p>
                 </div>
@@ -426,13 +426,13 @@ export default function FAQSection({ t }: { t: Theme }) {
                   value={faqSearch}
                   onChange={(e) => setFaqSearch(e.target.value)}
                   placeholder="Search questions or answers..."
-                  className="w-full px-5 py-3 rounded-xl text-sm outline-none border font-medium text-white placeholder-white/50"
+                  className="w-full px-5 py-3.5 rounded-xl text-base outline-none border font-medium text-white placeholder-white/50"
                   style={{ background: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.15)" }}
                 />
                 {faqSearch && (
                   <button
                     onClick={() => setFaqSearch("")}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-bold opacity-60 hover:opacity-100 cursor-pointer"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm font-bold opacity-60 hover:opacity-100 cursor-pointer"
                     style={{ color: t.text }}
                   >
                     Clear
@@ -441,7 +441,7 @@ export default function FAQSection({ t }: { t: Theme }) {
               </div>
 
               {/* Scrollable Questions List */}
-              <div className="overflow-y-auto flex flex-col gap-3 pr-1 max-h-[55vh] overscroll-contain" data-lenis-prevent="true">
+              <div className="overflow-y-auto flex flex-col gap-3.5 pr-1 max-h-[55vh] overscroll-contain" data-lenis-prevent="true">
                 {allFaqs
                   .filter(f => !faqSearch || (f.q || "").toLowerCase().includes(faqSearch.toLowerCase()) || (f.a && f.a.toLowerCase().includes(faqSearch.toLowerCase())))
                   .map((faq) => {
@@ -466,7 +466,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                           onClick={() => setOpenId(isOpen ? null : faq.id)}
                           className="w-full px-5 py-4 flex items-center justify-between gap-4 text-left cursor-pointer"
                         >
-                          <span className="font-bold text-sm sm:text-base pr-2 transition-colors duration-150" style={{ color: isOpen ? "#16CF83" : "white" }}>
+                          <span className="font-extrabold text-base sm:text-lg pr-2 transition-colors duration-150 leading-snug" style={{ color: isOpen ? "#16CF83" : "white" }}>
                             {faq.q}
                           </span>
                           <div
@@ -491,7 +491,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                               transition={{ duration: 0.15, ease: "easeOut" }}
                             >
                               <div className="px-5 pb-5 pt-1 border-t border-white/10">
-                                <p className="text-xs sm:text-sm font-medium leading-relaxed text-white/70">
+                                <p className="text-sm sm:text-base font-medium leading-relaxed text-white/85">
                                   {faq.a}
                                 </p>
                                 {faq.imageUrl && (

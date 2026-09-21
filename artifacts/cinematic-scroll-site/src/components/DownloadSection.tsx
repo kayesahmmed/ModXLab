@@ -108,8 +108,8 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
         style={{  }}
       >
         <div className="text-center mb-16 px-4 sm:px-8 lg:px-14 relative z-10 w-full max-w-7xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight" style={{ color: t.text }}>Download</h2>
-          <p className="text-sm font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 tracking-tight" style={{ color: t.text }}>Download</h2>
+          <p className="text-base sm:text-lg md:text-xl font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
         </div>
         
         <div className="relative w-full">
@@ -155,8 +155,8 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                 
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b pb-4" style={{ borderColor: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.06)" }}>
                   <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white backdrop-blur-md shadow-[0_8px_32px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40" style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}>
-                      <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-black uppercase tracking-wider text-white backdrop-blur-md shadow-[0_8px_32px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40" style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}>
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                       </svg>
                       VERIFIED RELEASE
@@ -164,8 +164,8 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                   </div>
 
                   {dl.boxDate && (
-                    <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold tracking-wide text-white shadow-[0_8px_32px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40 backdrop-blur-md" style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}>
-                      <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-extrabold tracking-wide text-white shadow-[0_8px_32px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40 backdrop-blur-md" style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}>
+                      <span className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
                       <span>{dl.boxDate}</span>
                     </div>
                   )}
@@ -190,26 +190,26 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                         <div className="flex flex-col gap-3">
                           <div className="flex items-start gap-4">
                             {file.imageUrl ? (
-                              <img src={file.imageUrl} className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl object-cover shadow-lg border border-white/30 shrink-0" alt="Icon" />
+                              <img src={file.imageUrl} className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover shadow-lg border border-white/30 shrink-0" alt="Icon" />
                             ) : (
-                              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white text-slate-900 flex items-center justify-center shrink-0 shadow-lg border border-white/40">
-                                <svg className="w-8 h-8 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white text-slate-900 flex items-center justify-center shrink-0 shadow-lg border border-white/40">
+                                <svg className="w-10 h-10 text-slate-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
                               </div>
                             )}
                             <div className="flex-1 min-w-0">
-                              <h3 className="font-['Plus_Jakarta_Sans',sans-serif] font-black text-lg sm:text-xl tracking-tight" style={{ color: t.text }}>{file.title || "Download File"}</h3>
-                              <div className="inline-flex items-center px-2.5 py-1 mt-1.5 rounded-lg text-[11px] sm:text-xs font-extrabold tracking-wide text-white w-fit shadow-[0_4px_16px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40 backdrop-blur-md" style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}>{file.category || "APK / Mod"}</div>
+                              <h3 className="font-['Plus_Jakarta_Sans',sans-serif] font-black text-xl sm:text-2xl lg:text-3xl tracking-tight" style={{ color: t.text }}>{file.title || "Download File"}</h3>
+                              <div className="inline-flex items-center px-3.5 py-1.5 mt-2 rounded-xl text-xs sm:text-sm font-extrabold tracking-wide text-white w-fit shadow-[0_4px_16px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40 backdrop-blur-md" style={{ background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)" }}>{file.category || "APK / Mod"}</div>
                             </div>
                           </div>
 
                           {tagsArray.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 pt-1">
+                            <div className="flex flex-wrap gap-2 pt-1.5">
                               {tagsArray.map((tag: string, index: number) => (
                                 <span
                                   key={index}
-                                  className="px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all text-white shadow-[0_4px_16px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40 backdrop-blur-md"
+                                  className="px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition-all text-white shadow-[0_4px_16px_0_rgba(39,144,255,0.25),_inset_0_1px_0_rgba(255,255,255,0.2)] border border-[#2790FF]/40 backdrop-blur-md"
                                   style={{
                                     background: "linear-gradient(135deg, rgba(39, 144, 255, 0.25) 0%, rgba(39, 144, 255, 0.05) 100%)"
                                   }}
@@ -228,14 +228,14 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                           href={downloadUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="relative overflow-hidden group flex items-center justify-center gap-2.5 w-full py-3.5 px-5 rounded-xl font-['Plus_Jakarta_Sans',sans-serif] font-black text-sm sm:text-base text-slate-950 transition-all cursor-pointer border border-white/50 mt-2"
+                          className="relative overflow-hidden group flex items-center justify-center gap-3 w-full py-4 px-6 rounded-2xl font-['Plus_Jakarta_Sans',sans-serif] font-black text-base sm:text-lg lg:text-xl text-slate-950 transition-all cursor-pointer border border-white/50 mt-3"
                           style={{
                             background: "linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%)",
                             boxShadow: "0 8px 25px rgba(255,255,255,0.2)"
                           }}
                         >
                           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-r from-transparent via-slate-200/50 to-transparent -translate-x-full group-hover:translate-x-full ease-in-out" style={{ transitionDuration: "1s" }} />
-                          <svg className="w-4.5 h-4.5 relative z-10 animate-bounce text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                          <svg className="w-5 h-5 sm:w-6 sm:h-6 relative z-10 animate-bounce text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                           </svg>
                           <span className="relative z-10 tracking-wide text-slate-950">{file.buttonText || "Download Free APK"}</span>
@@ -243,7 +243,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
 
                       {file.previewImages && file.previewImages.length > 0 && (
                         <div className="mt-4 pt-4 border-t w-full flex flex-col gap-3" style={{ borderColor: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.06)" }}>
-                          <span className="text-xs font-bold uppercase tracking-widest text-white/70 ml-1">App Previews</span>
+                          <span className="text-sm sm:text-base font-extrabold uppercase tracking-widest text-white/90 ml-1">App Previews</span>
                           <div className="flex gap-4 w-full overflow-x-auto pb-4 flex-nowrap scrollbar-hide snap-x snap-mandatory" style={{ WebkitOverflowScrolling: "touch", overscrollBehaviorX: "contain" }} onTouchMove={(e) => e.stopPropagation()}>
                             {file.previewImages.map((img: string, i: number) => (
                               <div key={i} className="relative w-[150px] sm:w-[180px] aspect-[9/16] shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/20 snap-center bg-black/20 cursor-pointer" onClick={() => setFullscreenGallery({images: file.previewImages, index: i})}>
@@ -259,23 +259,23 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                   })}
                 </div>
 
-                <div className="flex items-center justify-center gap-4 text-[11px] font-bold text-center mt-1 text-white/80">
-                  <span className="flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm md:text-base font-extrabold text-center mt-2 text-white/90">
+                  <span className="flex items-center gap-1.5">
+                    <svg className="w-4 h-4 text-[#16CF83]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                     Fast Speed
                   </span>
                   <span>•</span>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                  <span className="flex items-center gap-1.5">
+                    <svg className="w-4 h-4 text-[#16CF83]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                     Virus Tested
                   </span>
                   <span>•</span>
-                  <span className="flex items-center gap-1">
-                    <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                  <span className="flex items-center gap-1.5">
+                    <svg className="w-4 h-4 text-[#16CF83]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                     Anti-Ban Safe
@@ -304,14 +304,14 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                           </svg>
                         </div>
                         <div>
-                          <h3 className="font-['Plus_Jakarta_Sans',sans-serif] font-bold text-lg text-white">{dl.howToUseTitle || "How to Use"}</h3>
-                          <p className="text-xs font-semibold mt-0.5 opacity-90 text-white/80">
+                          <h3 className="font-['Plus_Jakarta_Sans',sans-serif] font-black text-xl sm:text-2xl text-white">{dl.howToUseTitle || "How to Use"}</h3>
+                          <p className="text-xs sm:text-sm font-bold mt-1 opacity-90 text-white/80">
                             Click here for step-by-step setup guide
                           </p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2.5">
-                        <span className="text-xs font-semibold hidden sm:inline transition-colors text-white/80">
+                        <span className="text-xs sm:text-sm font-bold hidden sm:inline transition-colors text-white/80">
                           {isHowToUseOpen ? "Close guide" : "Expand guide"}
                         </span>
                         <motion.div 
@@ -366,12 +366,12 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                                   >
                                     <div className="flex items-center justify-between gap-2">
                                       <span
-                                        className="font-mono font-black text-xs px-3 py-1 rounded-lg bg-white/20 text-white shadow-sm border border-white/30 backdrop-blur-md"
+                                        className="font-mono font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-lg bg-white/20 text-white shadow-sm border border-white/30 backdrop-blur-md"
                                       >
                                         STEP 0{i + 1}
                                       </span>
                                     </div>
-                                    <p className="font-['Plus_Jakarta_Sans',sans-serif] text-xs sm:text-sm leading-relaxed mt-1 text-white font-bold tracking-wide drop-shadow-sm">
+                                    <p className="font-['Plus_Jakarta_Sans',sans-serif] text-sm sm:text-base leading-relaxed mt-2 text-white font-bold tracking-wide drop-shadow-sm">
                                       {step}
                                     </p>
                                   </div>
@@ -392,12 +392,12 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                                   </div>
                                   <div>
                                     <div className="flex items-center gap-2">
-                                      <h3 className="font-['Plus_Jakarta_Sans',sans-serif] font-bold text-base sm:text-lg text-white">{dl.youtubeTitle || "Video Tutorial"}</h3>
-                                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider" style={{ background: "rgba(255,0,0,0.2)", color: "#FF6B6B", border: "1px solid rgba(255,0,0,0.4)" }}>
+                                      <h3 className="font-['Plus_Jakarta_Sans',sans-serif] font-black text-lg sm:text-xl text-white">{dl.youtubeTitle || "Video Tutorial"}</h3>
+                                      <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider" style={{ background: "rgba(255,0,0,0.2)", color: "#FF6B6B", border: "1px solid rgba(255,0,0,0.4)" }}>
                                         YouTube Guide
                                       </span>
                                     </div>
-                                    <p className="text-xs font-medium mt-0.5 text-white/80">
+                                    <p className="text-xs sm:text-sm font-medium mt-1 text-white/80">
                                       Watch step-by-step setup video tutorials
                                     </p>
                                   </div>

@@ -460,9 +460,18 @@ export function HeroMockPanel({
   }, []);
 
   const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
+    if (id === "hero" || id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const cleanId = id.replace(/-section$/, "");
+    const el = document.getElementById(id) || document.getElementById(cleanId) || document.getElementById(`${cleanId}-section`);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(el, { offset: -70 });
+      } else {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -508,7 +517,7 @@ export function HeroMockPanel({
             {/* Active Item: Home */}
             <button
               onClick={() => scrollToSection("hero")}
-              className="px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-2.5 bg-[#16CF83]/15 border border-[#16CF83]/40 text-left transition-all shadow-[0_0_12px_rgba(22,207,131,0.2)] text-white"
+              className="px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-2.5 bg-[#16CF83]/15 border border-[#16CF83]/40 text-left transition-all shadow-[0_0_12px_rgba(22,207,131,0.2)] text-white cursor-pointer hover:bg-[#16CF83]/25"
             >
               <div className="w-5 h-5 rounded-lg bg-[#16CF83]/20 flex items-center justify-center text-[#16CF83] shrink-0">
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -519,8 +528,8 @@ export function HeroMockPanel({
             </button>
 
             <button
-              onClick={() => scrollToSection("download-section")}
-              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white"
+              onClick={() => scrollToSection("download")}
+              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white cursor-pointer"
             >
               <svg className="w-4 h-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -529,29 +538,18 @@ export function HeroMockPanel({
             </button>
 
             <button
-              onClick={() => scrollToSection("video-section")}
-              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white"
-            >
-              <svg className="w-4 h-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>Tutorial Videos</span>
-            </button>
-
-            <button
-              onClick={() => scrollToSection("faq-section")}
-              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white"
+              onClick={() => scrollToSection("faq")}
+              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white cursor-pointer"
             >
               <svg className="w-4 h-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
-              <span>Community Q&A</span>
+              <span>Ask questions</span>
             </button>
 
             <button
-              onClick={() => scrollToSection("reviews-section")}
-              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white"
+              onClick={() => scrollToSection("reviews")}
+              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white cursor-pointer"
             >
               <svg className="w-4 h-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -610,9 +608,9 @@ export function HeroMockPanel({
             <div>
               <h2 className="text-[22px] font-black font-['Orbitron',sans-serif] tracking-tight flex items-center gap-2 text-white">
                 <span>ModX Lab Hub</span>
-                <span className="text-[10px] font-bold text-[#00E5D1] bg-[#00E5D1]/15 px-2 py-0.5 rounded-full border border-[#00E5D1]/30 uppercase tracking-widest">v4.5</span>
+                <span className="text-[10px] font-bold text-[#00E5D1] bg-[#00E5D1]/15 px-2 py-0.5 rounded-full border border-[#00E5D1]/30 uppercase tracking-widest">v1.0</span>
               </h2>
-              <p className="text-xs text-white/70 font-medium mt-0.5">Official Mods, High-Speed CDN & YouTube Tutorials.</p>
+              <p className="text-xs text-white/70 font-medium mt-0.5">Official Mods, Tutorials & step by step guide & Download Files</p>
             </div>
             <div className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[10px] font-bold tracking-wide text-[#16CF83] ${
               isDark ? "bg-[#16CF83]/10 border-[#16CF83]/20" : "bg-slate-100 border-slate-200"
@@ -626,7 +624,7 @@ export function HeroMockPanel({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Feature Card 1: APK Downloads */}
             <div
-              onClick={() => scrollToSection("download-section")}
+              onClick={() => scrollToSection("download")}
               className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden bg-white/[0.08] border-[#00E5D1]/30 hover:bg-white/[0.12] hover:border-[#00E5D1]/70"
             >
               <div className="flex items-start justify-between mb-2">
@@ -647,7 +645,7 @@ export function HeroMockPanel({
 
             {/* Feature Card 2: User Reviews & Feedback */}
             <div
-              onClick={() => scrollToSection("reviews-section")}
+              onClick={() => scrollToSection("reviews")}
               className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden bg-white/[0.08] border-[#a78bfa]/30 hover:bg-white/[0.12] hover:border-[#a78bfa]/70"
             >
               <div className="flex items-start justify-between mb-2">
@@ -661,12 +659,12 @@ export function HeroMockPanel({
                 </span>
               </div>
               <div>
-                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">User Reviews</h4>
+                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">Review & Support</h4>
                 <p className="text-[11px] mt-0.5 line-clamp-1 text-white/70 font-medium">Community ratings & feedback</p>
               </div>
             </div>
 
-            {/* Feature Card 3: Features & Anti-Ban */}
+            {/* Feature Card 3: Features */}
             <div
               onClick={() => scrollToSection("features")}
               className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden bg-white/[0.08] border-[#16CF83]/30 hover:bg-white/[0.12] hover:border-[#16CF83]/70"
@@ -678,18 +676,18 @@ export function HeroMockPanel({
                   </svg>
                 </div>
                 <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#16CF83]/20 text-[#16CF83] border border-[#16CF83]/30">
-                  SECURITY
+                  FEATURES
                 </span>
               </div>
               <div>
-                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">Anti-Ban</h4>
-                <p className="text-[11px] mt-0.5 line-clamp-1 text-white/70 font-medium">Anti-ban protection & tools</p>
+                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">Features</h4>
+                <p className="text-[11px] mt-0.5 line-clamp-1 text-white/70 font-medium">Explore all premium features</p>
               </div>
             </div>
 
-            {/* Feature Card 4: FAQ & Questions */}
+            {/* Feature Card 4: Ask questions */}
             <div
-              onClick={() => scrollToSection("faq-section")}
+              onClick={() => scrollToSection("faq")}
               className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden bg-white/[0.08] border-[#FFB11A]/30 hover:bg-white/[0.12] hover:border-[#FFB11A]/70"
             >
               <div className="flex items-start justify-between mb-2">
@@ -703,7 +701,7 @@ export function HeroMockPanel({
                 </span>
               </div>
               <div>
-                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">Community Q&A</h4>
+                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">Ask questions</h4>
                 <p className="text-[11px] mt-0.5 line-clamp-1 text-white/70 font-medium">Ask questions & get answers</p>
               </div>
             </div>
@@ -727,7 +725,7 @@ export function HeroMockPanel({
                     ModX Optimization
                   </span>
                   <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-[#16CF83]/20 text-[#16CF83] border border-[#16CF83]/30">
-                    v4.5 PRO
+                    V1.0
                   </span>
                 </div>
                 <span className="text-[11px] font-bold text-[#16CF83] flex items-center gap-1">
@@ -1076,7 +1074,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="font-['Plus_Jakarta_Sans',sans-serif] text-[16px] sm:text-[18px] lg:text-[20px] leading-relaxed transition-colors duration-500 max-w-2xl text-center text-white/80 font-medium mb-10 sm:mb-14"
           >
-            The official website of the ModX Lab YouTube Channel. Access our exclusive video tutorial resources, premium apps, and files. Join our community to ask questions, explore features, and share your valuable reviews!
+            The official website of the ModX Lab YouTube Channel. Access our exclusive video tutorial resources, premium mods, apps, and files. Join our community to ask questions, explore features, and share your valuable reviews!
           </motion.p>
 
           <motion.div
