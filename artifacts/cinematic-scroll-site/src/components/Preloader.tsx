@@ -9,6 +9,7 @@ export default function Preloader({ progress }: { progress: number }) {
       const timer = setTimeout(() => setShow(false), 500); // give it a small delay before hiding
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [progress]);
 
   return (

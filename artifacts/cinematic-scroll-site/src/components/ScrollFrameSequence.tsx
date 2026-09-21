@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const FRAME_COUNT = 208;
+const FRAME_COUNT = 100;
 const FRAME_WIDTH = 1080;
 const FRAME_HEIGHT = 1920;
 
