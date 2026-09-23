@@ -94,7 +94,7 @@ export default function AdminPanel({
   const [headerLogoSize, setHeaderLogoSize] = useState<number | string>(40);
   const [heroLogoSize, setHeroLogoSize] = useState<number | string>(40);
   const [heroLogoPaddingTop, setHeroLogoPaddingTop] = useState<number | string>(0);
-  const [faviconSize, setFaviconSize] = useState<number | string>(16);
+  const [faviconSize, setFaviconSize] = useState<number | string>(48);
   const [headerLogoPaddingTop, setHeaderLogoPaddingTop] = useState<number | string>(0);
   const [headerLogoPaddingLeft, setHeaderLogoPaddingLeft] = useState<number | string>(0);
   const [footerLogoSize, setFooterLogoSize] = useState<number | string>(32);
@@ -1328,7 +1328,7 @@ export default function AdminPanel({
                       headerLogoSize: parseNum(headerLogoSize, existingSettings?.headerLogoSize ?? 40),
                       heroLogoSize: parseNum(heroLogoSize, existingSettings?.heroLogoSize ?? 40),
                       heroLogoPaddingTop: parseNum(heroLogoPaddingTop, existingSettings?.heroLogoPaddingTop ?? 0),
-                      faviconSize: parseNum(faviconSize, existingSettings?.faviconSize ?? 16),
+                      faviconSize: parseNum(faviconSize, existingSettings?.faviconSize ?? 48),
                       headerLogoPaddingTop: parseNum(headerLogoPaddingTop, existingSettings?.headerLogoPaddingTop ?? 0),
                       headerLogoPaddingLeft: parseNum(headerLogoPaddingLeft, existingSettings?.headerLogoPaddingLeft ?? 0),
                       footerLogoSize: parseNum(footerLogoSize, existingSettings?.footerLogoSize ?? 32),

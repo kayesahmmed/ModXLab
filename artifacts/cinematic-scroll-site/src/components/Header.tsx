@@ -23,10 +23,10 @@ function getInitialLogoSettings() {
       };
     }
   } catch (e) {}
-  return { logoUrl: "/website-logo.png", logoSize: 40, logoPaddingTop: 0, logoPaddingLeft: 0, faviconSize: 16 };
+  return { logoUrl: "/website-logo.png", logoSize: 40, logoPaddingTop: 0, logoPaddingLeft: 0, faviconSize: 48 };
 }
 
-function updateSocialMetaImage(rawUrl: string, faviconSize: number = 16) {
+function updateSocialMetaImage(rawUrl: string, faviconSize: number = 48) {
   if (!rawUrl) return;
   let fullUrl = rawUrl;
   if (rawUrl.startsWith("/")) {
@@ -65,19 +65,21 @@ function updateSocialMetaImage(rawUrl: string, faviconSize: number = 16) {
     console.error("Meta update error:", e);
   }
 
-  // Dynamically create a scaled favicon icon of exact requested pixel size
-  const numSize = Math.max(8, Math.min(256, Number(faviconSize) || 16));
+  // Google Search requires favicon size to be a multiple of 48px (48x48, 96x96, etc.)
+  const numSize = Math.max(48, Math.min(512, Number(faviconSize) || 48));
 
   const setFaviconHref = (href: string) => {
-    let iconLink: HTMLLinkElement | null = document.querySelector('link[rel="icon"]');
-    if (!iconLink) {
-      iconLink = document.createElement('link');
-      iconLink.rel = 'icon';
-      document.head.appendChild(iconLink);
+    let iconLinks = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
+    if (iconLinks.length === 0) {
+      const newLink = document.createElement('link');
+      newLink.rel = 'icon';
+      document.head.appendChild(newLink);
+      iconLinks = document.querySelectorAll('link[rel="icon"]');
     }
-    iconLink.type = 'image/png';
-    iconLink.setAttribute('sizes', `${numSize}x${numSize}`);
-    iconLink.href = href;
+    iconLinks.forEach((link) => {
+      (link as HTMLLinkElement).type = 'image/png';
+      (link as HTMLLinkElement).href = href;
+    });
 
     let appleLink: HTMLLinkElement | null = document.querySelector('link[rel="apple-touch-icon"]');
     if (!appleLink) {
@@ -122,7 +124,7 @@ function Logo({ t, isDark }: { t: Theme; isDark?: boolean }) {
   const [logoSize, setLogoSize] = useState(initial.logoSize ?? 40);
   const [logoPaddingTop, setLogoPaddingTop] = useState(initial.logoPaddingTop ?? 0);
   const [logoPaddingLeft, setLogoPaddingLeft] = useState(initial.logoPaddingLeft ?? 0);
-  const [favSize, setFavSize] = useState<number>(initial.faviconSize ?? 16);
+  const [favSize, setFavSize] = useState<number>(initial.faviconSize ?? 48);
 
   useEffect(() => {
     updateSocialMetaImage(logoUrl, favSize);

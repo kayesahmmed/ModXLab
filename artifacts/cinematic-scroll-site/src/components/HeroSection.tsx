@@ -423,6 +423,10 @@ export function HeroMockPanel({
   const [footerYoutube, setFooterYoutube] = useState<string>("https://youtube.com");
   const [footerTelegram, setFooterTelegram] = useState<string>("https://t.me");
   const [footerWhatsapp, setFooterWhatsapp] = useState<string>("https://wa.me");
+  const [activeSection, setActiveSection] = useState<string>("hero");
+  const [lastClickedId, setLastClickedId] = useState<string | null>(null);
+  const [cardClickCount, setCardClickCount] = useState<Record<string, number>>({});
+  const isNavigatingRef = useRef<boolean>(false);
 
   useEffect(() => {
     const loadLogo = async () => {
@@ -459,20 +463,66 @@ export function HeroMockPanel({
     return () => unsub();
   }, []);
 
-  const scrollToSection = (id: string) => {
-    if (id === "hero" || id === "home") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-    const cleanId = id.replace(/-section$/, "");
-    const el = document.getElementById(id) || document.getElementById(cleanId) || document.getElementById(`${cleanId}-section`);
-    if (el) {
-      if ((window as any).lenis) {
-        (window as any).lenis.scrollTo(el, { offset: -70 });
-      } else {
-        el.scrollIntoView({ behavior: "smooth" });
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isNavigatingRef.current) return;
+      if (window.scrollY < 300) {
+        setActiveSection("hero");
+        return;
       }
-    }
+      const sectionIds = ["reviews", "faq", "features", "download"];
+      for (const id of sectionIds) {
+        const el = document.getElementById(id) || document.getElementById(`${id}-section`);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= 100) {
+            setActiveSection(id);
+            return;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    // 1. First trigger the click effect, sound/visual feedback & active state immediately
+    setActiveSection(id);
+    setLastClickedId(id);
+    setCardClickCount((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+    isNavigatingRef.current = true;
+
+    setTimeout(() => {
+      setLastClickedId((prev) => (prev === id ? null : prev));
+    }, 700);
+
+    // 2. Wait for the click effect to play visibly (~380ms), then smoothly scroll to the section
+    setTimeout(() => {
+      if (id === "hero" || id === "home") {
+        if ((window as any).lenis) {
+          (window as any).lenis.scrollTo(0, { offset: 0, duration: 1.2 });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      } else {
+        const cleanId = id.replace(/-section$/, "");
+        const el = document.getElementById(id) || document.getElementById(cleanId) || document.getElementById(`${cleanId}-section`);
+        if (el) {
+          if ((window as any).lenis) {
+            (window as any).lenis.scrollTo(el, { offset: -70, duration: 1.2 });
+          } else {
+            el.scrollIntoView({ behavior: "smooth" });
+          }
+        }
+      }
+
+      // Re-enable scroll spy after scrolling completes
+      setTimeout(() => {
+        isNavigatingRef.current = false;
+      }, 1200);
+    }, 380);
   };
 
   return (
@@ -513,49 +563,96 @@ export function HeroMockPanel({
           </div>
 
           {/* Sidebar Navigation Items */}
-          <div className="flex flex-col gap-1.5">
-            {/* Active Item: Home */}
-            <button
-              onClick={() => scrollToSection("hero")}
-              className="px-3 py-2 rounded-xl font-bold text-xs flex items-center gap-2.5 bg-[#16CF83]/15 border border-[#16CF83]/40 text-left transition-all shadow-[0_0_12px_rgba(22,207,131,0.2)] text-white cursor-pointer hover:bg-[#16CF83]/25"
-            >
-              <div className="w-5 h-5 rounded-lg bg-[#16CF83]/20 flex items-center justify-center text-[#16CF83] shrink-0">
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                </svg>
-              </div>
-              <span>Home</span>
-            </button>
+          <div className="flex flex-col gap-1.5 relative">
+            {[
+              {
+                id: "hero",
+                label: "Home",
+                icon: (
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                ),
+              },
+              {
+                id: "download",
+                label: "APK Downloads",
+                icon: (
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                ),
+              },
+              {
+                id: "faq",
+                label: "Ask questions",
+                icon: (
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                ),
+              },
+              {
+                id: "reviews",
+                label: "Reviews & Support",
+                icon: (
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                ),
+              },
+            ].map((item) => {
+              const isActive = activeSection === item.id;
+              const isClicked = lastClickedId === item.id;
 
-            <button
-              onClick={() => scrollToSection("download")}
-              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white cursor-pointer"
-            >
-              <svg className="w-4 h-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              <span>APK Downloads</span>
-            </button>
+              return (
+                <motion.button
+                  key={item.id}
+                  whileTap={{ scale: 0.94 }}
+                  whileHover={{ x: 2 }}
+                  onClick={() => scrollToSection(item.id)}
+                  className="relative px-3 py-2 rounded-xl text-xs flex items-center gap-2.5 text-left transition-all cursor-pointer overflow-hidden select-none"
+                >
+                  {/* Smooth sliding green button shape */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeGreenSidebarPill"
+                      className="absolute inset-0 rounded-xl bg-[#16CF83]/20 border border-[#16CF83]/60 shadow-[0_0_16px_rgba(22,207,131,0.3)] pointer-events-none"
+                      transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                    />
+                  )}
 
-            <button
-              onClick={() => scrollToSection("faq")}
-              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white cursor-pointer"
-            >
-              <svg className="w-4 h-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-              <span>Ask questions</span>
-            </button>
+                  {/* Click ripple animation in green on tab */}
+                  {isClicked && (
+                    <motion.span
+                      key={`tab-click-${item.id}-${cardClickCount[item.id] || 0}`}
+                      initial={{ scale: 0.6, opacity: 0.9 }}
+                      animate={{ scale: 2.2, opacity: 0 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="absolute inset-0 rounded-xl bg-[#16CF83]/35 pointer-events-none z-20"
+                    />
+                  )}
 
-            <button
-              onClick={() => scrollToSection("reviews")}
-              className="px-3 py-2 rounded-xl font-medium text-xs flex items-center gap-2.5 text-left transition-colors text-white/70 hover:bg-white/10 hover:text-white cursor-pointer"
-            >
-              <svg className="w-4 h-4 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              <span>Reviews & Support</span>
-            </button>
+                  <div
+                    className={`w-5 h-5 rounded-lg flex items-center justify-center shrink-0 transition-colors z-10 ${
+                      isActive
+                        ? "bg-[#16CF83]/30 text-[#16CF83] shadow-[0_0_10px_rgba(22,207,131,0.5)] border border-[#16CF83]/50"
+                        : "bg-white/5 text-white/60 group-hover:text-white"
+                    }`}
+                  >
+                    {item.icon}
+                  </div>
+
+                  <span className={`truncate z-10 transition-colors ${isActive ? "font-bold text-white" : "font-medium text-white/70 hover:text-white"}`}>
+                    {item.label}
+                  </span>
+
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#16CF83] shadow-[0_0_8px_#16CF83] ml-auto shrink-0 animate-pulse z-10" />
+                  )}
+                </motion.button>
+              );
+            })}
           </div>
 
           {/* Anti-Ban Status Box */}
@@ -622,89 +719,159 @@ export function HeroMockPanel({
 
           {/* 2x2 Premium Content Cards Grid linked to Website Sections */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {/* Feature Card 1: APK Downloads */}
-            <div
-              onClick={() => scrollToSection("download")}
-              className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden bg-white/[0.08] border-[#00E5D1]/30 hover:bg-white/[0.12] hover:border-[#00E5D1]/70"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <div className="w-9 h-9 rounded-xl bg-[#00E5D1]/15 border border-[#00E5D1]/30 flex items-center justify-center text-[#00E5D1] group-hover:scale-110 transition-transform">
+            {[
+              {
+                id: "download",
+                title: "APK Downloads",
+                subtitle: "Direct high-speed APK files",
+                badge: "DOWNLOAD SECTION",
+                accentColor: "#00E5D1",
+                icon: (
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
-                </div>
-                <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#00E5D1]/20 text-[#00E5D1] border border-[#00E5D1]/30">
-                  DOWNLOAD SECTION
-                </span>
-              </div>
-              <div>
-                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">APK Downloads</h4>
-                <p className="text-[11px] mt-0.5 line-clamp-1 text-white/70 font-medium">Direct high-speed APK files</p>
-              </div>
-            </div>
-
-            {/* Feature Card 2: User Reviews & Feedback */}
-            <div
-              onClick={() => scrollToSection("reviews")}
-              className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden bg-white/[0.08] border-[#a78bfa]/30 hover:bg-white/[0.12] hover:border-[#a78bfa]/70"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <div className="w-9 h-9 rounded-xl bg-[#a78bfa]/15 border border-[#a78bfa]/30 flex items-center justify-center text-[#a78bfa] group-hover:scale-110 transition-transform">
+                ),
+              },
+              {
+                id: "reviews",
+                title: "Review & Support",
+                subtitle: "Community ratings & feedback",
+                badge: "REVIEWS",
+                accentColor: "#a78bfa",
+                icon: (
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
-                </div>
-                <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#a78bfa]/20 text-[#a78bfa] border border-[#a78bfa]/30">
-                  REVIEWS
-                </span>
-              </div>
-              <div>
-                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">Review & Support</h4>
-                <p className="text-[11px] mt-0.5 line-clamp-1 text-white/70 font-medium">Community ratings & feedback</p>
-              </div>
-            </div>
-
-            {/* Feature Card 3: Features */}
-            <div
-              onClick={() => scrollToSection("features")}
-              className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden bg-white/[0.08] border-[#16CF83]/30 hover:bg-white/[0.12] hover:border-[#16CF83]/70"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <div className="w-9 h-9 rounded-xl bg-[#16CF83]/15 border border-[#16CF83]/30 flex items-center justify-center text-[#16CF83] group-hover:scale-110 transition-transform">
+                ),
+              },
+              {
+                id: "features",
+                title: "Features",
+                subtitle: "Explore all premium features",
+                badge: "FEATURES",
+                accentColor: "#16CF83",
+                icon: (
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                </div>
-                <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#16CF83]/20 text-[#16CF83] border border-[#16CF83]/30">
-                  FEATURES
-                </span>
-              </div>
-              <div>
-                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">Features</h4>
-                <p className="text-[11px] mt-0.5 line-clamp-1 text-white/70 font-medium">Explore all premium features</p>
-              </div>
-            </div>
-
-            {/* Feature Card 4: Ask questions */}
-            <div
-              onClick={() => scrollToSection("faq")}
-              className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden bg-white/[0.08] border-[#FFB11A]/30 hover:bg-white/[0.12] hover:border-[#FFB11A]/70"
-            >
-              <div className="flex items-start justify-between mb-2">
-                <div className="w-9 h-9 rounded-xl bg-[#FFB11A]/15 border border-[#FFB11A]/30 flex items-center justify-center text-[#FFB11A] group-hover:scale-110 transition-transform">
+                ),
+              },
+              {
+                id: "faq",
+                title: "Ask questions",
+                subtitle: "Ask questions & get answers",
+                badge: "QUESTIONS",
+                accentColor: "#FFB11A",
+                icon: (
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
-                </div>
-                <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-[#FFB11A]/20 text-[#FFB11A] border border-[#FFB11A]/30">
-                  QUESTIONS
-                </span>
-              </div>
-              <div>
-                <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">Ask questions</h4>
-                <p className="text-[11px] mt-0.5 line-clamp-1 text-white/70 font-medium">Ask questions & get answers</p>
-              </div>
-            </div>
+                ),
+              },
+            ].map((card) => {
+              const isActive = activeSection === card.id;
+              const isClicked = lastClickedId === card.id;
+
+              return (
+                <motion.div
+                  key={card.id}
+                  whileHover={{ scale: 1.025, y: -2 }}
+                  whileTap={{ scale: 0.94 }}
+                  onClick={() => scrollToSection(card.id)}
+                  className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden select-none"
+                  style={{
+                    backgroundColor: isActive ? `${card.accentColor}16` : "rgba(255, 255, 255, 0.08)",
+                    borderColor: isActive ? `${card.accentColor}95` : "rgba(255, 255, 255, 0.15)",
+                    boxShadow: isActive
+                      ? `0 0 28px ${card.accentColor}45, inset 0 0 15px ${card.accentColor}15`
+                      : "0 4px 16px rgba(0, 0, 0, 0.1)",
+                  }}
+                >
+                  {/* Click ripple flash in that card's SPECIFIC color */}
+                  {isClicked && (
+                    <>
+                      <motion.div
+                        key={`click-pulse-${card.id}-${cardClickCount[card.id] || 0}`}
+                        initial={{ opacity: 0.95, scale: 0.8 }}
+                        animate={{ opacity: 0, scale: 1.45 }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        className="absolute inset-0 rounded-2xl pointer-events-none z-30"
+                        style={{
+                          backgroundColor: `${card.accentColor}35`,
+                          border: `2px solid ${card.accentColor}`,
+                          boxShadow: `0 0 35px ${card.accentColor}90`,
+                        }}
+                      />
+                      <motion.div
+                        key={`click-radial-${card.id}-${cardClickCount[card.id] || 0}`}
+                        initial={{ opacity: 1, scale: 0.5 }}
+                        animate={{ opacity: 0, scale: 2 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="absolute inset-0 rounded-2xl pointer-events-none z-30"
+                        style={{
+                          background: `radial-gradient(circle, ${card.accentColor}60 0%, transparent 70%)`,
+                        }}
+                      />
+                    </>
+                  )}
+
+                  {/* Active ambient glow in card's color */}
+                  {isActive && (
+                    <div
+                      className="absolute -top-10 -right-10 w-24 h-24 rounded-full blur-xl pointer-events-none"
+                      style={{ backgroundColor: `${card.accentColor}35` }}
+                    />
+                  )}
+
+                  <div className="flex items-start justify-between mb-2 relative z-10">
+                    <div
+                      className="w-9 h-9 rounded-xl border flex items-center justify-center transition-transform group-hover:scale-110"
+                      style={{
+                        backgroundColor: isActive ? `${card.accentColor}30` : `${card.accentColor}18`,
+                        borderColor: isActive ? `${card.accentColor}75` : `${card.accentColor}35`,
+                        color: card.accentColor,
+                        boxShadow: isActive ? `0 0 14px ${card.accentColor}55` : "none",
+                      }}
+                    >
+                      {card.icon}
+                    </div>
+
+                    {isActive ? (
+                      <span
+                        className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full text-black flex items-center gap-1 font-['Outfit',sans-serif]"
+                        style={{
+                          backgroundColor: card.accentColor,
+                          boxShadow: `0 0 12px ${card.accentColor}`,
+                        }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-black animate-ping" />
+                        ACTIVE
+                      </span>
+                    ) : (
+                      <span
+                        className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full border"
+                        style={{
+                          backgroundColor: `${card.accentColor}20`,
+                          borderColor: `${card.accentColor}35`,
+                          color: card.accentColor,
+                        }}
+                      >
+                        {card.badge}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="relative z-10">
+                    <h4 className="font-bold text-sm font-['Outfit',sans-serif] tracking-wide text-white">
+                      {card.title}
+                    </h4>
+                    <p className="text-[11px] mt-0.5 line-clamp-1 text-white/70 font-medium">
+                      {card.subtitle}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Performance Ring Gauge & Modern Donut / Pie Chart Panel */}
