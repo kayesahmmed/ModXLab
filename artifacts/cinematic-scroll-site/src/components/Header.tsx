@@ -14,16 +14,17 @@ function getInitialLogoSettings() {
       const data = JSON.parse(cached);
       return {
         logoUrl: data.headerLogoUrl || data.lightLogoUrl || data.logoUrl || "/website-logo.png",
+        faviconUrl: data.faviconUrl || data.headerLogoUrl || data.logoUrl || "/website-logo.png",
         lightLogoUrl: data.lightLogoUrl || "",
         darkLogoUrl: data.darkLogoUrl || "",
         logoSize: data.headerLogoSize || data.logoSize || 40,
         logoPaddingTop: data.headerLogoPaddingTop || data.logoPaddingTop || 0,
         logoPaddingLeft: data.headerLogoPaddingLeft || data.logoPaddingLeft || 0,
-        faviconSize: data.faviconSize !== undefined ? data.faviconSize : 16
+        faviconSize: data.faviconSize !== undefined ? data.faviconSize : 48
       };
     }
   } catch (e) {}
-  return { logoUrl: "/website-logo.png", logoSize: 40, logoPaddingTop: 0, logoPaddingLeft: 0, faviconSize: 48 };
+  return { logoUrl: "/website-logo.png", faviconUrl: "/website-logo.png", logoSize: 40, logoPaddingTop: 0, logoPaddingLeft: 0, faviconSize: 48 };
 }
 
 function updateSocialMetaImage(rawUrl: string, faviconSize: number = 48) {
@@ -119,6 +120,7 @@ function updateSocialMetaImage(rawUrl: string, faviconSize: number = 48) {
 function Logo({ t, isDark }: { t: Theme; isDark?: boolean }) {
   const initial = getInitialLogoSettings();
   const [logoUrl, setLogoUrl] = useState(initial.logoUrl || "/website-logo.png");
+  const [faviconUrl, setFaviconUrl] = useState(initial.faviconUrl || "/website-logo.png");
   const [lightLogoUrl, setLightLogoUrl] = useState(initial.lightLogoUrl || "");
   const [darkLogoUrl, setDarkLogoUrl] = useState(initial.darkLogoUrl || "");
   const [logoSize, setLogoSize] = useState(initial.logoSize ?? 40);
@@ -127,20 +129,20 @@ function Logo({ t, isDark }: { t: Theme; isDark?: boolean }) {
   const [favSize, setFavSize] = useState<number>(initial.faviconSize ?? 48);
 
   useEffect(() => {
-    updateSocialMetaImage(logoUrl, favSize);
-  }, [logoUrl, favSize]);
+    updateSocialMetaImage(faviconUrl || logoUrl, favSize);
+  }, [faviconUrl, logoUrl, favSize]);
 
   useEffect(() => {
     const loadSettings = async () => {
       const data = await dataCache.getData<any>("settings", {});
       if (data) {
         const currentLogo = data.headerLogoUrl || data.logoUrl || "/website-logo.png";
-        const currentFavSize = data.faviconSize !== undefined ? Number(data.faviconSize) : 16;
-        if (currentLogo) {
-          setLogoUrl(currentLogo);
-          setFavSize(currentFavSize);
-          updateSocialMetaImage(currentLogo, currentFavSize);
-        }
+        const currentFavicon = data.faviconUrl || currentLogo;
+        const currentFavSize = data.faviconSize !== undefined ? Number(data.faviconSize) : 48;
+        if (currentLogo) setLogoUrl(currentLogo);
+        if (currentFavicon) setFaviconUrl(currentFavicon);
+        setFavSize(currentFavSize);
+        updateSocialMetaImage(currentFavicon, currentFavSize);
         if (data.lightLogoUrl) setLightLogoUrl(data.lightLogoUrl);
         if (data.darkLogoUrl) setDarkLogoUrl(data.darkLogoUrl);
         if (data.headerLogoSize !== undefined) setLogoSize(data.headerLogoSize);
@@ -153,12 +155,12 @@ function Logo({ t, isDark }: { t: Theme; isDark?: boolean }) {
     const unsub = dataCache.subscribe("settings", (data) => {
       if (data) {
         const currentLogo = data.headerLogoUrl || data.logoUrl || "/website-logo.png";
-        const currentFavSize = data.faviconSize !== undefined ? Number(data.faviconSize) : 16;
-        if (currentLogo) {
-          setLogoUrl(currentLogo);
-          setFavSize(currentFavSize);
-          updateSocialMetaImage(currentLogo, currentFavSize);
-        }
+        const currentFavicon = data.faviconUrl || currentLogo;
+        const currentFavSize = data.faviconSize !== undefined ? Number(data.faviconSize) : 48;
+        if (currentLogo) setLogoUrl(currentLogo);
+        if (currentFavicon) setFaviconUrl(currentFavicon);
+        setFavSize(currentFavSize);
+        updateSocialMetaImage(currentFavicon, currentFavSize);
         if (data.lightLogoUrl) setLightLogoUrl(data.lightLogoUrl);
         if (data.darkLogoUrl) setDarkLogoUrl(data.darkLogoUrl);
         if (data.headerLogoSize !== undefined) setLogoSize(data.headerLogoSize);

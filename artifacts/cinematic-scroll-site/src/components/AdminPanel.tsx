@@ -91,6 +91,7 @@ export default function AdminPanel({
 
   // Settings State
   const [lightLogoBase64, setLightLogoBase64] = useState("");
+  const [faviconBase64, setFaviconBase64] = useState("");
   const [headerLogoSize, setHeaderLogoSize] = useState<number | string>(40);
   const [heroLogoSize, setHeroLogoSize] = useState<number | string>(40);
   const [heroLogoPaddingTop, setHeroLogoPaddingTop] = useState<number | string>(0);
@@ -120,6 +121,9 @@ export default function AdminPanel({
         if (data) {
           if (data.headerLogoUrl) setLightLogoBase64(data.headerLogoUrl);
           if (data.lightLogoUrl) setLightLogoBase64(data.lightLogoUrl);
+          if (data.faviconUrl) setFaviconBase64(data.faviconUrl);
+          else if (data.headerLogoUrl) setFaviconBase64(data.headerLogoUrl);
+          else if (data.lightLogoUrl) setFaviconBase64(data.lightLogoUrl);
           if (data.headerLogoSize !== undefined) setHeaderLogoSize(data.headerLogoSize);
           if (data.heroLogoSize !== undefined) setHeroLogoSize(data.heroLogoSize);
           if (data.heroLogoPaddingTop !== undefined) setHeroLogoPaddingTop(data.heroLogoPaddingTop);
@@ -145,9 +149,29 @@ export default function AdminPanel({
       setIsProcessing(true);
       const base64 = await resizeImage(file, 200, 200);
       setLightLogoBase64(base64);
+      if (!faviconBase64) {
+        setFaviconBase64(base64);
+      }
     } catch (err) {
       console.error(err);
       showToast("Error processing logo", "error");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleFaviconSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      setIsProcessing(true);
+      // High-res square icon for Googlebot-Image & browser retina
+      const base64 = await resizeImage(file, 192, 192);
+      setFaviconBase64(base64);
+      showToast("Favicon loaded! Live Google preview updated below.");
+    } catch (err) {
+      console.error(err);
+      showToast("Error processing favicon", "error");
     } finally {
       setIsProcessing(false);
     }
@@ -161,6 +185,7 @@ export default function AdminPanel({
       const existingSettings = await dataCache.getData<any>("settings", {});
       const finalLogo = lightLogoBase64 || existingSettings?.headerLogoUrl || existingSettings?.lightLogoUrl || "/website-logo.png";
       const finalDarkLogo = finalLogo;
+      const finalFavicon = faviconBase64 || existingSettings?.faviconUrl || finalLogo;
 
       const parseNum = (val: any, fallback: number) => (val !== "" && val !== undefined && !isNaN(Number(val)) ? Number(val) : fallback);
 
@@ -169,10 +194,11 @@ export default function AdminPanel({
         headerLogoUrl: finalLogo,
         lightLogoUrl: finalLogo,
         darkLogoUrl: finalDarkLogo,
+        faviconUrl: finalFavicon,
         headerLogoSize: parseNum(headerLogoSize, existingSettings?.headerLogoSize ?? 40),
         heroLogoSize: parseNum(heroLogoSize, existingSettings?.heroLogoSize ?? 40),
         heroLogoPaddingTop: parseNum(heroLogoPaddingTop, existingSettings?.heroLogoPaddingTop ?? 0),
-        faviconSize: parseNum(faviconSize, existingSettings?.faviconSize ?? 16),
+        faviconSize: parseNum(faviconSize, existingSettings?.faviconSize ?? 48),
         headerLogoPaddingTop: parseNum(headerLogoPaddingTop, existingSettings?.headerLogoPaddingTop ?? 0),
         headerLogoPaddingLeft: parseNum(headerLogoPaddingLeft, existingSettings?.headerLogoPaddingLeft ?? 0),
         footerLogoSize: parseNum(footerLogoSize, existingSettings?.footerLogoSize ?? 32),
@@ -184,7 +210,7 @@ export default function AdminPanel({
       dataCache.setLocalData("settings", newSettings);
       dataCache.bumpVersionLocally("settings");
       
-      showToast("Logo & Styles saved as draft! Click 'Publish Changes' to deploy live.");
+      showToast("Logo & Favicon saved as draft! Click 'Publish Changes' to deploy live.");
     } catch (err: any) {
       console.error("Save Logo Error:", err);
       showToast(`Failed to save: ${err.message || "Unknown error"}`, "error");
@@ -1318,6 +1344,7 @@ export default function AdminPanel({
                     const existingSettings = await dataCache.getData<any>("settings", {});
                     const finalHeaderLogo = lightLogoBase64 || existingSettings?.headerLogoUrl || existingSettings?.lightLogoUrl || "/website-logo.png";
                     const finalDarkLogo = finalHeaderLogo;
+                    const finalFavicon = faviconBase64 || existingSettings?.faviconUrl || finalHeaderLogo;
 
                     const parseNum = (val: any, fallback: number) => (val !== "" && val !== undefined && !isNaN(Number(val)) ? Number(val) : fallback);
 
@@ -1325,6 +1352,7 @@ export default function AdminPanel({
                       headerLogoUrl: finalHeaderLogo,
                       lightLogoUrl: finalHeaderLogo,
                       darkLogoUrl: finalDarkLogo,
+                      faviconUrl: finalFavicon,
                       headerLogoSize: parseNum(headerLogoSize, existingSettings?.headerLogoSize ?? 40),
                       heroLogoSize: parseNum(heroLogoSize, existingSettings?.heroLogoSize ?? 40),
                       heroLogoPaddingTop: parseNum(heroLogoPaddingTop, existingSettings?.heroLogoPaddingTop ?? 0),
@@ -2040,11 +2068,132 @@ export default function AdminPanel({
                       </div>
                     </div>
 
-                    {/* Favicon Settings Line */}
-                    <div className="grid grid-cols-1 gap-4 mt-2">
-                      <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: t.subtext }}>Browser Tab Favicon (Logo) Size (px)</label>
-                        <input type="number" value={faviconSize} onChange={e => handleNumInput(e.target.value, setFaviconSize)} className="w-full px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: t.inputBg, border: `1px solid ${t.cardBorder}`, color: t.text }} />
+                    {/* Website Favicon & Google Search Icon Dedicated Section */}
+                    <div className="mt-4 p-5 rounded-2xl border flex flex-col gap-4 relative" style={{ borderColor: '#10B981', background: isDark ? 'rgba(16, 185, 129, 0.04)' : 'rgba(16, 185, 129, 0.02)' }}>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-3" style={{ borderColor: t.cardBorder }}>
+                        <div>
+                          <h4 className="font-bold text-base flex items-center gap-2 text-[#10B981]">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                            </svg>
+                            Website Favicon & Google Search Icon
+                          </h4>
+                          <p className="text-xs mt-0.5 opacity-80" style={{ color: t.subtext }}>
+                            গুগল সার্চ রেজাল্ট এবং ব্রাউজার ট্যাবে যে আইকনটি দেখাবে তা এখান থেকে আপলোড করুন (Square PNG, 48x48px বা তার বেশি)
+                          </p>
+                        </div>
+                        {lightLogoBase64 && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFaviconBase64(lightLogoBase64);
+                              showToast("Header Logo Favicon হিসেবে সেট করা হয়েছে!");
+                            }}
+                            className="text-xs px-3 py-1.5 rounded-lg border font-semibold text-[#10B981] hover:bg-[#10B981]/10 transition-colors shrink-0"
+                            style={{ borderColor: '#10B981' }}
+                          >
+                            Use Header Logo as Favicon
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                        {/* File Upload & Size Control */}
+                        <div className="flex flex-col gap-3">
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: t.subtext }}>
+                              Upload Favicon (Square Icon)
+                            </label>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleFaviconSelect}
+                              className="w-full px-4 py-2.5 rounded-xl text-sm outline-none file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:bg-[#10B981]/20 file:text-[#10B981] cursor-pointer"
+                              style={{ background: t.inputBg, border: `1px solid ${t.cardBorder}`, color: t.text }}
+                            />
+                            <p className="text-[11px] opacity-70" style={{ color: t.subtext }}>
+                              সুপারিশ: ১৯২x১৯২ বা ৫১২x৫১২ ট্রান্সপারেন্ট PNG আইকন
+                            </p>
+                          </div>
+
+                          <div className="flex flex-col gap-1.5">
+                            <label className="text-xs font-semibold uppercase tracking-wider" style={{ color: t.subtext }}>
+                              Browser Favicon Resolution (px)
+                            </label>
+                            <input
+                              type="number"
+                              value={faviconSize}
+                              onChange={e => handleNumInput(e.target.value, setFaviconSize)}
+                              className="w-full px-4 py-2 rounded-xl text-sm outline-none"
+                              style={{ background: t.inputBg, border: `1px solid ${t.cardBorder}`, color: t.text }}
+                            />
+                            <span className="text-[11px] text-[#10B981]">
+                              গুগলের শর্তানুযায়ী ৪৮px বা তার গুণিতক নির্ধারিত রয়েছে।
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Live Previews */}
+                        <div className="flex flex-col gap-3">
+                          {/* Google Search Result Live Preview Card */}
+                          <div className="p-3.5 rounded-xl border flex flex-col gap-2" style={{ background: isDark ? '#1F1F1F' : '#F8F9FA', borderColor: isDark ? '#333' : '#E2E8F0' }}>
+                            <div className="flex items-center justify-between border-b pb-1.5" style={{ borderColor: isDark ? '#333' : '#E5E7EB' }}>
+                              <span className="text-[11px] font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
+                                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                                </svg>
+                                Google Search Live Preview
+                              </span>
+                              <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-semibold">Active</span>
+                            </div>
+
+                            <div className="flex items-center gap-2.5 mt-1">
+                              <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center p-1 shadow-sm shrink-0 border border-gray-200">
+                                <img
+                                  src={faviconBase64 || lightLogoBase64 || "/website-logo.png"}
+                                  alt="Favicon Preview"
+                                  className="w-full h-full object-contain"
+                                />
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-semibold text-white/90 leading-tight">ModX Lab</span>
+                                <span className="text-[11px] text-gray-400 leading-tight">https://modxlabpro.vercel.app</span>
+                              </div>
+                            </div>
+
+                            <div className="mt-1">
+                              <div className="text-[13px] font-semibold text-[#8ab4f8] hover:underline cursor-pointer leading-snug">
+                                ModX Lab – Official ModX App & APK Downloads
+                              </div>
+                              <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-2 leading-relaxed">
+                                ModX Lab (ModX) is the official platform for high-speed APK downloads, Free Fire mods, video tutorials, and direct support. Explore safe and undetected ModX tools.
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Browser Tab Preview */}
+                          <div className="p-2.5 rounded-xl border flex items-center gap-2" style={{ background: isDark ? '#18181B' : '#F1F5F9', borderColor: isDark ? '#27272A' : '#E2E8F0' }}>
+                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-100 text-xs shadow-sm max-w-full truncate border border-zinc-700">
+                              <img
+                                src={faviconBase64 || lightLogoBase64 || "/website-logo.png"}
+                                alt="Tab Icon"
+                                className="w-3.5 h-3.5 object-contain shrink-0"
+                              />
+                              <span className="truncate max-w-[170px] text-[11px]">ModX Lab – Official ModX...</span>
+                              <span className="text-zinc-400 text-[10px] ml-1">×</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Googlebot Crawler Notice */}
+                      <div className="mt-1 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs flex items-start gap-2">
+                        <svg className="w-4 h-4 shrink-0 mt-0.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                          <strong>গুগল সার্চে আইকন আপডেট সংক্রান্ত তথ্য:</strong> গুগলের নিয়ম অনুযায়ী টাইটেল ও মেটা বিবরণ দ্রুত আপডেট হয়, কিন্তু <em>Googlebot-Image</em> ফ্যাভিকন ক্রল করতে কিছুটা অতিরিক্ত সময় নেয় (সাধারণত কয়েক দিন থেকে ১ সপ্তাহ)। আপনি এখানে আইকন সেট করে নিচে "Save Logo" বাটনে চাপার পর "Publish Changes" করে দিন।
+                        </span>
                       </div>
                     </div>
 
