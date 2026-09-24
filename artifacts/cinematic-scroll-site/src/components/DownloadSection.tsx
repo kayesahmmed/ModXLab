@@ -3,15 +3,147 @@ import { motion, AnimatePresence } from "motion/react";
 import { Theme } from "../types";
 import { dataCache } from "../lib/dataCache";
 
+const defaultInitialDownloads = [
+  {
+    id: "dl_1788230452440",
+    files: [
+      {
+        title: "Kayes Ahmmed ",
+        category: "app",
+        tags: "",
+        imageUrl: "",
+        buttonText: "Download Free APK",
+        downloadLink: "",
+        previewImages: []
+      }
+    ],
+    boxDate: "20 August 2026",
+    howToUse: "",
+    youtubeLinks: [],
+    howToUseTitle: "How to Use",
+    youtubeTitle: "Video Tutorial",
+    updatedAt: "2026-09-01T02:40:52.440Z",
+    createdAt: "2026-09-01T02:40:52.440Z"
+  },
+  {
+    id: "dl_1788230413491",
+    files: [
+      {
+        title: "ModX Lab",
+        category: "App",
+        tags: "Antiban",
+        imageUrl: "",
+        buttonText: "Download Free APK",
+        downloadLink: "",
+        previewImages: []
+      }
+    ],
+    boxDate: "20 August 2026",
+    howToUse: "",
+    youtubeLinks: [],
+    howToUseTitle: "How to Use",
+    youtubeTitle: "Video Tutorial",
+    updatedAt: "2026-09-01T02:40:13.491Z",
+    createdAt: "2026-09-01T02:40:13.491Z"
+  },
+  {
+    id: "dl_1788230386201",
+    files: [
+      {
+        title: "Modx",
+        category: "App",
+        tags: "Antiban",
+        imageUrl: "",
+        buttonText: "Download Free APK",
+        downloadLink: "",
+        previewImages: []
+      }
+    ],
+    boxDate: "20 August 2026",
+    howToUse: "",
+    youtubeLinks: [],
+    howToUseTitle: "How to Use",
+    youtubeTitle: "Video Tutorial",
+    updatedAt: "2026-09-01T02:39:46.201Z",
+    createdAt: "2026-09-01T02:39:46.201Z"
+  },
+  {
+    id: "dl_1788184610951",
+    files: [
+      {
+        title: "Kayes Ahmmed",
+        category: "File",
+        tags: "Antiban",
+        imageUrl: "/uploads/img_dl_1788184610951_0.png",
+        buttonText: "Download APK",
+        downloadLink: "",
+        previewImages: [
+          "/uploads/preview_dl_1788184610951_1.png",
+          "/uploads/preview_dl_1788184610951_2.jpg"
+        ]
+      },
+      {
+        title: "kayes Ahmmed 1",
+        category: "App",
+        tags: "Antiban",
+        imageUrl: "",
+        buttonText: "Download Free APK",
+        downloadLink: "",
+        previewImages: [
+          "/uploads/preview_dl_1788184610951_3.png"
+        ]
+      }
+    ],
+    boxDate: "10 AUGUST 2026",
+    howToUse: "he \njsjs",
+    youtubeLinks: [],
+    howToUseTitle: "How to Use",
+    youtubeTitle: "Video Tutorial",
+    updatedAt: "2026-08-31T13:58:52.822Z",
+    createdAt: "2026-08-31T13:56:50.951Z"
+  },
+  {
+    id: "dl_1788102419937",
+    files: [
+      {
+        title: "Kayes",
+        category: "App",
+        tags: "antiban",
+        imageUrl: "/uploads/img_dl_1788102419937_4.png",
+        buttonText: "Download Free APK",
+        downloadLink: "",
+        previewImages: [
+          "/uploads/preview_dl_1788102419937_5.jpg"
+        ]
+      }
+    ],
+    boxDate: "12 AUGUST 2026",
+    howToUse: "hi\nffs",
+    youtubeLinks: [
+      {
+        title: "tutorial",
+        url: "https://youtu.be/FQ0Jf8kxMgg?si=S_f2qhEN_LDq51d4"
+      }
+    ],
+    howToUseTitle: "How to Use",
+    youtubeTitle: "Video Tutorial",
+    updatedAt: "2026-08-30T15:06:59.937Z",
+    createdAt: "2026-08-30T15:06:59.937Z"
+  }
+];
+
 const getInitialDownloads = () => {
   try {
-    const cached = localStorage.getItem("cached_downloads");
+    const memoryData = dataCache.cache.get("downloads");
+    if (Array.isArray(memoryData) && memoryData.length > 0) return memoryData;
+
+    const cached = localStorage.getItem("cached_downloads") || localStorage.getItem("cached_json_downloads");
     if (cached) {
       const parsed = JSON.parse(cached);
       if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     }
   } catch (e) {}
-  return [];
+  return defaultInitialDownloads;
 };
 
 export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: boolean }) {
@@ -86,7 +218,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
     youtubeLinks: ["https://www.youtube.com/watch?v=C4LMW4iIVgA"]
   };
 
-  const rawDownloads = downloads.length > 0 ? downloads : [defaultDownload];
+  const rawDownloads = downloads.length > 0 ? downloads : defaultInitialDownloads;
   const itemsPerPage = 4;
   const totalItems = rawDownloads.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -121,16 +253,16 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                   id={`download-${dl.id}`}
                   className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl mb-8"
               style={{
-                background: "rgba(255, 255, 255, 0.03)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
+                background: isDark ? "rgba(13, 17, 28, 0.88)" : "rgba(255, 255, 255, 0.88)",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                border: isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)",
+                boxShadow: isDark ? "0 16px 40px -12px rgba(0, 0, 0, 0.6)" : "0 16px 40px -12px rgba(0, 0, 0, 0.08)"
               }}
             >
               {/* Radial glow background accents */}
-              <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none rounded-full filter blur-3xl opacity-15" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)" }} />
-              <div className="absolute bottom-0 left-0 w-80 h-80 pointer-events-none rounded-full filter blur-3xl opacity-15" style={{ background: "radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)" }} />
+              <div className="absolute top-0 right-0 w-96 h-96 pointer-events-none rounded-full filter blur-3xl opacity-15" style={{ background: "radial-gradient(circle, rgba(39,144,255,0.4) 0%, transparent 70%)" }} />
+              <div className="absolute bottom-0 left-0 w-80 h-80 pointer-events-none rounded-full filter blur-3xl opacity-15" style={{ background: "radial-gradient(circle, rgba(0,229,209,0.3) 0%, transparent 70%)" }} />
 
               <div className="relative z-10 flex flex-col gap-6">
                 
@@ -161,11 +293,11 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                         key={fIdx} 
                         className="flex flex-col justify-between gap-4 p-5 sm:p-6 rounded-[18px] transition-all duration-300 overflow-hidden group" 
                         style={{ 
-                          background: "rgba(255, 255, 255, 0.08)",
-                          backdropFilter: "blur(12px)",
-                          WebkitBackdropFilter: "blur(12px)",
-                          border: "1px solid rgba(255, 255, 255, 0.15)",
-                          boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
+                          background: isDark ? "rgba(22, 28, 44, 0.85)" : "rgba(245, 247, 250, 0.9)",
+                          backdropFilter: "blur(14px)",
+                          WebkitBackdropFilter: "blur(14px)",
+                          border: isDark ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0, 0, 0, 0.06)",
+                          boxShadow: "0 8px 24px 0 rgba(0, 0, 0, 0.18)"
                         }}
                       >
                         <div className="flex flex-col gap-3">

@@ -22,11 +22,11 @@ function FeatureCard({ f, index }: { f: (typeof featuresData)[0]; index: number 
       onMouseLeave={() => setHovered(false)}
       className="relative flex flex-col items-start px-5 sm:px-6 py-6 sm:py-8 rounded-[24px] cursor-pointer select-none overflow-hidden z-10"
       style={{
-        background: "rgba(255, 255, 255, 0.12)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        border: "1px solid rgba(255, 255, 255, 0.2)",
-        boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+        background: "rgba(15, 20, 32, 0.88)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        border: "1px solid rgba(255, 255, 255, 0.12)",
+        boxShadow: "0 10px 30px -10px rgba(0, 0, 0, 0.5)",
         willChange: "transform, opacity",
         z: 0
       }}

@@ -1,11 +1,20 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
 import { useLenis } from "lenis/react";
+import { preloaderEvents } from "../lib/preloaderEvents";
 
-export default function Preloader({ progress }: { progress: number }) {
+export default function Preloader({ initialProgress = 0 }: { initialProgress?: number }) {
   const [show, setShow] = useState(true);
+  const [progress, setProgress] = useState(initialProgress);
   const displayProgress = Math.min(Math.max(Math.round(progress), 0), 100);
   const lenis = useLenis();
+
+  useEffect(() => {
+    const unsub = preloaderEvents.subscribe((val) => {
+      setProgress(val);
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     if (show) {

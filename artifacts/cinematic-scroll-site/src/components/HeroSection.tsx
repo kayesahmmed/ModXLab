@@ -509,7 +509,11 @@ export function HeroMockPanel({
         <motion.div 
           className="w-full flex flex-col justify-between gap-4 relative z-10 p-5 rounded-[24px] h-full overflow-hidden"
           style={{ 
-            background: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255, 255, 255, 0.2)", boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+            background: isDark ? "rgba(13, 17, 28, 0.88)" : "rgba(255, 255, 255, 0.88)", 
+            backdropFilter: "blur(18px)", 
+            WebkitBackdropFilter: "blur(18px)", 
+            border: isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)", 
+            boxShadow: isDark ? "0 16px 40px -12px rgba(0, 0, 0, 0.6)" : "0 16px 40px -12px rgba(0, 0, 0, 0.08)",
             z: 0
           }}
         >
@@ -671,7 +675,11 @@ export function HeroMockPanel({
         <motion.div 
           className="flex-1 flex flex-col justify-between gap-4 relative z-10 p-5 sm:p-6 rounded-[24px] h-full overflow-hidden"
           style={{ 
-            background: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255, 255, 255, 0.2)", boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
+            background: isDark ? "rgba(13, 17, 28, 0.88)" : "rgba(255, 255, 255, 0.88)", 
+            backdropFilter: "blur(18px)", 
+            WebkitBackdropFilter: "blur(18px)", 
+            border: isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)", 
+            boxShadow: isDark ? "0 16px 40px -12px rgba(0, 0, 0, 0.6)" : "0 16px 40px -12px rgba(0, 0, 0, 0.08)",
             z: 0
           }}
         >

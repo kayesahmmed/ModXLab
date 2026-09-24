@@ -61,7 +61,18 @@ class DataCacheService {
       headers: { "Pragma": "no-cache", "Cache-Control": "no-cache" }
     };
 
-    // Endpoint 1: Server API
+    // Priority 1: Static Public JSON (/data/:key.json) - instant load
+    try {
+      const res = await fetch(`/data/${key}.json?t=${timestamp}`, fetchOptions);
+      if (res.ok) {
+        const json = await res.json();
+        if (json !== null && json !== undefined) return json;
+      }
+    } catch (e) {
+      // Static file fetch failed, fallback to server API
+    }
+
+    // Priority 2: Server API fallback
     try {
       const res = await fetch(`/api/data/${key}?t=${timestamp}`, fetchOptions);
       if (res.ok) {
@@ -70,17 +81,6 @@ class DataCacheService {
       }
     } catch (e) {
       // Server API error or offline
-    }
-
-    // Endpoint 2: Static Public JSON fallback
-    try {
-      const res = await fetch(`/data/${key}.json?t=${timestamp}`, fetchOptions);
-      if (res.ok) {
-        const json = await res.json();
-        if (json !== null && json !== undefined) return json;
-      }
-    } catch (e) {
-      // Static file fetch failed
     }
 
     return null;
