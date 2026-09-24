@@ -313,17 +313,21 @@ export default function FAQSection({ t }: { t: Theme }) {
           {allFaqs.slice(0, 10).map((faq, i) => {
             const isOpen = openId === faq.id;
             return (
-              <div 
+              <motion.div 
                 key={faq.id} 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                
+                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="rounded-[24px] relative group overflow-hidden"
               >
                 <div 
                   className="absolute inset-0 z-0 transition-all duration-300 pointer-events-none rounded-[24px]"
                   style={{
-                    background: "rgba(255, 255, 255, 0.05)",
+                    background: isOpen ? "rgba(22, 207, 131, 0.04)" : "rgba(255, 255, 255, 0.06)",
                     backdropFilter: "blur(16px)",
                     WebkitBackdropFilter: "blur(16px)",
-                    border: isOpen ? "1px solid rgba(22, 207, 131, 0.4)" : "1px solid rgba(255, 255, 255, 0.08)",
+                    border: isOpen ? "1.5px solid #16CF83" : "1px solid rgba(255, 255, 255, 0.22)",
                     boxShadow: isOpen ? "0 8px 32px 0 rgba(22, 207, 131, 0.25)" : "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
                   }}
                 />
@@ -373,7 +377,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                   )}
                 </AnimatePresence>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -450,10 +454,10 @@ export default function FAQSection({ t }: { t: Theme }) {
                         <div 
                           className="absolute inset-0 z-0 transition-all duration-300 pointer-events-none rounded-[18px]"
                           style={{
-                            background: "rgba(255, 255, 255, 0.05)",
+                            background: isOpen ? "rgba(22, 207, 131, 0.04)" : "rgba(255, 255, 255, 0.06)",
                             backdropFilter: "blur(16px)",
                             WebkitBackdropFilter: "blur(16px)",
-                            border: isOpen ? "1px solid rgba(22, 207, 131, 0.4)" : "1px solid rgba(255, 255, 255, 0.08)",
+                            border: isOpen ? "1.5px solid #16CF83" : "1px solid rgba(255, 255, 255, 0.22)",
                             boxShadow: isOpen ? "0 4px 20px -5px rgba(22, 207, 131, 0.25)" : "0 8px 32px 0 rgba(0, 0, 0, 0.15)"
                           }}
                         />
