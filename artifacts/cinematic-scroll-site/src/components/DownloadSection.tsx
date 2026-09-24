@@ -253,11 +253,11 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                   id={`download-${dl.id}`}
                   className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl mb-8"
               style={{
-                background: isDark ? "rgba(13, 17, 28, 0.88)" : "rgba(255, 255, 255, 0.88)",
+                background: isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0.7)",
                 backdropFilter: "blur(20px)",
                 WebkitBackdropFilter: "blur(20px)",
-                border: isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)",
-                boxShadow: isDark ? "0 16px 40px -12px rgba(0, 0, 0, 0.6)" : "0 16px 40px -12px rgba(0, 0, 0, 0.08)"
+                border: isDark ? "1px solid rgba(255, 255, 255, 0.14)" : "1px solid rgba(0, 0, 0, 0.08)",
+                boxShadow: isDark ? "0 16px 40px -12px rgba(0, 0, 0, 0.5)" : "0 16px 40px -12px rgba(0, 0, 0, 0.08)"
               }}
             >
               {/* Radial glow background accents */}
@@ -293,11 +293,11 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                         key={fIdx} 
                         className="flex flex-col justify-between gap-4 p-5 sm:p-6 rounded-[18px] transition-all duration-300 overflow-hidden group" 
                         style={{ 
-                          background: isDark ? "rgba(22, 28, 44, 0.85)" : "rgba(245, 247, 250, 0.9)",
-                          backdropFilter: "blur(14px)",
-                          WebkitBackdropFilter: "blur(14px)",
-                          border: isDark ? "1px solid rgba(255, 255, 255, 0.1)" : "1px solid rgba(0, 0, 0, 0.06)",
-                          boxShadow: "0 8px 24px 0 rgba(0, 0, 0, 0.18)"
+                          background: isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(255, 255, 255, 0.7)",
+                          backdropFilter: "blur(16px)",
+                          WebkitBackdropFilter: "blur(16px)",
+                          border: isDark ? "1px solid rgba(255, 255, 255, 0.14)" : "1px solid rgba(0, 0, 0, 0.06)",
+                          boxShadow: "0 8px 24px 0 rgba(0, 0, 0, 0.15)"
                         }}
                       >
                         <div className="flex flex-col gap-3">

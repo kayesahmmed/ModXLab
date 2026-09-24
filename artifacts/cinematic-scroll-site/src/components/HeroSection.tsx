@@ -509,11 +509,11 @@ export function HeroMockPanel({
         <motion.div 
           className="w-full flex flex-col justify-between gap-4 relative z-10 p-5 rounded-[24px] h-full overflow-hidden"
           style={{ 
-            background: isDark ? "rgba(13, 17, 28, 0.88)" : "rgba(255, 255, 255, 0.88)", 
-            backdropFilter: "blur(18px)", 
-            WebkitBackdropFilter: "blur(18px)", 
-            border: isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)", 
-            boxShadow: isDark ? "0 16px 40px -12px rgba(0, 0, 0, 0.6)" : "0 16px 40px -12px rgba(0, 0, 0, 0.08)",
+            background: isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0.7)", 
+            backdropFilter: "blur(20px)", 
+            WebkitBackdropFilter: "blur(20px)", 
+            border: isDark ? "1px solid rgba(255, 255, 255, 0.14)" : "1px solid rgba(0, 0, 0, 0.08)", 
+            boxShadow: isDark ? "0 16px 40px -12px rgba(0, 0, 0, 0.4)" : "0 16px 40px -12px rgba(0, 0, 0, 0.08)",
             z: 0
           }}
         >
@@ -675,11 +675,11 @@ export function HeroMockPanel({
         <motion.div 
           className="flex-1 flex flex-col justify-between gap-4 relative z-10 p-5 sm:p-6 rounded-[24px] h-full overflow-hidden"
           style={{ 
-            background: isDark ? "rgba(13, 17, 28, 0.88)" : "rgba(255, 255, 255, 0.88)", 
-            backdropFilter: "blur(18px)", 
-            WebkitBackdropFilter: "blur(18px)", 
-            border: isDark ? "1px solid rgba(255, 255, 255, 0.12)" : "1px solid rgba(0, 0, 0, 0.08)", 
-            boxShadow: isDark ? "0 16px 40px -12px rgba(0, 0, 0, 0.6)" : "0 16px 40px -12px rgba(0, 0, 0, 0.08)",
+            background: isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0.7)", 
+            backdropFilter: "blur(20px)", 
+            WebkitBackdropFilter: "blur(20px)", 
+            border: isDark ? "1px solid rgba(255, 255, 255, 0.14)" : "1px solid rgba(0, 0, 0, 0.08)", 
+            boxShadow: isDark ? "0 16px 40px -12px rgba(0, 0, 0, 0.4)" : "0 16px 40px -12px rgba(0, 0, 0, 0.08)",
             z: 0
           }}
         >
@@ -762,8 +762,10 @@ export function HeroMockPanel({
                   onClick={() => scrollToSection(card.id)}
                   className="p-3.5 rounded-2xl border transition-all cursor-pointer group flex flex-col justify-between relative overflow-hidden select-none"
                   style={{
-                    backgroundColor: isActive ? `${card.accentColor}16` : "rgba(255, 255, 255, 0.08)",
-                    borderColor: isActive ? `${card.accentColor}95` : "rgba(255, 255, 255, 0.15)",
+                    backgroundColor: isActive ? `${card.accentColor}18` : isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0.6)",
+                    backdropFilter: "blur(12px)",
+                    WebkitBackdropFilter: "blur(12px)",
+                    borderColor: isActive ? `${card.accentColor}95` : isDark ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.08)",
                     boxShadow: isActive
                       ? `0 0 28px ${card.accentColor}45, inset 0 0 15px ${card.accentColor}15`
                       : "0 4px 16px rgba(0, 0, 0, 0.1)",
@@ -857,11 +859,18 @@ export function HeroMockPanel({
           </div>
 
           {/* Performance Ring Gauge & Modern Donut / Pie Chart Panel */}
-          <div className={`mt-2 w-full rounded-2xl border p-3.5 flex flex-col md:flex-row items-center justify-between gap-4 relative overflow-hidden backdrop-blur-md ${
-            isDark
-              ? "bg-gradient-to-r from-white/[0.06] via-white/[0.04] to-white/[0.06] border-white/15"
-              : "bg-gradient-to-r from-slate-900/5 via-slate-900/[0.02] to-slate-900/5 border-slate-200"
-          }`}>
+          <div 
+            className={`mt-2 w-full rounded-2xl border p-3.5 flex flex-col md:flex-row items-center justify-between gap-4 relative overflow-hidden ${
+              isDark
+                ? "border-white/15"
+                : "border-slate-200"
+            }`}
+            style={{
+              background: isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(255, 255, 255, 0.6)",
+              backdropFilter: "blur(16px)",
+              WebkitBackdropFilter: "blur(16px)",
+            }}
+          >
             {/* Left: Premium Ring Chart & Optimization Metrics */}
             <div className="flex items-center gap-3.5 shrink-0 w-full md:w-auto justify-between md:justify-start">
               <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center shrink-0">
