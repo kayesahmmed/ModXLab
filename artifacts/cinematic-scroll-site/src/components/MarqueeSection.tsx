@@ -53,10 +53,6 @@ export function StatsSection({ t }: { t: Theme }) {
         {statsData.map((s, i) => (
           <motion.div
             key={i}
-            initial={{ opacity: 0, y: 30, scale: 0.92 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ scale: 1.04, y: -4, boxShadow: "0 20px 40px -10px rgba(125, 82, 253, 0.25)" }}
             className="relative flex flex-col items-center gap-1 py-10 px-4 rounded-[24px] cursor-default"
             style={{ 

@@ -313,12 +313,8 @@ export default function FAQSection({ t }: { t: Theme }) {
           {allFaqs.slice(0, 10).map((faq, i) => {
             const isOpen = openId === faq.id;
             return (
-              <motion.div 
+              <div 
                 key={faq.id} 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                
-                transition={{ duration: 0.5, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="rounded-[24px] relative group overflow-hidden"
               >
                 <div 
@@ -377,7 +373,7 @@ export default function FAQSection({ t }: { t: Theme }) {
                   )}
                 </AnimatePresence>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

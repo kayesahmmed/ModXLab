@@ -463,30 +463,6 @@ export function HeroMockPanel({
     return () => unsub();
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isNavigatingRef.current) return;
-      if (window.scrollY < 300) {
-        setActiveSection("hero");
-        return;
-      }
-      const sectionIds = ["reviews", "faq", "features", "download"];
-      for (const id of sectionIds) {
-        const el = document.getElementById(id) || document.getElementById(`${id}-section`);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= 100) {
-            setActiveSection(id);
-            return;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const scrollToSection = (id: string) => {
     // 1. First trigger the click effect, sound/visual feedback & active state immediately
     setActiveSection(id);
@@ -501,7 +477,7 @@ export function HeroMockPanel({
     // 2. Wait for the click effect to play visibly (~380ms), then smoothly scroll to the section
     setTimeout(() => {
       if (id === "hero" || id === "home") {
-        if ((window as any).lenis) {
+        if (typeof (window as any).lenis?.scrollTo === "function") {
           (window as any).lenis.scrollTo(0, { offset: 0, duration: 1.2 });
         } else {
           window.scrollTo({ top: 0, behavior: "smooth" });
@@ -510,7 +486,7 @@ export function HeroMockPanel({
         const cleanId = id.replace(/-section$/, "");
         const el = document.getElementById(id) || document.getElementById(cleanId) || document.getElementById(`${cleanId}-section`);
         if (el) {
-          if ((window as any).lenis) {
+          if (typeof (window as any).lenis?.scrollTo === "function") {
             (window as any).lenis.scrollTo(el, { offset: -70, duration: 1.2 });
           } else {
             el.scrollIntoView({ behavior: "smooth" });
@@ -534,8 +510,7 @@ export function HeroMockPanel({
           className="w-full flex flex-col justify-between gap-4 relative z-10 p-5 rounded-[24px] h-full overflow-hidden"
           style={{ 
             background: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255, 255, 255, 0.2)", boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
-            y: yPanel, scale: scalePanel, opacity: opacityPanel, rotateX: rotateXPanel, transformPerspective: 1200, z: 0,
-            transformOrigin: "center center"
+            z: 0
           }}
         >
           
@@ -697,8 +672,7 @@ export function HeroMockPanel({
           className="flex-1 flex flex-col justify-between gap-4 relative z-10 p-5 sm:p-6 rounded-[24px] h-full overflow-hidden"
           style={{ 
             background: "rgba(255, 255, 255, 0.12)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255, 255, 255, 0.2)", boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.15)",
-            y: yPanel, scale: scalePanel, opacity: opacityPanel, rotateX: rotateXPanel, transformPerspective: 1200, z: 0,
-            transformOrigin: "center center"
+            z: 0
           }}
         >
           <div className="flex justify-between items-center mb-1">
@@ -1142,7 +1116,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
       const targetId = filteredResults[0].targetId || filteredResults[0].id || "download";
       let target = document.getElementById(targetId) || document.getElementById("download");
       if (target) {
-        if ((window as any).lenis) {
+        if (typeof (window as any).lenis?.scrollTo === "function") {
           (window as any).lenis.scrollTo(target, { offset: -70 });
         } else {
           target.scrollIntoView({ behavior: "smooth" });
@@ -1218,14 +1192,11 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
       </motion.div>
 
       <div className={`relative w-full max-w-6xl mx-auto px-4 sm:px-8 lg:px-14 flex flex-col items-center gap-14 ${searchOpen ? "z-[250]" : "z-10"}`}>
-        <motion.div
-          style={{ y: yText, opacity: opacityText, z: searchOpen ? 100 : 0, }}
+        <div
+          style={{ zIndex: searchOpen ? 100 : 0 }}
           className={`flex flex-col gap-8 text-center max-w-4xl items-center sm:px-12 relative ${searchOpen ? "z-[300]" : "z-10"}`}
         >
-                    <motion.h1
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          <h1
             className="font-['Orbitron',sans-serif] font-black text-[22px] xs:text-[28px] sm:text-[40px] md:text-[52px] lg:text-[60px] uppercase tracking-wider transition-colors duration-500 whitespace-nowrap flex flex-row flex-nowrap items-center justify-center gap-2 sm:gap-4 max-w-full mb-10 sm:mb-14 lg:mb-16"
             style={{ color: "white" }}
           >
@@ -1233,21 +1204,15 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             <span className="relative inline-block transition-all duration-500 whitespace-nowrap">
               <TypewriterGradientText text="ModX Lab" delay={50} speed={30} />
             </span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          <p
             className="font-['Plus_Jakarta_Sans',sans-serif] text-[16px] sm:text-[18px] lg:text-[20px] leading-relaxed transition-colors duration-500 max-w-2xl text-center text-white/80 font-medium mb-10 sm:mb-14"
           >
             The official website of the ModX Lab YouTube Channel. Access our exclusive video tutorial resources, premium mods, apps, and files. Join our community to ask questions, explore features, and share your valuable reviews!
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          <div
             className={`flex items-center gap-5 justify-center mt-2 relative w-full px-4 ${searchOpen ? "z-[110]" : "z-30"}`}
           >
             <motion.button
@@ -1256,7 +1221,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
               onClick={() => {
                 const target = document.getElementById("footer");
                 if (target) {
-                  if ((window as any).lenis) {
+                  if (typeof (window as any).lenis?.scrollTo === "function") {
                     (window as any).lenis.scrollTo(target, { offset: -70 });
                   } else {
                     target.scrollIntoView({ behavior: "smooth" });
@@ -1379,7 +1344,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
                             const targetId = item.targetId || item.id || "download";
                             let target = document.getElementById(targetId) || document.getElementById("download");
                             if (target) {
-                              if ((window as any).lenis) {
+                              if (typeof (window as any).lenis?.scrollTo === "function") {
                                 (window as any).lenis.scrollTo(target, { offset: -70 });
                               } else {
                                 target.scrollIntoView({ behavior: "smooth" });
@@ -1430,18 +1395,12 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             </div>
   
 
-        </motion.div>
+        </div>
 
-
-        </motion.div>
+        </div>
 
         {/* Hero Mock Panel - Placed cleanly underneath with GPU acceleration */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-[960px] z-10 relative mt-16 sm:mt-24 lg:mt-28"
-        >
+        <div className="w-full max-w-[960px] z-10 relative mt-16 sm:mt-24 lg:mt-28">
           <HeroMockPanel 
             isDark={isDark} 
             yPanel={yPanel} 
@@ -1449,7 +1408,7 @@ export default function HeroSection({ isDark, t }: { isDark: boolean; t: Theme }
             opacityPanel={opacityPanel} 
             rotateXPanel={rotateXPanel} 
           />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

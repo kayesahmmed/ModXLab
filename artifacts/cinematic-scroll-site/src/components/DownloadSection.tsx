@@ -99,29 +99,14 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
 
   return (
     <section id="download" className="relative py-16 sm:py-20 px-4 sm:px-8 lg:px-14 max-w-7xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0.3, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="flex flex-col gap-6 w-full"
-        style={{  }}
-      >
+      <div className="flex flex-col gap-6 w-full">
         <div className="text-center mb-16 px-4 sm:px-8 lg:px-14 relative z-10 w-full max-w-7xl mx-auto">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 tracking-tight" style={{ color: t.text }}>Download</h2>
           <p className="text-base sm:text-lg md:text-xl font-semibold max-w-xl mx-auto" style={{ color: t.subtext }}>Get the latest updates and mod files.</p>
         </div>
         
         <div className="relative w-full">
-          
-            <motion.div 
-               
-              
-              
-              
-              className="w-full flex flex-col gap-6"
-              
-            >
+          <div className="w-full flex flex-col gap-6">
             {displayDownloads.map((dl, idx) => {
               const isHowToUseOpen = openHowToUseMap[dl.id] || false;
               
@@ -131,13 +116,9 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
               const howToUseSteps = dl.howToUse ? dl.howToUse.split('\n').filter((l: string) => l.trim() !== '') : [];
               const downloadFiles = files.filter((f: any) => f.downloadLink && f.downloadLink.trim() !== "");
               return (
-                <motion.div
+                <div
                   key={`${currentPage}-${dl.id}`}
                   id={`download-${dl.id}`}
-                  initial={{ opacity: 0.3, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  
-                  transition={{ duration: 0.25, delay: idx * 0.04, ease: "easeOut" }}
                   className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10 flex flex-col gap-6 relative overflow-hidden rounded-3xl mb-8"
               style={{
                 background: "rgba(255, 255, 255, 0.03)",
@@ -442,10 +423,10 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
                   </div>
                 )}
               </div>
-            </motion.div>
+            </div>
           );
         })}
-          </motion.div>
+          </div>
         </div>
 
         {totalPages > 1 && (
@@ -492,7 +473,7 @@ export default function DownloadSection({ t, isDark }: { t: Theme; isDark?: bool
             </button>
           </div>
         )}
-      </motion.div>
+      </div>
 
       
         <AnimatePresence>

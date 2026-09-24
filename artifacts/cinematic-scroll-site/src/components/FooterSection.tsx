@@ -26,7 +26,7 @@ export function ScrollToTop({ t }: { t: Theme }) {
   }, []);
 
   const handleScrollTop = () => {
-    if (lenis) {
+    if (lenis && typeof (lenis as any).scrollTo === "function") {
       lenis.scrollTo(0, { duration: 1.2 });
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });

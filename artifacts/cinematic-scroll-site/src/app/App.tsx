@@ -5,20 +5,18 @@ import { auth, googleProvider } from "../lib/firebase";
 import { signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, User, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
-import { MarqueeBanner } from "../components/MarqueeSection";
+import { MarqueeBanner, StatsSection } from "../components/MarqueeSection";
+import DownloadSection from "../components/DownloadSection";
+import FeaturesSection from "../components/FeaturesSection";
+import FAQSection from "../components/FAQSection";
+import ReviewsSection from "../components/ReviewsSection";
 import Footer, { ScrollToTop, Divider } from "../components/FooterSection";
 import { darkTheme, lightTheme, Theme } from "../types";
 import ScrollFrameSequence from "../components/ScrollFrameSequence";
 import Preloader from "../components/Preloader";
-
+import { dataCache } from "../lib/dataCache";
 
 const AdminPanel = lazy(() => import("../components/AdminPanel"));
-const ParticlesBackground = lazy(() => import("../components/ParticlesBackground"));
-const ReviewsSection = lazy(() => import("../components/ReviewsSection"));
-const FAQSection = lazy(() => import("../components/FAQSection"));
-const DownloadSection = lazy(() => import("../components/DownloadSection"));
-const FeaturesSection = lazy(() => import("../components/FeaturesSection"));
-const StatsSection = lazy(() => import("../components/MarqueeSection").then(m => ({ default: m.StatsSection })));
 
 declare global {
   interface Window {
@@ -69,7 +67,25 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [authInitialized, setAuthInitialized] = useState(false);
   const [oneTapDismissed, setOneTapDismissed] = useState(false);
+  const [loadProgress, setLoadProgress] = useState(0);
   const t: Theme = isDark ? darkTheme : lightTheme;
+
+  useEffect(() => {
+    // Preload database collections upfront so everything is in memory on open
+    Promise.all([
+      dataCache.getData("settings", {}),
+      dataCache.getData("downloads", []),
+      dataCache.getData("faqs", []),
+      dataCache.getData("reviews", []),
+      dataCache.getData("nav", [])
+    ]).catch(() => {});
+
+    // Safety timeout: ensure site is accessible even on slow or blocked network
+    const timer = setTimeout(() => {
+      setLoadProgress(100);
+    }, 5500);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     getRedirectResult(auth).catch((err) => {
@@ -240,7 +256,8 @@ export default function App() {
       className="relative min-h-screen w-full max-w-[980px] mx-auto transition-colors duration-500"
       style={{ background: "transparent" }}
     >
-      <ScrollFrameSequence />
+      <Preloader progress={loadProgress} />
+      <ScrollFrameSequence onProgress={setLoadProgress} />
 
       {/* Background layer */}
       <Suspense fallback={null}>
@@ -254,45 +271,30 @@ export default function App() {
         }}
       />
 
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full"
-      >
+      <div className="relative z-10 w-full">
         <Header isDark={isDark} setIsDark={setIsDark} t={t} onOpenAdmin={() => setIsAdminOpen(true)} currentUser={currentUser} onRequestSignIn={handleGlobalGoogleSignIn} />
         
         <HeroSection isDark={isDark} t={t} />
         
         <MarqueeBanner />
         
-        <Suspense fallback={<div className="h-[200px]" />}>
-          <StatsSection t={t} />
-        </Suspense>
+        <StatsSection t={t} />
         
         <Divider t={t} />
         
-        <Suspense fallback={<div className="h-[400px]" />}>
-          <DownloadSection t={t} isDark={isDark} />
-        </Suspense>
+        <DownloadSection t={t} isDark={isDark} />
         
         <Divider t={t} />
         
-        <Suspense fallback={<div className="h-[400px]" />}>
-          <FeaturesSection />
-        </Suspense>
+        <FeaturesSection />
         
         <Divider t={t} />
         
-        <Suspense fallback={<div className="h-[400px]" />}>
-          <FAQSection t={t} />
-        </Suspense>
+        <FAQSection t={t} />
         
         <Divider t={t} />
         
-        <Suspense fallback={<div className="h-[400px]" />}>
-          <ReviewsSection isDark={isDark} t={t} currentUser={currentUser} onRequestSignIn={handleGlobalGoogleSignIn} />
-        </Suspense>
+        <ReviewsSection isDark={isDark} t={t} currentUser={currentUser} onRequestSignIn={handleGlobalGoogleSignIn} />
         
         <Footer t={t} onOpenAdmin={() => setIsAdminOpen(true)} isDark={isDark} />
         <ScrollToTop t={t} />
@@ -311,7 +313,7 @@ export default function App() {
             />
           </Suspense>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 

@@ -238,45 +238,47 @@ export default function ScrollFrameSequence({ onProgress }: { onProgress?: (prog
           const image = new Image();
           image.decoding = "async";
           image.onload = () => {
+            if (!isMounted) return resolve();
             frameImagesRef.current[index] = image;
-            if (Math.round(currentFrameRef.current) === index || lastDrawnFrameRef.current === -1) {
+            if (index === 0 || Math.round(currentFrameRef.current) === index || lastDrawnFrameRef.current === -1) {
               drawFrame();
             }
             loadedCount++;
-            if (onProgress) onProgress(Math.floor((loadedCount / FRAME_COUNT) * 100));
+            if (onProgress) onProgress(Math.min(100, Math.floor((loadedCount / FRAME_COUNT) * 100)));
             resolve();
           };
           image.onerror = () => {
+            if (!isMounted) return resolve();
             console.warn(`Failed to load frame ${index}`);
             loadedCount++;
-            if (onProgress) onProgress(Math.floor((loadedCount / FRAME_COUNT) * 100));
+            if (onProgress) onProgress(Math.min(100, Math.floor((loadedCount / FRAME_COUNT) * 100)));
             resolve();
           };
           image.src = frameUrl(index);
         });
       };
 
-      // 1. Load frame 0 first to show it immediately
+      // 1. Load frame 0 first to show the canvas immediately
       await loadFrame(0);
 
-      // 2. Load sparse frames (every 10th) so fast scrolling has fallbacks
-      const sparsePromises = [];
-      for (let i = 10; i < FRAME_COUNT; i += 10) {
-        sparsePromises.push(loadFrame(i));
-      }
-      await Promise.all(sparsePromises);
+      // 2. High-speed concurrent worker pool for all remaining frames (1 to 99)
+      const concurrency = 12;
+      const remainingIndices = Array.from({ length: FRAME_COUNT - 1 }, (_, i) => i + 1);
+      let currentIndex = 0;
 
-      // 3. Load remaining frames in small batches to prevent network/CPU saturation (lag)
-      const batchSize = 6;
-      for (let i = 1; i < FRAME_COUNT; i += batchSize) {
-        if (!isMounted) return;
-        const promises = [];
-        for (let j = 0; j < batchSize && i + j < FRAME_COUNT; j++) {
-          if ((i + j) % 10 !== 0) { // Skip already loaded sparse frames
-            promises.push(loadFrame(i + j));
-          }
+      const worker = async () => {
+        while (currentIndex < remainingIndices.length && isMounted) {
+          const nextIdx = remainingIndices[currentIndex++];
+          await loadFrame(nextIdx);
         }
-        await Promise.all(promises);
+      };
+
+      const workers = Array.from({ length: Math.min(concurrency, remainingIndices.length) }, () => worker());
+      await Promise.all(workers);
+
+      // Ensure 100% is notified when all frames are ready in memory
+      if (isMounted && onProgress) {
+        onProgress(100);
       }
     };
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { User } from "firebase/auth";
@@ -36,15 +36,11 @@ function StarRow({ n, t }: { n: number; t: Theme }) {
   );
 }
 
-function ReviewCard({ r, t, anim, isDark, minGlow }: { r: any; t: Theme; anim?: string; isDark?: boolean; minGlow?: boolean }) {
+const ReviewCard = React.memo(function ReviewCard({ r, t, anim, isDark, minGlow }: { r: any; t: Theme; anim?: string; isDark?: boolean; minGlow?: boolean }) {
   if (!r) return null;
   const photo = r.photoUrl || r.photo;
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+    <div
       className={`${anim || ""} relative overflow-hidden shadow-transition duration-300 h-full flex flex-col justify-between select-none transform-gpu`}
       style={{
         background: "rgba(255, 255, 255, 0.12)",
@@ -81,9 +77,9 @@ function ReviewCard({ r, t, anim, isDark, minGlow }: { r: any; t: Theme; anim?: 
         <span className="font-['Plus_Jakarta_Sans',sans-serif] font-bold text-xs sm:text-sm px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full shrink-0" style={{ background: r.verBg || "rgba(22,207,131,0.15)", color: r.verColor || "#16CF83" }}>✓ Verified</span>
       </div>
       <p className="font-['Plus_Jakarta_Sans',sans-serif] font-medium text-sm sm:text-base lg:text-lg leading-relaxed tracking-wide relative z-10 flex-grow mt-3 sm:mt-4 text-white/85">{r.text}</p>
-    </motion.div>
+    </div>
   );
-}
+});
 
 const defaultReviews = [
   { init: "S", initBg: "#2e2344", initColor: "#7b2cbf", verBg: "#2e2344", verColor: "#7b2cbf", name: "Sakib Ahmed", stars: 5, text: "Speed boost and aim lock are game changers. The UI is so clean and easy to use." },
